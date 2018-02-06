@@ -1,0 +1,525 @@
+<% include ../partials/head.ejs %>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/scripts/pages/request.js"></script>
+<script src="/scripts/pages/portfolio-detail.js"></script>
+
+<input type="hidden" id="portfolio_id" name="portfolio_id" value="<%=pid%>">
+
+<div class="section">
+    <h2>PORTFOLIO</h2>
+    <div class="portfolio-visual">
+        <div class="picture" id="portfolio_primary_picture"></div>
+        <div class="title">
+            <span id="portfolio_address" class="address"></span>
+            <span class="info">
+        <span id="portfolio_size"></span>평형 | <span id="portfolio_price"></span>만원</div>
+        </span>
+        <h3 id="portfolio_title" class="portfolio-description"></h3>
+        <div id="portfolio_description" class="portfolio-description visual-description"></div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>디자인 제안서</h2>
+    <div class="portfolio-document">
+        <div class="center">
+            <div id="portfolio_pdf_viewer" class="pdf-viewer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="portfolio_before_after_section" class="section">
+    <h2>BEFORE / AFTER</h2>
+    <div class="article">
+        <div id="portfolio_before_after_wrapper" class="resource-wrapper">
+            <a href="#" class="resource-arrow prev"><i class="pe-7s-angle-left"></i></a>
+            <a href="#" class="resource-arrow next"><i class="pe-7s-angle-right"></i></a>
+            <h3>
+                <span>화살표를 이용하여 시공 전후 사진을 확인해보세요.</span>
+            </h3>
+            <div class="col-group no-margin">
+                <div class="col-before col-6 no-padding">
+                    <div class="title">BEFORE</div>
+                    <div class="picture"></div>
+                </div>
+                <div class="col-after col-6 no-padding">
+                    <div class="title">AFTER</div>
+                    <div class="picture"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="resource-viewer">
+    <div class="picture"></div>
+    <div class="info">
+        <div class="row row-name">
+            <span>품명: </span>
+            <span class="value"></span>
+        </div>
+        <div class="row row-comp">
+            <span>회사명: </span>
+            <span class="value"></span>
+        </div>
+        <div class="row row-size">
+            <span>SIZE: </span>
+            <span class="value"></span>
+        </div>
+        <div class="row row-price">
+            <span>단가: </span>
+            <span class="value"></span>
+        </div>
+        <div class="row row-unit">
+            <span>면적: </span>
+            <span class="value"></span>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>디자이너 소개</h2>
+    <div class="article">
+        <div id="portfolio_profile" class="profile">
+            <div class="side">
+                <div class="picture">
+                    <div class="name">
+                        <span>디자이너</span>
+                        <span class="value"></span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="info-group">
+                        <div class="info-skill-group">
+                            <div class="info-skill-detail info-skill-communication">
+                                <div class="info-skill-name">커뮤니케이션</div>
+                                <div class="info-skill-score">
+                                </div>
+                            </div>
+                            <div class="info-skill-value"></div>
+                        </div>
+                        <div class="info-skill-group">
+                            <div class="info-skill-detail info-skill-timestrict">
+                                <div class="info-skill-name">시간엄수</div>
+                                <div class="info-skill-score">
+                                </div>
+                            </div>
+                            <div class="info-skill-value"></div>
+                        </div>
+                        <div class="info-skill-group">
+                            <div class="info-skill-detail info-skill-quality">
+                                <div class="info-skill-name">디자인 완성도</div>
+                                <div class="info-skill-score">
+                                </div>
+                            </div>
+                            <div class="info-skill-value"></div>
+                        </div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-ext-group info-ext-address">
+                            <div class="title">주소</div>
+                            <div class="textarea"></div>
+                        </div>
+                        <div class="info-ext-group info-ext-style">
+                            <div class="title">스타일</div>
+                            <div class="textarea"></div>
+                        </div>
+                        <div class="info-ext-group info-ext-introduce">
+                            <div class="title">자기소개</div>
+                            <div class="textarea"></div>
+                        </div>
+                        <div class="info-ext-group info-ext-price">
+                            <div class="title">디자인 비용</div>
+                            <div class="textarea"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="visual"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-breif">
+    <h2>간단견적서</h2>
+    <div class="receipt">
+        <div class="brief">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="left">견적 내용</th>
+                        <th class="right">금액</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="total clearfix">
+                <span class="pull-left">총 비용</span>
+                <span class="pull-right"></span>
+            </div>
+        </div>
+
+        <a href="#" class="btn-toggle-bar">
+    <span>상세 견적서 닫기</span>
+    <i class="fa fa-chevron-up"></i>
+</a>
+
+        <div class="detailed">
+            <div class="detail-group receipt-employee">
+                <h3>인건비</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>공간</th>
+                            <th colspan="2">시공</th>
+                            <th>면적</th>
+                            <th>단가</th>
+                            <th>단위</th>
+                            <th>비용</th>
+                            <th>시공날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="detail-group receipt-resource">
+                <h3>자재비</h3>
+                <table>
+                    <colgroup>
+                        <col>
+                        <col style="width: 100px;">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th colspan="3">자재</th>
+                            <th colspan="2">이름</th>
+                            <th>수량</th>
+                            <th>단위</th>
+                            <th>단가</th>
+                            <th>비용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-request">
+    <form class="service-form">
+        <h3>무료 방문상담 신청</h3>
+        <div class="description">
+            <span class="required">*</span>
+            <span>로 표시된 항목은 필수 입력항목입니다.</span>
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <span class="required">*</span>
+                <span class="number">1</span>
+                <span class="value">성함</span>
+            </div>
+            <div class="form-description">고객님의 성함을 입력해주세요.</div>
+            <input type="text" name="user_name" id="user_name" placeholder="홍길동">
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <!--
+                <span class="required">*</span>
+                -->
+                <span class="number">2</span>
+                <span class="value">가족구성원</span>
+            </div>
+            <div class="form-description">고객님의 가족구성원을 선택해주세요.</div>
+            <select name="user_family" id="user_family" class="selectric">
+                <option value="">가족구성원 선택</option>
+                <option value="싱글라이프">싱글라이프</option>
+                <option value="신혼부부">신혼부부</option>
+                <option value="초등학교 입학전의 아이를 둔 부부">초등학교 입학전의 아이를 둔 부부</option>
+                <option value="어머니 아버지를 모시고 사는 20~30대">어머니 아버지를 모시고 사는 20~30대</option>
+                <option value="시어머니 시아버지 등을 모시고 사는 결혼한 부부">시어머니 시아버지 등을 모시고 사는 결혼한 부부</option>
+                <option value="시어머니 시아버지 등을 모시고 사는 결혼한 부부 + 아이를 둔 부부">시어머니 시아버지 등을 모시고 사는 결혼한 부부 + 아이를 둔 부부</option>
+                <option value="other">기타</option>
+            </select>
+            <input type="text" name="user_family_other" id="user_family_other" class="none" placeholder="가족구성원을 입력해주세요">
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <!--
+                <span class="required">*</span>
+                -->
+                <span class="number">3</span>
+                <span class="value">평수</span>
+            </div>
+            <div class="form-description">고객님이 예상하는 평수를 선택해주세요.</div>
+            <select name="user_size" id="user_size" class="selectric">
+                <option value="">평수 선택</option>
+                <option value="lt20">20평대 미만</option>
+                <option value="eq20">20평대</option>
+                <option value="eq30">30평대</option>
+                <option value="eq40">40평대</option>
+                <option value="eq50">50평대</option>
+                <option value="eq60">60평대</option>
+                <option value="gte70">70평대 이상</option>
+            </select>
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <!--
+                <span class="required">*</span>
+                -->
+                <span class="number">4</span>
+                <span class="value">예산</span>
+            </div>
+            <div class="form-description">고객님이 예상하시는 예산을 입력해주세요.</div>
+            <select name="user_budget" id="user_budget" class="selectric">
+                <option class="default" value="">예산 선택</option>
+                <option value="">먼저 평수를 선택해주세요.</option>
+            </select>
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <!--
+                <span class="required">*</span>
+                -->
+                <span class="number">5</span>
+                <span class="value">주소</span>
+            </div>
+            <div class="form-description">지금 고객님이 인테리어 하실 곳의 주소를 입력해주세요</div>
+            <input type="text" name="user_address_brief" id="user_address_brief" placeholder="기본주소 선택 (클릭 시 주소검색 창 열림)">
+            <input type="text" name="user_address_detail" id="user_address_detail" placeholder="상세주소 입력">
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <span class="required">*</span>
+                <span class="number">6</span>
+                <span class="value">연락처</span>
+            </div>
+            <div class="form-description">고객님의 연락처를 입력해주세요.</div>
+            <input type="text" name="user_phone" id="user_phone" class="phone">
+        </div>
+        <div class="form-item">
+            <div class="title">
+                <!--
+                <span class="required">*</span>
+                -->
+                <span class="number">7</span>
+                <span class="value">이사날짜</span>
+            </div>
+            <div class="form-description">고객님의 이사날짜를 선택해주세요.</div>
+            <input type="text" class="calendar" name="user_move_date" id="user_move_date" data-today="<%=moment().add(1, 'days').format('YYYY-MM-DD')%>"
+                data-min="<%=moment().add(1, 'days').format('YYYY-MM-DD')%>" placeholder="날짜선택">
+        </div>
+        <a href="#" class="btn-fold">
+            <i></i>
+            <span>추가 정보 입력</span>
+        </a>
+        <div class="form-fold">
+            <div class="form-item">
+                <div class="title">
+                    <span class="number">8</span>
+                    <span class="value">인테리어 스타일</span>
+                </div>
+                <div class="form-description">고객님이 원하시는 스타일을 선택해주세요. (여러 항목 중복 선택가능)</div>
+                <input type="hidden" name="user_style_likes" id="user_style_likes">
+                <input type="hidden" name="user_style_dislikes" id="user_style_dislikes">
+                <div class="form-grid form-grid-zoom form-style">
+                    <div class="form-col" data-value="1">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-01.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="2">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-02.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="3">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-03.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="4">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-04.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="5">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-05.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="6">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-06.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="7">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-07.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="8">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-08.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="9">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-09.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="number">9</span>
+                    <span class="value">색감</span>
+                </div>
+                <div class="form-description">고객님이 원하시는 색상을 선택해주세요. (여러 항목 중복 선택가능)</div>
+                <input type="hidden" name="user_color_likes" id="user_color_likes">
+                <input type="hidden" name="user_color_dislikes" id="user_color_dislikes">
+                <div class="form-grid form-color">
+                    <div class="form-col" data-value="1">
+                        <div class="picture" style="background-color: #f9f2f1;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="2">
+                        <div class="picture" style="background-color: #0A0200;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="3">
+                        <div class="picture" style="background-color: #92C4E0;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="4">
+                        <div class="picture" style="background-color: #D4C1D3;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="5">
+                        <div class="picture" style="background-color: #F0E842;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="6">
+                        <div class="picture" style="background-color: #BDC3C7;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="7">
+                        <div class="picture" style="background-color: #16A085;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="8">
+                        <div class="picture" style="background-color: #B37618;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="9">
+                        <div class="picture" style="background-color: #2DE3C3;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="number">10</span>
+                    <span class="value">방문 상담시간 및 장소</span>
+                </div>
+                <div class="form-description">어떤 장소에서 상담을 진행하는게 좋으신가요?</div>
+                <input type="hidden" name="user_place" id="user_place">
+                <div class="form-choice form-place">
+                    <div class="form-choice-item active" data-value="현재 거주하고 있는 집">현재 거주하고 있는 집</div>
+                    <div class="form-choice-item" data-value="인테리어 할 집">인테리어 할 집</div>
+                    <div class="form-choice-item" data-value="카페">카페</div>
+                    <div class="form-choice-item" data-value="그리다집 사무실">그리다집 사무실</div>
+                </div>
+                <div class="form-description">언제 상담하시기를 원하세요?</div>
+                <div class="col-group">
+                    <div class="col-6">
+                        <input type="text" class="calendar" name="user_date" id="user_date" data-today="<%=moment().add(1, 'days').format('YYYY-MM-DD')%>"
+                            data-min="<%=moment().add(1, 'days').format('YYYY-MM-DD')%>" placeholder="날짜선택">
+                    </div>
+                    <div class="col-6">
+                        <select name="user_time" id="user_time" class="selectric">
+                            <option value="">시간선택</option>
+                            <option value="09:00 - 11:00">09:00 - 11:00</option>
+                            <option value="11:00 - 13:00">11:00 - 13:00</option>
+                            <option value="13:00 - 15:00">13:00 - 15:00</option>
+                            <option value="15:00 - 17:00">15:00 - 17:00</option>
+                            <option value="17:00 - 19:00">17:00 - 19:00</option>
+                            <option value="other">기타</option>
+                        </select>
+                        <input type="text" name="user_time_other" id="user_time_other" class="none" placeholder="18:30">
+                    </div>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="number">11</span>
+                    <span class="value">요구사항</span>
+                </div>
+                <div class="form-description">고객님이 추가적으로 요구하시는 부분을 입력해주세요.</div>
+                <select name="user_request_select" id="user_request_select">
+                    <option value="수납해야 할 물건은 많은데 공간이 부족해요.">수납해야 할 물건은 많은데 공간이 부족해요.</option>
+                    <option value="확장을 하고 싶은데 비용이 궁금해요.">확장을 하고 싶은데 비용이 궁금해요.</option>
+                    <option value="아이가 살고 있어 안전한 디자인을 원해요.">아이가 살고 있어 안전한 디자인을 원해요.</option>
+                    <option value="아이가 있어 친환경 자재로 시공하고 싶어요.">아이가 있어 친환경 자재로 시공하고 싶어요.</option>
+                    <option value="주방이 좁아 고민입니다. 새로운 공간설계를 원해요.">주방이 좁아 고민입니다. 새로운 공간설계를 원해요.</option>
+                    <option value="베란다에 이동식 욕조를 설치하고 싶습니다.">베란다에 이동식 욕조를 설치하고 싶습니다.</option>
+                    <option value="결로현상을 해결하고 싶습니다.">결로현상을 해결하고 싶습니다.</option>
+                    <option value="집이 추워 단열 내장재를 새롭게 시공하고 싶습니다.">집이 추워 단열 내장재를 새롭게 시공하고 싶습니다.</option>
+                    <option value="소리에 민감해 방음상태를 확인하고 싶습니다.">소리에 민감해 방음상태를 확인하고 싶습니다.</option>
+                    <option value="집에 콘센트가 부족해요. 콘센트를 새로 설치하고 싶습니다.">집에 콘센트가 부족해요. 콘센트를 새로 설치하고 싶습니다.</option>
+                    <option value="집 구조가 마음에 들지 않습니다. 구조를 새롭게 바꾸고 싶어요.">집 구조가 마음에 들지 않습니다. 구조를 새롭게 바꾸고 싶어요.</option>
+                    <option value="에어컨 설치를 어떻게 해야 할지 모르겠습니다.">에어컨 설치를 어떻게 해야 할지 모르겠습니다.</option>
+                    <option value="other">기타</option>
+                </select>
+                <textarea name="user_request_other" id="user_request_other" class="none" cols="30" rows="10" placeholder="이곳에 요구사항을 적어주세요."></textarea>
+            </div>
+        </div>
+        <div class="center">
+            <button class="btn btn-primary complete">무료 방문상담 신청하기</button>
+        </div>
+    </form>
+</div>
+
+<% include ../partials/foot.ejs %>

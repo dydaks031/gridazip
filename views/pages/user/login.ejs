@@ -1,0 +1,52 @@
+<% include ../../partials/head.ejs %>
+
+<script src="/scripts/pages/user/login.js"></script>
+
+<div class="management">
+  <form class="form">
+    <h2>로그인</h2>
+
+    <%
+      if (showMessage === true) {
+    %>
+    <div class="message">
+      먼저 로그인을 해주세요.
+    </div>
+    <%
+      }
+    %>
+    <div class="form-item">
+      <div class="title">아이디</div>
+      <input type="text" name="user_id" id="">
+    </div>
+    <div class="form-item">
+      <div class="title">비밀번호</div>
+      <input type="password" name="user_pw" id="">
+    </div>
+    <div class="button-wrapper">
+      <div class="button-group">
+        <button class="submit">로그인</button>
+      </div>
+      <div class="button-group">
+        <button class="oauth facebook">
+          <span class="icon">
+            <img src="https://static.gridazip.com/assets/images/icon-facebook-typo.png">
+          </span>
+          <span>페이스북으로 로그인</span>
+        </button>
+        <button class="oauth naver">
+          <span class="icon">
+            <img src="https://static.gridazip.com/assets/images/icon-naver-typo.png">
+          </span>
+          <span>네이버로 로그인</span>
+        </button>
+      </div>
+    </div>
+  </form>
+  <ul class="link">
+    <li><a href="/user/signup">회원이 아니세요?</a></li>
+    <li><a href="/user/find">혹시 계정정보를 잊어버리셨나요?</a></li>
+  </ul>
+</div>
+
+<% include ../../partials/foot.ejs %>

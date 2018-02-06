@@ -1,0 +1,34 @@
+<rss xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:activity="http://activitystrea.ms/spec/1.0/" version="2.0">
+    <channel>
+        <title><![CDATA[ <%= sitename %> ]]></title>
+        <link>http://<%= domain %></link>
+        <image>
+            <url>https://static.gridazip.com/assets/images/LOGO_APP@x500.png</url>
+            <title><![CDATA[ <%= sitename %> ]]></title>
+            <link>http://<%= domain %></link>
+        </image>
+        <description><![CDATA[ <%= description %> ]]></description>
+        <language>ko</language>
+        <generator><%= sitename %></generator>
+        <pubDate><%= moment().format('ddd, DD MMM YYYY HH:mm:ss ZZ') %></pubDate>
+        <%
+            for (var idx in list) {
+                var item = list[idx];
+        %>
+        <item>
+            <author><%= sitename %></author>
+            <category><![CDATA[ 포트폴리오 ]]></category>
+            <title><![CDATA[ <%= item.pf_title %> ]]></title>
+            <description><![CDATA[ <%= item.pf_description %> ]]></description>
+            <link>http://<%= domain %>/portfolio/<%= item.pf_pk %></link>
+            <guid>http://<%= domain %>/portfolio/<%= item.pf_pk %></guid>
+            <pubDate><%= moment(item.pf_reg_dt).format('ddd, DD MMM YYYY HH:mm:ss ZZ') %></pubDate>
+            <tag><![CDATA[ <%= keywords %> ]]></tag>
+            <activity:verb>http://activitystrea.ms/schema/1.0/post</activity:verb>
+            <activity:object-type>http://activitystrea.ms/schema/1.0/blog-entry</activity:object-type>
+        </item>
+        <%
+            }
+        %>
+    </channel>
+</rss>

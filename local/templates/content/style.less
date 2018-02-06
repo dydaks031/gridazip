@@ -1,0 +1,69 @@
+@import '../../../public/less/prefixer.less';
+@import '../../../public/less/variables.less';
+
+* {
+    font-family: 'Nanum Square', 'Noto Sans', 'Malgun Gothic', 'dotum';
+}
+
+blockquote {
+    border-left: 2px solid #d8d8d8;
+    padding-left: @size-padding-default;
+    margin-bottom: @size-margin-small;
+    font-size: 13px;
+    color: #777777;
+}
+
+hr {
+    height: 1px;
+    border: none;
+    background-color: #e2e2e2;
+    margin: @size-margin-default 0;
+}
+
+pre {
+    font-size: 13px;
+    color: #333333;
+    line-height: 1.6;
+    background-color: #e2e2e2;
+    padding: @size-padding-small;
+}
+
+.content {
+    width: 550px;
+    max-width: 550px;
+    padding: @size-padding-default;
+    border: 1px solid #d8d8d8;
+    max-width: 640px;
+    margin: 0 auto;
+    .box-sizing(border-box);
+
+    .logo {
+        text-align: center;
+        margin-bottom: @size-margin-small;
+        padding-bottom: @size-padding-small;
+        border-bottom: 1px solid #e2e2e2;
+
+        img {
+            height: 42px;
+        }
+    }
+
+    h1 {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: @size-margin-small;
+    }
+
+    .body {
+        min-height: 340px;
+        padding: @size-padding-small;
+        background-color: #f1f1f1;
+        line-height: 1.6;
+        font-size: 15px;
+
+        h1 {
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
+}

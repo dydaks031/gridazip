@@ -1,0 +1,50 @@
+            </div>
+            <%
+                if(fullscreen === false) {
+            %>
+            <div id="footer">
+                <div class="footer-inner">
+                    <div class="footer-descrition">
+                        <p>(주)아덴글로벌</p>
+                        <p>
+                            <span class="footer-item">대표: 진승혁</span>
+                            <span class="footer-item">사업자등록번호: 848-86-00556</span>
+                        </p>
+                        <p>주소: 서울특별시 성동구 왕십리로 222 한양대학교 창업보육센터</p>
+                        <p>분점: 서울특별시 서초구 반포동 81-6번지</p>
+                        <p>분점: 수원 권선구 오목천동 321-20 3층</p>
+                        <p>랩실: 서울특별시 마포구 합정동 양화로 1길</p>
+                        <p>전화: 010-2395-0665</p>
+                        <p>이메일: <a href="mailto://info@gridazip.com">info@gridazip.com</a></p>
+                    </div>
+                    <div class="footer-contact">
+                        <a href="<%= browser.mobile? 'fb://page/942842962510009' : 'https://www.facebook.com/gridazip' %>" target="_blank" class="contact-item">
+                            <i class="icon-sns facebook"></i>
+                            <span>페이스북 페이지</span>
+                        </a>
+                        <a href="<%= browser.mobile? 'instagram://user?username=gridazip' : 'https://www.instagram.com/gridazip' %>" target="_blank" class="contact-item">
+                            <i class="icon-sns instagram"></i>
+                            <span>인스타그램 페이지</span>
+                        </a>
+                        <a href="https://plus.kakao.com/home/@%EA%B7%B8%EB%A6%AC%EB%8B%A4%EC%A7%91" target="_blank" class="contact-item">
+                            <i class="icon-sns kakaotalk"></i>
+                            <span>카카오 옐로우아이디</span>
+                        </a>
+                        <a href="https://story.kakao.com/ch/gridazib" target="_blank" class="contact-item">
+                            <i class="icon-sns kakaostory"></i>
+                            <span>카카오스토리 홈</span>
+                        </a>
+                        <a href="http://blog.naver.com/gridazip" target="_blank" class="contact-item">
+                            <i class="icon-sns naverblog"></i>
+                            <span>네이버블로그</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <%
+                }
+            %>
+        </div>
+        <% include ./snippets/foot-snippet.ejs %>
+    </body>
+</html>

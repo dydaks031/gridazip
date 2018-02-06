@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>
+        <%= (id === 'main'? title : getTitle(title)) %>
+    </title>
+    <% include ../meta.ejs %>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.gridazip.com/assets/images/favicon.ico">
+    <%
+        if (env === 'production') {
+    %>
+    <link rel="stylesheet" href="/styles/dist/bundle.min.css">
+    <%
+        }
+        else {
+    %>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" href="/tingle.js/dist/tingle.min.css">
+    <link rel="stylesheet" href="/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="/pg-calendar/dist/css/pignose.calendar.min.css">
+    <link rel="stylesheet" href="/magnific-popup/dist/magnific-popup.css">
+    <link rel="stylesheet" href="/styles/pickadate/default.css">
+    <link rel="stylesheet" href="/styles/pickadate/default.date.css">
+    <link rel="stylesheet" href="/styles/pickadate/default.time.css">
+    <%
+        }
+    %>
+    <link rel="stylesheet" href="/styles/admin.css">
+    <script>
+        window.user = <%-(user ? JSON.stringify(user) : 'null') %>;
+    </script>
+    <script>
+        var FacebookApiKey = '<%=auth.facebook.key%>';
+        var NaverApiKey = '<%=auth.naver.key%>';
+    </script>
+    <script src="/scripts/dist/vendors.min.js"></script>
+    <!--[if lte IE 9]>
+    <script src="/classlist-polyfill/src/index.js"></script>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <script async src="/scripts/lib/respond.js"></script>
+    <!-[endif]-->
+    <script src="/jquery-ui-dist/jquery-ui.min.js"></script>
+    <script src="/blueimp-file-upload/js/jquery.fileupload.js"></script>
+    <%
+        if (env === 'production') {
+    %>
+    <script src="/scripts/dist/bundles.min.js"></script>
+    <%
+        }
+        else {
+    %>
+    <script src="/scripts/polyfills/event-listener.js"></script>
+    <script src="/scripts/lib/jquery.selectric.min.js"></script>
+    <script src="/tingle.js/dist/tingle.js"></script>
+    <script src="/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+    <script src="/scripts/services/http/main.js"></script>
+    <script src="/scripts/services/render/main.js"></script>
+    <script src="/scripts/services/pagination/main.js"></script>
+    <script src="/scripts/services/filter/main.js"></script>
+    <script src="/scripts/helpers/develop.js"></script>
+    <script src="/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="/pg-calendar/dist/js/pignose.calendar.min.js"></script>
+    <script src="/scripts/lib/picker.js"></script>
+    <script src="/scripts/lib/picker.date.js"></script>
+    <script src="/scripts/lib/picker.time.js"></script>
+    <script src="/scripts/helpers/binder.js"></script>
+    <script src="/scripts/helpers/main.js"></script>
+    <script src="/scripts/helpers/polyfills.js"></script>
+    <%
+        }
+    %>
+</head>
+<body>
+    <div id="wrapper">
+    <%
+        if (fullscreen === false) {
+    %>
+    <div id="header">
+        <div class="top">
+            <div class="header-inner">
+                <h1 class="logo">
+                    <a href="/admin" itemscope itemtype="http://schema.org/Organization">
+                        <%
+                            if (browser.name === "ie" && browser.versionNumber <= 8) {
+                        %>
+                            <img itemprop="logo" src="https://static.gridazip.com/assets/images/logo-main-black.png" alt="그리다집 로고">
+                        <%
+                            }
+                            else {
+                        %>
+                            <img itemprop="logo" src="https://static.gridazip.com/assets/images/logo-main-black.svg" alt="그리다집 로고">
+                        <%
+                            }
+                        %>
+                    </a>
+                </h1>
+                <a href="#" class="btn-menu"></a>
+            </div>
+        </div>
+        <div class="menu">
+            <div class="header-inner">
+                <div class="menu-top">
+                    <%
+                        if (typeof user !== 'object' || typeof (user || {}).user_pk === 'undefined') {
+                    %>
+                        <a href="/user/login">로그인</a>
+                    <%
+                        }
+                        else {
+                    %>
+                        <a href="/user/logout?redirect_url=<%=url%>">로그아웃</a>
+                    <%
+                        }
+                    %>
+                    <a href="/">메인으로</a>
+                </div>
+                <div class="menu-list">
+                    <a href="/admin" class="menu-item <%= activeSubLink(id, sub, 'admin', 'portfolio', 'active') %>">포트폴리오</a>
+                </div>
+            </div>
+        </div>
+    <%
+        }
+    %>
+    </div>
+    <div id="content">
