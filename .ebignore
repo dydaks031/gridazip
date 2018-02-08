@@ -1,9 +1,9 @@
 # JS
-/public/helpers
-/public/lib
-/public/polyfills
-/public/services
-/public/vendors
+/public/scripts/helpers
+/public/scripts/lib
+/public/scripts/polyfills
+/public/scripts/services
+/public/scripts/vendors
 
 # CSS
 /public/less/style.less
@@ -24,7 +24,7 @@
 .DS_Store
 
 # NODE_MODULE
-node_modules
+node_modules/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
