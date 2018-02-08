@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "start-gulp": "gulp",
     "build": "gulp build"
   },
   "dependencies": {
