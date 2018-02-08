@@ -9,8 +9,7 @@
 ### Installaztion
 
 ```bash
-  $ git clone git@github.com:Gridazip-Dev/site.git
-  $ cd site
+  $ git clone http://gitlab.gridazip.com/gridazip/gridazip.com.git
   $ npm install
   $ npm start
 ```
