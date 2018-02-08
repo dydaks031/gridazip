@@ -1,0 +1,35 @@
+# JS
+/public/helpers
+/public/lib
+/public/polyfills
+/public/services
+/public/vendors
+
+# CSS
+/public/less/style.less
+/public/less/stroke.less
+/public/less/normalize.less
+/public/less/nanumsquare.less
+/public/less/mediaquery.less
+/public/less/main.less
+/public/less/layout.less
+/public/less/helpers.less
+/public/less/fontawesome.less
+/public/less/font.less
+/public/less/fluidable.less
+/public/less/components.less
+/public/less/admin.less
+
+# DS_STORE
+.DS_Store
+
+# NODE_MODULE
+node_modules
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# idea file
+.idea/*
