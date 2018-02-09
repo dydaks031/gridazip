@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./node_modules/.bin/pm2 start bin/www --name gridazip-site",
+    "poststart": "node ./node_modules/.bin/pm2 logs",
     "start-gulp": "gulp",
     "build": "gulp build"
   },
@@ -40,6 +41,7 @@
     "owl.carousel": "^2.2.0",
     "pdf2images": "^1.0.0",
     "pg-calendar": "^1.4.16",
+    "pm2": "^2.9.3",
     "raven": "^1.2.1",
     "request": "^2.81.0",
     "selectivizr": "^1.0.3",
