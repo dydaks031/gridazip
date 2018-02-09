@@ -63,7 +63,7 @@ viewHelper.register(app.locals);
 // oauth key setting.
 global.auth = app.locals.auth = {
     facebook: appConfig.auth.facebook[env],
-    naver: appConfig.auth.naver[env]
+    naver: appConfig.auth.naver[env],
 };
 
 // view engine setup
