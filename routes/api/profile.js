@@ -251,7 +251,7 @@ router.post('/constructor', (req, res, next) => {
       `, 'C'));
 
         // 임시
-        query = query.where('ds_is_dev', false);
+        query = query.where('cr_is_dev', false);
 
         var filterSort = filterInst.getFilter('sort');
 
