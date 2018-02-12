@@ -807,6 +807,91 @@ router.post('/company', (req, res, next) => {
     });
 });
 
+router.post('/company/save/:cpid*?', (req, res, next) => {
+    var cpid = req.params.cpid;
+
+    var company_type = req.body.company_type || '';
+    var company_name = req.body.company_name || '';
+
+    var errorMsg = null;
+
+    if (company_type === '') {
+        errorMsg = '회사 타입은 반드시 선택해야 합니다.';
+    }
+    else if(company_name === '') {
+        errorMsg = '회사 이름은 반드시 입력해야 합니다.';
+    }
+    if (errorMsg !== null) {
+        res.json(
+            resHelper.getError(errorMsg)
+        );
+    }
+    else {
+        knexBuilder.getConnection().then(cur => {
+            if (cpid) {
+                cur('company_tbl')
+                    .select('*')
+                    .where({
+                        cp_pk: cpid
+                    })
+                    .limit(1)
+                    .then(response => {
+                        if (response.length < 1) {
+                            res.json(
+                                resHelper.getError('수정할 회사가 존재하지 않습니다.')
+                            );
+                        }
+                        else {
+                            cpid = response[0].cp_pk;
+                            return cur('company_tbl')
+                                .where({
+                                    cp_pk: cpid
+                                })
+                                .update({
+                                    cp_type: company_type,
+                                    cp_name: company_name
+                                });
+                        }
+                    })
+                    .finally(() => {
+                        res.json(
+                            resHelper.getJson({
+                                msg: 'ok'
+                            })
+                        );
+                    })
+                    .catch(reason => {
+                        res.json(
+                            resHelper.getError(reason)
+                        );
+                    });
+            }
+            else {
+                cur('company_tbl')
+                    .returning('cp_pk')
+                    .insert({
+                        cp_type: company_type,
+                        cp_type: company_name,
+                        cp_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                    })
+                    .then(responses => {
+                        cpid = responses[0];
+                        res.json(
+                            resHelper.getJson({
+                                value: cpid
+                            })
+                        );
+                    })
+                    .catch(reason => {
+                        res.json(
+                            resHelper.getError(reason)
+                        );
+                    });
+            }
+        });
+    }
+});
+
 router.post('/profile/designer/:did', (req, res, next) => {
     knexBuilder.getConnection().then(cur => {
         var ipLong = ip.toLong(req.ip);
@@ -978,7 +1063,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                 cur('designer_tbl')
                     .select('*')
                     .where({
-                        pf_pk: pid
+                        ds_pk: did
                     })
                     .limit(1)
                     .then(response => {
@@ -988,7 +1073,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                             );
                         }
                         else {
-                            wkid = response[0].wk_pk;
+                            did = response[0].ds_pk;
                             return cur('designer_tbl')
                                 .where({
                                     ds_pk: did
@@ -1033,7 +1118,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                         ds_introduce: designer_introduce,
                         ds_price_min: designer_price_min,
                         ds_price_max: designer_price_max,
-                        ds_image: designer_image
+                        ds_image: designer_image,
                         ds_recency: cur.raw('UNIX_TIMESTAMP() * -1')
                     })
                     .then(responses => {
@@ -1138,6 +1223,145 @@ router.post('/profile/constructor', (req, res, next) => {
                 )
             });
     });
+});
+
+router.post('/profile/constructor/delete/:cid', (req, res, next) => {
+    var constructorID = req.params.cid;
+
+    knexBuilder.getConnection().then(cur => {
+        
+    cur('constructor_tbl')
+        .where({
+            cr_pk: constructorID
+        })
+        .limit(1)
+        .then(response => {
+            var promises = [];
+
+            if (response.length > 0) {
+                promises.push(
+                    cur('constructor_tbl')
+                        .where({
+                            cr_pk: constructorID
+                        })
+                        .del()
+                );
+            }
+
+            return Promise.all(promises);
+        })
+        .then(response => {
+            res.json(
+                resHelper.getJson({
+                    msg: 'ok'
+                })
+            );
+        })
+        .catch(reason => {
+            res.json(
+                resHelper.getError(reason)
+            );
+        });
+    });
+});
+
+router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
+    var cid = req.params.cid;
+
+    var constructor_cppk = req.body.constructor_cppk || '';
+    var constructor_name = req.body.constructor_name || '';
+    var constructor_score = req.body.constructor_score || '';
+    var constructor_address = req.body.constructor_address || '';
+    var constructor_image = req.body.constructor_image || '';
+
+    var errorMsg = null;
+
+    if (constructor_cppk === '') {
+        errorMsg = '소속 회사는 반드시 선택해야 합니다.';
+    }
+    else if(constructor_name === '') {
+        errorMsg = '이름은 반드시 선택해야 합니다.';
+    }
+    else if(constructor_score === '') {
+        errorMsg = '점수는 반드시 입력해야 합니다.';
+    }
+    else if(constructor_image === '') {
+        errorMsg = '프로필 사진은 반드시 업로드해야 합니다.';
+    }
+    if (errorMsg !== null) {
+        res.json(
+            resHelper.getError(errorMsg)
+        );
+    }
+    else {
+        knexBuilder.getConnection().then(cur => {
+            if (cid) {
+                cur('constructor_tbl')
+                    .select('*')
+                    .where({
+                        cr_pk: cid
+                    })
+                    .limit(1)
+                    .then(response => {
+                        if (response.length < 1) {
+                            res.json(
+                                resHelper.getError('수정할 시공자 프로필이 존재하지 않습니다.')
+                            );
+                        }
+                        else {
+                            return cur('constructor_tbl')
+                                .where({
+                                    cr_pk: cid
+                                })
+                                .update({
+                                    cr_cppk: constructor_cppk,
+                                    cr_name: constructor_name,
+                                    cr_score: constructor_score,
+                                    cr_address: constructor_address,
+                                    cr_image: constructor_image
+                                });
+                        }
+                    })
+                    .finally(() => {
+                        res.json(
+                            resHelper.getJson({
+                                msg: 'ok'
+                            })
+                        );
+                    })
+                    .catch(reason => {
+                        res.json(
+                            resHelper.getError(reason)
+                        );
+                    });
+            }
+            else {
+                cur('constructor_tbl')
+                    .returning('cr_pk')
+                    .insert({
+                        cr_cppk: constructor_cppk,
+                        cr_name: constructor_name,
+                        cr_score: constructor_score,
+                        cr_address: constructor_address,
+                        cr_image: constructor_image,
+                        cr_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                    })
+                    .then(responses => {
+                        cid = responses[0];
+                        res.json(
+                            resHelper.getJson({
+                                value: cid
+                            })
+                        );
+                    })
+                    .catch(reason => {
+                        res.json(
+                            resHelper.getError(reason)
+                        );
+                    });
+            }
+        });
+    }
 });
 
 
