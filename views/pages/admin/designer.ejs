@@ -1,14 +1,15 @@
 <% include ../../partials/admin/head.ejs %>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/scripts/pages/admin/portfolio.js"></script>
+<script src="/scripts/pages/admin/designer.js"></script>
 
-<input type="hidden" id="portfolio_id" value="<%=pid%>">
+<input type="hidden" id="designer_id" value="<%=did%>">
 
-<div class="management portfolio no-margin">
-    <form class="form form-portfolio">
+<div class="management designer no-margin">
+    <form class="form form-designer">
+        <input type="hidden" id="file-upload-path" name="file_upload_path" value="designer">
         <h2>
-            <p>포트폴리오 등록</p>
+            <p>디자이너 등록</p>
             <div class="form-description">
                 <span class="required">*</span>
                 <span>항목은 필수 입력 항목입니다.</span>
@@ -18,57 +19,64 @@
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>제목</span>
+                    <span>이름</span>
                 </div>
-                <input type="text" name="portfolio_title" id="portfolio_title" placeholder="제목을 입력하세요">
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span class="required">*</span>
-                    <span>디자이너</span>
-                </div>
-                <select name="portfolio_designer" id="portfolio_designer">
-                    <option value="">디자이너를 선택하세요.</option>
-                </select>
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span class="required">*</span>
-                    <span>주소</span>
-                </div>
-                <input type="text" name="portfolio_address" id="portfolio_address" placeholder="서울특별시 마포구 망원동 120-12">
+                <input type="text" name="designer_name" id="designer_name" placeholder="이름을 입력하세요">
             </div>
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
                     <span>스타일</span>
                 </div>
-                <input type="text" name="portfolio_style" id="portfolio_style" placeholder="모던">
+                <input type="text" name="designer_style" id="designer_style" placeholder="ex) 모던">
             </div>
             <div class="form-item">
-                <div class="col-group">
-                    <div class="col-6">
-                        <div class="title">
-                            <span class="required">*</span>
-                            <span>평수</span>
-                        </div>
-                        <input type="number" name="portfolio_size" id="portfolio_size" placeholder="20">
-                    </div>
-                    <div class="col-6">
-                        <div class="title">
-                            <span class="required">*</span>
-                            <span>비용</span>
-                        </div>
-                        <input type="number" name="portfolio_price" id="portfolio_price" placeholder="3000">
-                    </div>
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>최소금액(만원)</span>
+                </div>
+                <input type="text" name="designer_price_min" id="designer_price_min" placeholder="ex) 100">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>최대금액(만원)</span>
+                </div>
+                <input type="text" name="designer_price_max" id="designer_price_max" placeholder="ex) 200">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>설명</span>
+                </div>
+                <textarea type="text" name="designer_introduce" id="designer_introduce" placeholder="ex) 안녕하세요. 디자이너 *** 입니다."></textarea>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>커뮤니케이션 점수</span>
+                </div>
+                <div class="skill-form-group designer-score-communication">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
                 </div>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required"></span>
-                    <span>설명</span>
+                    <span class="required">*</span>
+                    <span>퀄리티 점수</span>
                 </div>
-                <textarea cols="50" rows="5" type="text" name="portfolio_description" id="portfolio_description" placeholder="설명을 입력해주세요."></textarea>
+                <div class="skill-form-group designer-score-quality">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>시간엄수 점수</span>
+                </div>
+                <div class="skill-form-group designer-score-timestrict">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
             </div>
             <div class="divider"></div>
             <h2>
@@ -77,21 +85,13 @@
             <div class="form-item margin-bottom">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>포트폴리오 이미지</span>
+                    <span>디자이너 사진</span>
                 </div>
                 <div class="form-item">
                     <div class="col-group">
-                        <div class="col-6"><input type="file" name="portfolio_before[0]" id="portfolio_before" placeholder="Before"></div>
-                        <div class="col-6"><input type="file" name="portfolio_after[0]" id="portfolio_after" placeholder="After"></div>
+                        <div class="col-12"><input type="file" name="designer_image[0]" id="designer_image" placeholder="Image"></div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-sm btn-primary btn-block btn-add-image">이미지 추가</a>
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span>제안서</span>
-                </div>
-                <input type="file" name="portfolio_document" id="portfolio_document" data-type="pdf" placeholder="제안서 업로드">
             </div>
         </div>
         <div class="button-wrapper">
