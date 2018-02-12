@@ -1226,6 +1226,40 @@ router.post('/profile/constructor', (req, res, next) => {
     });
 });
 
+router.post('/profile/constructor/:cid([0-9]+)', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        var ipLong = ip.toLong(req.ip);
+        var constructorID = req.params.cid;
+        var constructor;
+
+        cur('constructor_tbl')
+            .where({
+                cr_pk: constructorID
+            })
+            .limit(1)
+            .then(response => {
+                if (response.length < 1) {
+                    return res.json(
+                        resHelper.getError('해당 시공자가 존재하지 않습니다.')
+                    );
+                }
+                constructor = response[0];
+            })
+            .then(() => {
+                res.json(
+                    resHelper.getJson({
+                        data: constructor
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('시공자 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
+                );
+            });
+    });
+});
+
 router.post('/profile/constructor/delete/:cid', (req, res, next) => {
     var constructorID = req.params.cid;
 
