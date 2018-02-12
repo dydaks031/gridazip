@@ -1119,6 +1119,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                         ds_price_min: designer_price_min,
                         ds_price_max: designer_price_max,
                         ds_image: designer_image,
+                        ds_is_dev: designer_is_dev,
                         ds_recency: cur.raw('UNIX_TIMESTAMP() * -1')
                     })
                     .then(responses => {
@@ -1344,6 +1345,7 @@ router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
                         cr_score: constructor_score,
                         cr_address: constructor_address,
                         cr_image: constructor_image,
+                        cr_is_dev: constructor_is_dev,
                         cr_recency: cur.raw('UNIX_TIMESTAMP() * -1')
                     })
                     .then(responses => {
