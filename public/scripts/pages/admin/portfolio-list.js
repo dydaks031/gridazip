@@ -28,7 +28,7 @@ $(function () {
             ;
         }
 
-        loadPromise = http.post('/api/portfolio', {
+        loadPromise = http.post('/api/admin/portfolio', {
             page: page.get(),
             filter: filter.get()
         });

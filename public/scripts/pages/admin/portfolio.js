@@ -10,6 +10,8 @@ $(function () {
     var $inputPortfolioPrice = $('#portfolio_price');
     var $inputPortfolioDescription = $('#portfolio_description');
 
+    var $inputPortfolioIsDev = $('input[name=portfolio_is_dev]');
+
     var $btnAddImage = $form.find('.btn-add-image');
     var $btnComplete = $form.find('.complete');
 
@@ -205,6 +207,7 @@ $(function () {
                     $inputPortfolioSize.val(portfolio.pf_size);
                     $inputPortfolioPrice.val(portfolio.pf_price);
                     $inputPortfolioDescription.val(portfolio.pf_description);
+                    $inputPortfolioIsDev.filter('[value=' + portfolio.pf_is_dev + ']').prop('checked', true);
 
                     images.forEach(function(element, index) {
                         var $after;
@@ -280,6 +283,8 @@ $(function () {
                     //console.log(designer_images);
                     //console.log(receipt_employee);
                     //console.log(receipt_resource);
+
+
                 }
             })
             ['catch'](function (error) {

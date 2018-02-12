@@ -52,7 +52,7 @@ $(function () {
 
     });
 
-    console.log($skillForm);
+
 
     var validation = function(data) {
         if (data.designer_name === '') {
@@ -168,7 +168,7 @@ $(function () {
         form.designer_score_quality = $form.find('.designer-score-quality > i.active').length;
         form.designer_score_timestrict = $form.find('.designer-score-timestrict > i.active').length;
         // form.
-        console.log(form);
+
         validation(form);
     });
 
@@ -237,7 +237,7 @@ $(function () {
                     }
                 })
                 ['catch'](function (error) {
-                console.log(error);
+
                 swal({
                     title: error.value,
                     type: 'error'

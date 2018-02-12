@@ -5,7 +5,7 @@ $(function () {
     var $inputConstructorName = $('#constructor_name');
     var $inputConstructorCompany = $('#constructor_cppk');
     var $inputConstructorScore = $('#constructor_score_communication');
-    var $inputConstructorIsDev = $('input[name=construct_is_dev]')
+    var $inputConstructorIsDev = $('input[name=constructor_is_dev]')
 
 
     var $btnAddImage = $form.find('.btn-add-image');
@@ -46,7 +46,7 @@ $(function () {
 
     });
 
-    console.log($skillForm);
+
 
     var validation = function(data) {
         if (data.constructor_name === '') {
@@ -120,7 +120,7 @@ $(function () {
         var form = $form.serializeJson();
         form.constructor_score = $form.find('.constructor-score > i.active').length;
         // form.
-        console.log(form);
+
         validation(form);
     });
 
@@ -178,7 +178,7 @@ $(function () {
                     }
                 })
                 ['catch'](function (error) {
-                console.log(error);
+
                 swal({
                     title: error.value,
                     type: 'error'

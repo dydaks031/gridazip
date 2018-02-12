@@ -83,7 +83,7 @@ $(function () {
                             event.preventDefault();
                             event.stopPropagation();
                             if (confirm('정말로 삭제하시겠습니까?')) {
-                                http.post('/api/admin/designer/delete/' + element.ds_pk)
+                                http.post('/api/admin/profile/designer/delete/' + element.ds_pk)
                                     .then(function(data) {
                                         page.reset();
                                         page.setLimit(20);
