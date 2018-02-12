@@ -768,6 +768,45 @@ router.post('/profile/designer', (req, res, next) => {
     });
 });
 
+
+router.post('/style', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        cur('style_tbl')
+            .orderBy('style_recency')
+            .then(response => {
+                res.json(
+                    resHelper.getJson({
+                        data: response
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError(reason)
+                );
+            });
+    });
+});
+
+router.post('/company', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        cur('company_tbl')
+            .orderBy('cp_recency')
+            .then(response => {
+                res.json(
+                    resHelper.getJson({
+                        data: response
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError(reason)
+                );
+            });
+    });
+});
+
 router.post('/profile/designer/:did', (req, res, next) => {
     knexBuilder.getConnection().then(cur => {
         var ipLong = ip.toLong(req.ip);
@@ -846,49 +885,6 @@ router.post('/profile/designer/:did', (req, res, next) => {
                     resHelper.getError('디자이너 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
                 );
             });
-    });
-});
-
-router.post('/profile/designer/document/:pid', (req, res, next) => {
-    var portfolioID = req.params.pid;
-
-    var documents;
-    var images;
-
-    knexBuilder.getConnection().then(cur => {
-        cur('portfolio_tbl')
-            .select('resource_document_hst.*')
-            .innerJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
-            .innerJoin('resource_document_hst', 'work_tbl.wk_pk', 'resource_document_hst.rd_wkpk')
-            .orderBy('resource_document_hst.rd_order')
-            .where({
-                pf_pk: portfolioID
-            })
-            .then(response => {
-                documents = response.map(data => {
-                    return data.rd_url;
-                });
-
-                return cur('portfolio_image_hst').where({
-                    pi_pfpk: portfolioID
-                })
-                    .orderBy('pi_is_primary')
-                    .orderBy('pi_recency');
-            })
-            .then(response => {
-                images = response;
-                res.json(
-                    resHelper.getJson({
-                        documents: documents,
-                        images: images
-                    })
-                );
-            })
-            .catch(reason => {
-                res.json(
-                    resHelper.getError('디자이너의 포트폴리오 상세 조회 중 문제가 발생하였습니다.')
-                );
-            })
     });
 });
 
@@ -981,7 +977,6 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
             if (did) {
                 cur('designer_tbl')
                     .select('*')
-                    .leftJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
                     .where({
                         pf_pk: pid
                     })
@@ -989,85 +984,27 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                     .then(response => {
                         if (response.length < 1) {
                             res.json(
-                                resHelper.getError('수정할 포트폴리오가 존재하지 않습니다.')
+                                resHelper.getError('수정할 디자이너 프로필이 존재하지 않습니다.')
                             );
                         }
                         else {
                             wkid = response[0].wk_pk;
-                            return cur('portfolio_tbl')
+                            return cur('designer_tbl')
                                 .where({
-                                    pf_pk: pid
+                                    ds_pk: did
                                 })
                                 .update({
-                                    pf_style: portfolio_style,
-                                    pf_price: portfolio_price,
-                                    pf_size: portfolio_size,
-                                    pf_address: portfolio_address,
-                                    pf_title: portfolio_title,
-                                    pf_description: portfolio_description
+                                    ds_name: designer_name,
+                                    ds_score_communication: designer_score_communication,
+                                    ds_score_timestrict: designer_score_timestrict,
+                                    ds_score_quality: designer_score_quality,
+                                    ds_style: designer_style,
+                                    ds_address: designer_address,
+                                    ds_introduce: designer_introduce,
+                                    ds_price_min: designer_price_min,
+                                    ds_price_max: designer_price_max,
+                                    ds_image: designer_image
                                 });
-                        }
-                    })
-                    .then(responses => {
-                        return cur('work_tbl')
-                            .update({
-                                wk_dspk: portfolio_designer
-                            })
-                            .where({
-                                wk_pk: wkid
-                            });
-                    })
-                    .then(response => {
-                        return cur('portfolio_image_hst')
-                            .where({
-                                pi_pfpk: pid
-                            })
-                            .del()
-                    })
-                    .then(response => {
-                        var promises = [];
-                        portfolio_before.map((element, idx) => {
-                            var target = portfolio_after.filter(target => {
-                                return target.index === element.index;
-                            });
-                            target = target.length > 0? target[0]:null;
-
-                            if (target !== null) {
-                                promises.push(cur('portfolio_image_hst')
-                                    .insert({
-                                        pi_pfpk: pid,
-                                        pi_before: element.value,
-                                        pi_after: target.value,
-                                        pi_is_primary: element.index === 0? 'Y':'N',
-                                        pi_recency: cur.raw('UNIX_TIMESTAMP() * -1')
-                                    }));
-                            }
-                        });
-                        return Promise.all(promises);
-                    })
-                    .then(response => {
-                        if (portfolio_document !== '') {
-                            return cur('resource_document_hst')
-                                .where({
-                                    rd_wkpk: wkid
-                                })
-                                .del();
-                        }
-                    })
-                    .then(response => {
-                        if (portfolio_document !== '') {
-                            let portfolio_documents = portfolio_document.split(',');
-                            let promises = [];
-                            portfolio_documents.map((element, index) => {
-                                promises.push(cur('resource_document_hst')
-                                    .insert({
-                                        rd_wkpk: wkid,
-                                        rd_url: element,
-                                        rd_order: index,
-                                        rd_recency: cur.raw('UNIX_TIMESTAMP() * -1')
-                                    }));
-                            });
-                            return Promise.all(promises);
                         }
                     })
                     .finally(() => {
@@ -1084,80 +1021,26 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                     });
             }
             else {
-                cur('work_tbl')
-                    .returning('wk_pk')
+                cur('designer_tbl')
+                    .returning('ds_pk')
                     .insert({
-                        wk_user: req.user.user_pk,
-                        wk_dspk: portfolio_designer,
-                        wk_recency: cur.raw('UNIX_TIMESTAMP() * -1')
-                    })
-                    .then(response => {
-                        wkid = response[0];
-                        return cur('portfolio_tbl')
-                            .returning('pf_pk')
-                            .insert({
-                                pf_wkpk: wkid,
-                                pf_style: portfolio_style,
-                                pf_price: portfolio_price,
-                                pf_size: portfolio_size,
-                                pf_address: portfolio_address,
-                                pf_title: portfolio_title,
-                                pf_description: portfolio_description,
-                                pf_is_dev: portfolio_is_dev,
-                                pf_recency: cur.raw('UNIX_TIMESTAMP() * -1')
-                            })
-                    })
-                    .then(response => {
-                        var promises = [];
-                        pid = response[0];
-
-                        portfolio_before.map((element, idx) => {
-                            var target = portfolio_after.filter(target => {
-                                return target.index === element.index;
-                            });
-                            target = target.length > 0? target[0]:null;
-
-                            if (target !== null) {
-                                promises.push(cur('portfolio_image_hst')
-                                    .insert({
-                                        pi_pfpk: pid,
-                                        pi_before: element.value,
-                                        pi_after: target.value,
-                                        pi_is_primary: element.index === 0? 'Y':'N',
-                                        pi_recency: cur.raw('UNIX_TIMESTAMP() * -1')
-                                    }));
-                            }
-                        });
-
-                        return Promise.all(promises);
+                        ds_name: designer_name,
+                        ds_score_communication: designer_score_communication,
+                        ds_score_timestrict: designer_score_timestrict,
+                        ds_score_quality: designer_score_quality,
+                        ds_style: designer_style,
+                        ds_address: designer_address,
+                        ds_introduce: designer_introduce,
+                        ds_price_min: designer_price_min,
+                        ds_price_max: designer_price_max,
+                        ds_image: designer_image
+                        ds_recency: cur.raw('UNIX_TIMESTAMP() * -1')
                     })
                     .then(responses => {
-                        if (portfolio_document !== '') {
-                            let portfolio_documents = portfolio_document.split(',');
-                            let promises = [];
-                            portfolio_documents.map((element, index) => {
-                                promises.push(cur('resource_document_hst')
-                                    .insert({
-                                        rd_wkpk: wkid,
-                                        rd_url: element,
-                                        rd_order: index,
-                                        rd_recency: cur.raw('UNIX_TIMESTAMP() * -1')
-                                    }));
-                            });
-                            return Promise.all(promises);
-                        }
-                        else {
-                            res.json(
-                                resHelper.getJson({
-                                    value: pid
-                                })
-                            );
-                        }
-                    })
-                    .then(responses => {
+                        did = responses[0];
                         res.json(
                             resHelper.getJson({
-                                value: pid
+                                value: did
                             })
                         );
                     })
