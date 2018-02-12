@@ -124,6 +124,8 @@ router.post('/', (req, res, next) => {
             query = query.where('pf_pk', '<=', pageData.point);
         }
 
+        query = query.where('pf_is_dev', false);
+
         var list = [];
 
         query

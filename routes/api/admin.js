@@ -287,6 +287,7 @@ router.post('/portfolio/save/:pid*?', (req, res, next) => {
     var portfolio_size = req.body.portfolio_size || 0;
     var portfolio_price = req.body.portfolio_price || 0;
     var portfolio_document = req.body.portfolio_document_data || '';
+    var portfolio_is_dev = req.body.portfolio_is_dev || false;
 
     var errorMsg = null;
 
@@ -478,6 +479,7 @@ router.post('/portfolio/save/:pid*?', (req, res, next) => {
                                 pf_address: portfolio_address,
                                 pf_title: portfolio_title,
                                 pf_description: portfolio_description,
+                                pf_is_dev: portfolio_is_dev,
                                 pf_recency: cur.raw('UNIX_TIMESTAMP() * -1')
                             })
                     })

@@ -11,12 +11,13 @@ router.get('/*', (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-    res.render('pages/admin/index', {
-        id: 'admin',
-        sub: 'index',
-        title: '관리자 홈',
-        fullscreen: false
-    });
+    // res.render('pages/admin/index', {
+    //     id: 'admin',
+    //     sub: 'index',
+    //     title: '관리자 홈',
+    //     fullscreen: false
+    // });
+    res.redirect('/admin/portfolio/list');
 });
 
 router.get('/portfolio/list', (req, res, next) => {
