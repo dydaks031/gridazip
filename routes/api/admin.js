@@ -680,4 +680,582 @@ router.post('/portfolio/:pid', (req, res, next) => {
     });
 });
 
+router.post('/profile/designer', (req, res, next) => {
+    var page = req.body['page'];
+    var filter = req.body['filter'];
+    var pageInst = new paginationService(page);
+    var filterInst = new filterService(filter);
+    var pageData = pageInst.get();
+    var filterData = filterInst.get();
+
+    if (pageInst.isEnd() === true) {
+        res.json(
+            resHelper.getJson({
+                data: [],
+                page: pageData.get()
+            })
+        );
+        return;
+    }
+
+    knexBuilder.getConnection().then(cur => {
+        var query = cur('designer_tbl')
+            .select('*')
+            .column(cur.raw(`
+      (
+        SELECT COUNT(*) AS count
+        FROM profile_view_hst AS view
+        WHERE view.pv_target = designer_tbl.ds_pk AND view.pv_type = ?
+      ) AS view
+      `, 'D'));
+
+        var filterSort = filterInst.getFilter('sort');
+
+        switch (filterSort) {
+            case 'popular':
+                query = query.orderBy('view', 'desc');
+                break;
+            default:
+                query = query.orderBy('designer_tbl.ds_recency');
+        }
+
+        // 임시
+        query = query.where('ds_is_dev', false);
+
+        query = query
+            .limit(pageData.limit)
+            .offset(pageData.page);
+
+        if (pageData.point !== null) {
+            query = query.where('ds_pk', '<=', pageData.point);
+        }
+
+        var list = [];
+
+        query
+            .then(response => {
+                if (response.length > 0) {
+                    if (pageData.point === null) {
+                        pageInst.setPoint(response[0]['ds_pk']);
+                    }
+                }
+
+                list = response;
+                pageInst.setPage(pageData.page += list.length);
+                pageInst.setLimit(pageData.limit);
+
+                if (list.length < pageInst.limit) {
+                    pageInst.setEnd(true);
+                }
+
+                return cur('designer_tbl').count('* as count');
+            })
+            .then(response => {
+                pageInst.setCount(response[0].count);
+
+                res.json(
+                    resHelper.getJson({
+                        data: list,
+                        page: pageInst.get()
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('디자이너 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
+                )
+            });
+    });
+});
+
+router.post('/profile/designer/:did', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        var ipLong = ip.toLong(req.ip);
+        var designerID = req.params.did;
+        var designer;
+        var portfolio;
+
+        cur('designer_tbl')
+            .where({
+                ds_pk: designerID
+            })
+            .limit(1)
+            .then(response => {
+                if (response.length < 1) {
+                    return res.json(
+                        resHelper.getError('해당 디자이너가 존재하지 않습니다.')
+                    );
+                }
+
+                cur('profile_view_hst')
+                    .count('* as count')
+                    .where({
+                        pv_target: designerID,
+                        pv_type: 'D',
+                        pv_ip: ipLong
+                    })
+                    .limit(1)
+                    .then(response => {
+                        var count = response[0].count;
+
+                        if (count < 1) {
+                            cur('profile_view_hst')
+                                .insert({
+                                    pv_target: designerID,
+                                    pv_type: 'D',
+                                    pv_ip: ipLong,
+                                    pv_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                                })
+                                .then(response => {
+                                    ;
+                                })
+                                .catch(reason => {
+                                    ;
+                                });
+                        }
+                    })
+                    .catch(reason => {
+                        ;
+                    });
+
+                designer = response[0];
+
+                return cur('portfolio_tbl')
+                    .innerJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
+                    .innerJoin('portfolio_image_hst', 'portfolio_tbl.pf_pk', 'portfolio_image_hst.pi_pfpk')
+                    .where({
+                        wk_dspk: designerID
+                    })
+                    .orderBy('portfolio_tbl.pf_recency')
+                    .orderBy('portfolio_image_hst.pi_is_primary')
+                    .groupBy('portfolio_tbl.pf_pk')
+                    .limit(4);
+            })
+            .then(response => {
+                portfolio = response;
+
+                res.json(
+                    resHelper.getJson({
+                        data: designer,
+                        portfolio: portfolio
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('디자이너 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
+                );
+            });
+    });
+});
+
+router.post('/profile/designer/document/:pid', (req, res, next) => {
+    var portfolioID = req.params.pid;
+
+    var documents;
+    var images;
+
+    knexBuilder.getConnection().then(cur => {
+        cur('portfolio_tbl')
+            .select('resource_document_hst.*')
+            .innerJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
+            .innerJoin('resource_document_hst', 'work_tbl.wk_pk', 'resource_document_hst.rd_wkpk')
+            .orderBy('resource_document_hst.rd_order')
+            .where({
+                pf_pk: portfolioID
+            })
+            .then(response => {
+                documents = response.map(data => {
+                    return data.rd_url;
+                });
+
+                return cur('portfolio_image_hst').where({
+                    pi_pfpk: portfolioID
+                })
+                    .orderBy('pi_is_primary')
+                    .orderBy('pi_recency');
+            })
+            .then(response => {
+                images = response;
+                res.json(
+                    resHelper.getJson({
+                        documents: documents,
+                        images: images
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('디자이너의 포트폴리오 상세 조회 중 문제가 발생하였습니다.')
+                );
+            })
+    });
+});
+
+router.post('/profile/designer/delete/:did', (req, res, next) => {
+    var designerID = req.params.did;
+
+    knexBuilder.getConnection().then(cur => {
+        
+    cur('designer_tbl')
+        .where({
+            ds_pk: designerID
+        })
+        .limit(1)
+        .then(response => {
+            var promises = [];
+
+            if (response.length > 0) {
+                promises.push(
+                    cur('designer_tbl')
+                        .where({
+                            ds_pk: designerID
+                        })
+                        .del()
+                );
+            }
+
+            return Promise.all(promises);
+        })
+        .then(response => {
+            res.json(
+                resHelper.getJson({
+                    msg: 'ok'
+                })
+            );
+        })
+        .catch(reason => {
+            res.json(
+                resHelper.getError(reason)
+            );
+        });
+    });
+});
+
+router.post('/profile/designer/save/:did*?', (req, res, next) => {
+    var did = req.params.did;
+    var wkid = null;
+
+    var designer_name = req.body.designer_name || '';
+    var designer_score_communication = req.body.designer_score_communication || '';
+    var designer_score_timestrict = req.body.designer_score_timestrict || '';
+    var designer_score_quality = req.body.designer_score_quality || '';
+    var designer_style = req.body.designer_style || '';
+    var designer_address = req.body.designer_address || '';
+    var designer_introduce = req.body.designer_introduce || '';
+    var designer_price_min = req.body.designer_price_min || '';
+    var designer_price_max = req.body.designer_price_max || '';
+    var designer_image = req.body.designer_image || '';
+    var designer_is_dev = req.body.designer_is_dev || false;
+
+    var errorMsg = null;
+
+    if (designer_name === '') {
+        errorMsg = '이름은 반드시 입력해야 합니다.';
+    }
+    else if(designer_score_communication === '') {
+        errorMsg = '커뮤니케이션 점수는 반드시 선택해야 합니다.';
+    }
+    else if(designer_score_timestrict === '') {
+        errorMsg = '시간엄수 점수는 반드시 입력해야 합니다.';
+    }
+    else if(designer_score_quality === '') {
+        errorMsg = '디자인 완성도 점수는 반드시 입력해야 합니다.';
+    }
+    else if(designer_price_min === '') {
+        errorMsg = '디자인 최소 비용은 반드시 입력해야 합니다.';
+    }
+    else if(designer_price_max === '') {
+        errorMsg = '디자인 최대 비용은 반드시 입력해야 합니다.';
+    }
+    else if(designer_image === '') {
+        errorMsg = '프로필 사진은 반드시 업로드해야 합니다.';
+    }
+    if (errorMsg !== null) {
+        res.json(
+            resHelper.getError(errorMsg)
+        );
+    }
+    else {
+        knexBuilder.getConnection().then(cur => {
+            if (did) {
+                cur('designer_tbl')
+                    .select('*')
+                    .leftJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
+                    .where({
+                        pf_pk: pid
+                    })
+                    .limit(1)
+                    .then(response => {
+                        if (response.length < 1) {
+                            res.json(
+                                resHelper.getError('수정할 포트폴리오가 존재하지 않습니다.')
+                            );
+                        }
+                        else {
+                            wkid = response[0].wk_pk;
+                            return cur('portfolio_tbl')
+                                .where({
+                                    pf_pk: pid
+                                })
+                                .update({
+                                    pf_style: portfolio_style,
+                                    pf_price: portfolio_price,
+                                    pf_size: portfolio_size,
+                                    pf_address: portfolio_address,
+                                    pf_title: portfolio_title,
+                                    pf_description: portfolio_description
+                                });
+                        }
+                    })
+                    .then(responses => {
+                        return cur('work_tbl')
+                            .update({
+                                wk_dspk: portfolio_designer
+                            })
+                            .where({
+                                wk_pk: wkid
+                            });
+                    })
+                    .then(response => {
+                        return cur('portfolio_image_hst')
+                            .where({
+                                pi_pfpk: pid
+                            })
+                            .del()
+                    })
+                    .then(response => {
+                        var promises = [];
+                        portfolio_before.map((element, idx) => {
+                            var target = portfolio_after.filter(target => {
+                                return target.index === element.index;
+                            });
+                            target = target.length > 0? target[0]:null;
+
+                            if (target !== null) {
+                                promises.push(cur('portfolio_image_hst')
+                                    .insert({
+                                        pi_pfpk: pid,
+                                        pi_before: element.value,
+                                        pi_after: target.value,
+                                        pi_is_primary: element.index === 0? 'Y':'N',
+                                        pi_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                                    }));
+                            }
+                        });
+                        return Promise.all(promises);
+                    })
+                    .then(response => {
+                        if (portfolio_document !== '') {
+                            return cur('resource_document_hst')
+                                .where({
+                                    rd_wkpk: wkid
+                                })
+                                .del();
+                        }
+                    })
+                    .then(response => {
+                        if (portfolio_document !== '') {
+                            let portfolio_documents = portfolio_document.split(',');
+                            let promises = [];
+                            portfolio_documents.map((element, index) => {
+                                promises.push(cur('resource_document_hst')
+                                    .insert({
+                                        rd_wkpk: wkid,
+                                        rd_url: element,
+                                        rd_order: index,
+                                        rd_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                                    }));
+                            });
+                            return Promise.all(promises);
+                        }
+                    })
+                    .finally(() => {
+                        res.json(
+                            resHelper.getJson({
+                                msg: 'ok'
+                            })
+                        );
+                    })
+                    .catch(reason => {
+                        res.json(
+                            resHelper.getError(reason)
+                        );
+                    });
+            }
+            else {
+                cur('work_tbl')
+                    .returning('wk_pk')
+                    .insert({
+                        wk_user: req.user.user_pk,
+                        wk_dspk: portfolio_designer,
+                        wk_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                    })
+                    .then(response => {
+                        wkid = response[0];
+                        return cur('portfolio_tbl')
+                            .returning('pf_pk')
+                            .insert({
+                                pf_wkpk: wkid,
+                                pf_style: portfolio_style,
+                                pf_price: portfolio_price,
+                                pf_size: portfolio_size,
+                                pf_address: portfolio_address,
+                                pf_title: portfolio_title,
+                                pf_description: portfolio_description,
+                                pf_is_dev: portfolio_is_dev,
+                                pf_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                            })
+                    })
+                    .then(response => {
+                        var promises = [];
+                        pid = response[0];
+
+                        portfolio_before.map((element, idx) => {
+                            var target = portfolio_after.filter(target => {
+                                return target.index === element.index;
+                            });
+                            target = target.length > 0? target[0]:null;
+
+                            if (target !== null) {
+                                promises.push(cur('portfolio_image_hst')
+                                    .insert({
+                                        pi_pfpk: pid,
+                                        pi_before: element.value,
+                                        pi_after: target.value,
+                                        pi_is_primary: element.index === 0? 'Y':'N',
+                                        pi_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                                    }));
+                            }
+                        });
+
+                        return Promise.all(promises);
+                    })
+                    .then(responses => {
+                        if (portfolio_document !== '') {
+                            let portfolio_documents = portfolio_document.split(',');
+                            let promises = [];
+                            portfolio_documents.map((element, index) => {
+                                promises.push(cur('resource_document_hst')
+                                    .insert({
+                                        rd_wkpk: wkid,
+                                        rd_url: element,
+                                        rd_order: index,
+                                        rd_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+                                    }));
+                            });
+                            return Promise.all(promises);
+                        }
+                        else {
+                            res.json(
+                                resHelper.getJson({
+                                    value: pid
+                                })
+                            );
+                        }
+                    })
+                    .then(responses => {
+                        res.json(
+                            resHelper.getJson({
+                                value: pid
+                            })
+                        );
+                    })
+                    .catch(reason => {
+                        res.json(
+                            resHelper.getError(reason)
+                        );
+                    });
+            }
+        });
+    }
+});
+
+
+router.post('/profile/constructor', (req, res, next) => {
+    var page = req.body['page'];
+    var filter = req.body['filter'];
+    var pageInst = new paginationService(page);
+    var filterInst = new filterService(filter);
+    var pageData = pageInst.get();
+    var filterData = filterInst.get();
+
+    if (pageInst.isEnd() === true) {
+        res.json(
+            resHelper.getJson({
+                data: [],
+                page: pageData.get()
+            })
+        );
+        return;
+    }
+
+    knexBuilder.getConnection().then(cur => {
+        var query = cur('constructor_tbl')
+            .select('*')
+            .column(cur.raw(`
+      (
+        SELECT COUNT(*) AS count
+        FROM profile_view_hst AS view
+        WHERE view.pv_target = constructor_tbl.cr_pk AND view.pv_type = ?
+      ) AS view
+      `, 'C'));
+
+        var filterSort = filterInst.getFilter('sort');
+
+        switch (filterSort) {
+            case 'popular':
+                query = query.orderBy('view', 'desc');
+                break;
+            default:
+                query = query.orderBy('constructor_tbl.cr_recency');
+        }
+
+        query = query
+            .limit(pageData.limit)
+            .offset(pageData.page);
+
+        if (pageData.point !== null) {
+            query = query.where('cr_pk', '<=', pageData.point);
+        }
+
+        var list = [];
+
+        query
+            .then(response => {
+                if (response.length > 0) {
+                    if (pageData.point === null) {
+                        pageInst.setPoint(response[0]['cr_pk']);
+                    }
+                }
+
+                list = response;
+                pageInst.setPage(pageData.page += list.length);
+                pageInst.setLimit(pageData.limit);
+
+                if (list.length < pageInst.limit) {
+                    pageInst.setEnd(true);
+                }
+
+                return cur('constructor_tbl').count('* as count');
+            })
+            .then(response => {
+                pageInst.setCount(response[0].count);
+
+                res.json(
+                    resHelper.getJson({
+                        data: list,
+                        page: pageInst.get()
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('시공자 정보를 가지고 오는 중 알 수 없는 오류가 발생하였습니다.')
+                )
+            });
+    });
+});
+
+
 module.exports = router;
