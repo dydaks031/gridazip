@@ -3,12 +3,13 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/scripts/pages/admin/constructor.js"></script>
 
-<input type="hidden" id="portfolio_id" value="<%=cid%>">
+<input type="hidden" id="constructor_id" value="<%=cid%>">
 
-<div class="management portfolio no-margin">
-    <form class="form form-portfolio">
+<div class="management constructor no-margin">
+    <form class="form form-constructor">
+        <input type="hidden" id="file-upload-path" name="file_upload_path" value="constructor">
         <h2>
-            <p>포트폴리오 등록</p>
+            <p>시공자 등록</p>
             <div class="form-description">
                 <span class="required">*</span>
                 <span>항목은 필수 입력 항목입니다.</span>
@@ -18,86 +19,58 @@
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>제목</span>
+                    <span>이름</span>
                 </div>
-                <input type="text" name="portfolio_title" id="portfolio_title" placeholder="제목을 입력하세요">
+                <input type="text" name="constructor_name" id="constructor_name" placeholder="이름을 입력하세요">
             </div>
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>디자이너</span>
+                    <span>회사</span>
                 </div>
-                <select name="portfolio_designer" id="portfolio_designer">
-                    <option value="">디자이너를 선택하세요.</option>
+                <select name="constructor_cppk">
+                    <option value="1">으아앙</option>
                 </select>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>주소</span>
+                    <span>시공자평가</span>
                 </div>
-                <input type="text" name="portfolio_address" id="portfolio_address" placeholder="서울특별시 마포구 망원동 120-12">
+                <div class="skill-form-group constructor-score" id="constructor_score">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
             </div>
+
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>스타일</span>
+                    <span>테스트 여부(Y로 입력하실 경우 업로드는 되지만 사용자에게 보이지 않습니다.)</span>
                 </div>
-                <input type="text" name="portfolio_style" id="portfolio_style" placeholder="모던">
+                <label for="cr_is_test"><input type="radio" id="cr_is_test" value="1" name="construct_is_dev"/>Y</label>
+                <label for="cr_is_not_test"><input type="radio" id="cr_is_not_test" value="0" name="construct_is_dev"/>N</label>
             </div>
-            <div class="form-item">
-                <div class="col-group">
-                    <div class="col-6">
-                        <div class="title">
-                            <span class="required">*</span>
-                            <span>평수</span>
-                        </div>
-                        <input type="number" name="portfolio_size" id="portfolio_size" placeholder="20">
-                    </div>
-                    <div class="col-6">
-                        <div class="title">
-                            <span class="required">*</span>
-                            <span>비용</span>
-                        </div>
-                        <input type="number" name="portfolio_price" id="portfolio_price" placeholder="3000">
-                    </div>
-                </div>
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span class="required"></span>
-                    <span>설명</span>
-                </div>
-                <textarea cols="50" rows="5" type="text" name="portfolio_description" id="portfolio_description" placeholder="설명을 입력해주세요."></textarea>
-            </div>
+
             <div class="divider"></div>
             <h2>
-                <p>이미지 및 제안서 등록</p>
+                <p>이미지 등록</p>
             </h2>
             <div class="form-item margin-bottom">
                 <div class="title">
                     <span class="required">*</span>
-                    <span>포트폴리오 이미지</span>
+                    <span>시공자 사진</span>
                 </div>
                 <div class="form-item">
                     <div class="col-group">
-                        <div class="col-6"><input type="file" name="portfolio_before[0]" id="portfolio_before" placeholder="Before"></div>
-                        <div class="col-6"><input type="file" name="portfolio_after[0]" id="portfolio_after" placeholder="After"></div>
+                        <div class="col-12"><input type="file" name="constructor_image[0]" id="constructor_image" placeholder="Image"></div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-sm btn-primary btn-block btn-add-image">이미지 추가</a>
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span>제안서</span>
-                </div>
-                <input type="file" name="portfolio_document" id="portfolio_document" data-type="pdf" placeholder="제안서 업로드">
             </div>
         </div>
         <div class="button-wrapper">
             <div class="button-group">
                 <button class="complete">완료</button>
-                <a href="/admin" class="button soft">뒤로가기</a>
+                <a href="/admin/constructor/list" class="button soft">뒤로가기</a>
             </div>
         </div>
     </form>

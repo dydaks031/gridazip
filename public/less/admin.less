@@ -20,7 +20,8 @@
     }
 }
 
-.form-designer {
+
+.form-constructor, .form-designer {
     .skill-form-group {
         height:3.4em;
         line-height:3.4em;
@@ -32,6 +33,22 @@
         i.active {
             color: @color-info
         }
+    }
 
+    .form-item {
+        .btn-file {
+            img {
+                max-height:200px !important;
+            }
+        }
+    }
+}
+
+.form {
+    .form-item {
+        input[type=radio] {
+            display:inline-block;
+            width:20px;
+        }
     }
 }

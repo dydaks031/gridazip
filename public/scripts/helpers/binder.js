@@ -175,9 +175,9 @@ $(function () {
 
                         if (mimeTypesSplited[0] === 'image') {
                             var $image = $('<img src="' + result.value + '">');
+                            $this.siblings().remove();
                             $image.insertAfter($this);
                             $input.val(result.value);
-                            $this.siblings().remove();
                         }
                         else if (mimetype === 'application/pdf') {
                             $this.siblings().hide();
