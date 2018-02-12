@@ -80,6 +80,7 @@ Http.prototype.get = function (url, data) {
 };
 
 Http.prototype.post = function (url, data) {
+    console.log(url);
     return this.request(url, 'post', data);
 };
 
