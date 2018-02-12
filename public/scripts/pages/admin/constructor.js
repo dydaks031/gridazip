@@ -5,6 +5,7 @@ $(function () {
     var $inputConstructorName = $('#constructor_name');
     var $inputConstructorCompany = $('#constructor_cppk');
     var $inputConstructorScore = $('#constructor_score_communication');
+    var $inputConstructorIsDev = $('input[name=construct_is_dev]')
 
 
     var $btnAddImage = $form.find('.btn-add-image');
@@ -78,7 +79,7 @@ $(function () {
                 }, 50);
             });
         }
-        else if(!data['constructor_image_data[0]'] || data['constructor_image_data[0]'] === '') {
+        else if(!data['constructor_image_data'] || data['constructor_image_data'] === '') {
             swal({
                 title: '시공자 사진은 반드시 업로드해야 합니다.',
                 type: 'warning'
@@ -90,7 +91,7 @@ $(function () {
         }
         else {
             loading(true);
-            http.post('/api/admin/constructor/save' + (constructorID? '/' + constructorID:''), data)
+            http.post('/api/admin/profile/constructor/save' + (constructorID? '/' + constructorID:''), data)
                 ['finally'](function() {
                 loading(false);
             })
@@ -164,14 +165,17 @@ $(function () {
                         for ( var i = 0; i < constructor.cr_score; i ++ ) {
                             $inputConstructorScore.children().eq(i).addClass('active');
                         }
+
+
+                        var $image;
+
+                        $image = $form.find('[name="constructor_image"]');
+                        $image.siblings().remove();
+                        $image.after('<img src="' + constructorImages + '">');
+                        $image.after('<input type="hidden" value="' + constructorImages + '" name="constructor_image_data" >');
+
+                        $inputConstructorIsDev.filter('[value=' + constructor.cr_is_dev + ']').prop('checked', true);
                     }
-
-
-                    var $image;
-
-                    $image = $form.find('[name="constructor_image[0]"]');
-                    $image.siblings().remove();
-                    $image.after('<img src="' + constructorImages + '">');
                 })
                 ['catch'](function (error) {
                 console.log(error);

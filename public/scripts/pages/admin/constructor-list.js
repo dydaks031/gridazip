@@ -28,7 +28,7 @@ $(function () {
             ;
         }
 
-        loadPromise = http.post('/api/profile/constructor', {
+        loadPromise = http.post('/api/admin/profile/constructor', {
             page: page.get(),
             filter: filter.get()
         });

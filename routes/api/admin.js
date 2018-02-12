@@ -824,7 +824,7 @@ router.post('/profile/designer', (req, res, next) => {
         }
 
         // 임시
-        query = query.where('ds_is_dev', false);
+        // query = query.where('ds_is_dev', false);
 
         query = query
             .limit(pageData.limit)
@@ -1273,7 +1273,8 @@ router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
     var constructor_name = req.body.constructor_name || '';
     var constructor_score = req.body.constructor_score || '';
     var constructor_address = req.body.constructor_address || '';
-    var constructor_image = req.body.constructor_image || '';
+    var constructor_image = req.body.constructor_image_data || '';
+    var constructor_is_dev = req.body.constructor_is_dev || false;
 
     var errorMsg = null;
 

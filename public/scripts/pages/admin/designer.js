@@ -10,6 +10,7 @@ $(function () {
     var $inputDesignerScoreCommunication = $('#designer_score_communication');
     var $inputDesignerScoreQuality = $('#designer_score_quality');
     var $inputDesignerScoreTimestrict = $('#designer_score_timestrict');
+    var $inputDesignerImage = $('#designer_image');
     var $inputDesignerIsDev = $('input[name=designer_is_dev]');
 
 
@@ -229,8 +230,10 @@ $(function () {
                         $image = $form.find('[name="designer_image"]');
                         $image.siblings().remove();
                         $image.after('<img src="' + designerImages + '">');
+                        $image.after('<input type="hidden" value="' + designerImages + '" name="designer_image_data" >');
 
                         $inputDesignerIsDev.filter('[value=' + designer.ds_is_dev + ']').prop('checked', true);
+
                     }
                 })
                 ['catch'](function (error) {

@@ -23,15 +23,17 @@
                 </div>
                 <input type="text" name="constructor_name" id="constructor_name" placeholder="이름을 입력하세요">
             </div>
-            <div class="form-item">
-                <div class="title">
-                    <span class="required">*</span>
-                    <span>회사</span>
-                </div>
-                <select name="constructor_cppk">
-                    <option value="1">으아앙</option>
-                </select>
-            </div>
+            <!-- @TODO 회사 등록 화면 작업 이후 -->
+            <!--<div class="form-item">-->
+                <!--<div class="title">-->
+                    <!--<span class="required">*</span>-->
+                    <!--<span>회사</span>-->
+                <!--</div>-->
+                <!--<select name="constructor_cppk">-->
+                    <!--<option value="1">으아앙</option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <input type="hidden" value="1" name="constructor_cppk" />
             <div class="form-item">
                 <div class="title">
                     <span class="required">*</span>
@@ -47,8 +49,8 @@
                     <span class="required">*</span>
                     <span>테스트 여부(Y로 입력하실 경우 업로드는 되지만 사용자에게 보이지 않습니다.)</span>
                 </div>
-                <label for="cr_is_test"><input type="radio" id="cr_is_test" value="1" name="construct_is_dev"/>Y</label>
-                <label for="cr_is_not_test"><input type="radio" id="cr_is_not_test" value="0" name="construct_is_dev"/>N</label>
+                <label for="cr_is_test"><input type="radio" id="cr_is_test" value="1" name="constructor_is_dev"/>Y</label>
+                <label for="cr_is_not_test"><input type="radio" id="cr_is_not_test" value="0" name="constructor_is_dev"/>N</label>
             </div>
 
             <div class="divider"></div>
@@ -62,7 +64,7 @@
                 </div>
                 <div class="form-item">
                     <div class="col-group">
-                        <div class="col-12"><input type="file" name="constructor_image[0]" id="constructor_image" placeholder="Image"></div>
+                        <div class="col-12"><input type="file" name="constructor_image" id="constructor_image" placeholder="Image"></div>
                     </div>
                 </div>
             </div>

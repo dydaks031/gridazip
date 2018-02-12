@@ -28,7 +28,7 @@ $(function () {
             ;
         }
 
-        loadPromise = http.post('/api/profile/designer', {
+        loadPromise = http.post('/api/admin/profile/designer', {
             page: page.get(),
             filter: filter.get()
         });
