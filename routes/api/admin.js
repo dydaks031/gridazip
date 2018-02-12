@@ -891,7 +891,7 @@ router.post('/style', (req, res, next) => {
     });
 });
 
-router.post('/profile/designer/:did', (req, res, next) => {
+router.post('/profile/designer/:did([0-9]+)', (req, res, next) => {
     knexBuilder.getConnection().then(cur => {
         var ipLong = ip.toLong(req.ip);
         var designerID = req.params.did;
@@ -1015,7 +1015,6 @@ router.post('/profile/designer/delete/:did', (req, res, next) => {
 
 router.post('/profile/designer/save/:did*?', (req, res, next) => {
     var did = req.params.did;
-    console.log('/profile/designer/save/:did*?  ::: ' + designerID);
 
     var designer_name = req.body.designer_name || '';
     var designer_score_communication = req.body.designer_score_communication || '';
@@ -1026,7 +1025,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
     var designer_introduce = req.body.designer_introduce || '';
     var designer_price_min = req.body.designer_price_min || '';
     var designer_price_max = req.body.designer_price_max || '';
-    var designer_image = req.body.designer_image || '';
+    var designer_image = req.body.designer_image_data || '';
     var designer_is_dev = req.body.designer_is_dev || false;
 
 

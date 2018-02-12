@@ -10,6 +10,7 @@ $(function () {
     var $inputDesignerScoreCommunication = $('#designer_score_communication');
     var $inputDesignerScoreQuality = $('#designer_score_quality');
     var $inputDesignerScoreTimestrict = $('#designer_score_timestrict');
+    var $inputDesignerIsDev = $('input[name=designer_is_dev]');
 
 
     var $btnAddImage = $form.find('.btn-add-image');
@@ -123,7 +124,7 @@ $(function () {
                 }, 50);
             });
         }
-        else if(data['designer_image_data[0]'] === '') {
+        else if(data['designer_image_data'] === '') {
             swal({
                 title: '디자이너 사진은 반드시 업로드해야 합니다.',
                 type: 'warning'
@@ -135,7 +136,7 @@ $(function () {
         }
         else {
             loading(true);
-            http.post('/api/admin/designer/save' + (designerID? '/' + designerID:''), data)
+            http.post('/api/admin/profile/designer/save' + (designerID? '/' + designerID: '/'), data)
                 ['finally'](function() {
                 loading(false);
             })
@@ -211,25 +212,26 @@ $(function () {
                         $inputDesignerPriceMax.val(designer.ds_price_max);
                         $inputDesignerIntroduce.val(designer.ds_introduce);
 
-                        for ( var i = 0; i < designer.ds_score_communication; i ++ ) {
+                        for (var i = 0; i < designer.ds_score_communication; i++) {
                             $inputDesignerScoreCommunication.children().eq(i).addClass('active');
                         }
 
-                        for ( var i = 0; i < designer.ds_score_quality; i ++ ) {
+                        for (var i = 0; i < designer.ds_score_quality; i++) {
                             $inputDesignerScoreQuality.children().eq(i).addClass('active');
                         }
 
-                        for ( var i = 0; i < designer.ds_score_timestrict; i ++ ) {
+                        for (var i = 0; i < designer.ds_score_timestrict; i++) {
                             $inputDesignerScoreTimestrict.children().eq(i).addClass('active');
                         }
-                    }
-
 
                         var $image;
 
-                            $image = $form.find('[name="designer_image[0]"]');
-                            $image.siblings().remove();
-                            $image.after('<img src="' + designerImages + '">');
+                        $image = $form.find('[name="designer_image"]');
+                        $image.siblings().remove();
+                        $image.after('<img src="' + designerImages + '">');
+
+                        $inputDesignerIsDev.filter('[value=' + designer.ds_is_dev + ']').prop('checked', true);
+                    }
                 })
                 ['catch'](function (error) {
                 console.log(error);
