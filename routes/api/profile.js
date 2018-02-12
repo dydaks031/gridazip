@@ -37,6 +37,9 @@ router.post('/designer', (req, res, next) => {
       ) AS view
       `, 'D'));
 
+        // 임시
+        query = query.where('ds_is_dev', false);
+
         var filterSort = filterInst.getFilter('sort');
 
         switch (filterSort) {
@@ -46,6 +49,7 @@ router.post('/designer', (req, res, next) => {
             default:
                 query = query.orderBy('designer_tbl.ds_recency');
         }
+
 
         query = query
             .limit(pageData.limit)
@@ -245,6 +249,9 @@ router.post('/constructor', (req, res, next) => {
         WHERE view.pv_target = constructor_tbl.cr_pk AND view.pv_type = ?
       ) AS view
       `, 'C'));
+
+        // 임시
+        query = query.where('cr_is_dev', false);
 
         var filterSort = filterInst.getFilter('sort');
 

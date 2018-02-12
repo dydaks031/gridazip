@@ -7,6 +7,7 @@
 
 <div class="management portfolio no-margin">
     <form class="form form-portfolio">
+        <input type="hidden" id="file-upload-path" name="file_upload_path" value="portfolio">
         <h2>
             <p>포트폴리오 등록</p>
             <div class="form-description">
@@ -69,6 +70,14 @@
                     <span>설명</span>
                 </div>
                 <textarea cols="50" rows="5" type="text" name="portfolio_description" id="portfolio_description" placeholder="설명을 입력해주세요."></textarea>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>테스트 여부(Y로 입력하실 경우 업로드는 되지만 사용자에게 보이지 않습니다.)</span>
+                </div>
+                <label for="pr_is_test"><input type="radio" id="pr_is_test" value="1" name="portfolio_is_dev"/>Y</label>
+                <label for="pr_is_not_test"><input type="radio" id="pr_is_not_test" value="0" name="portfolio_is_dev"/>N</label>
             </div>
             <div class="divider"></div>
             <h2>

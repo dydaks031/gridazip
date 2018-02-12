@@ -1,0 +1,40 @@
+<% include ../../partials/admin/head.ejs %>
+
+<script src="/scripts/pages/admin/constructor-list.js"></script>
+
+<div class="section">
+    <h2>시공자 관리</h2>
+    <div class="article">
+        <div class="article-header clearfix">
+            <a href="/admin/constructor" class="btn btn-sm btn-primary pull-right">시공자 추가</a>
+        </div>
+        <table class="table table-click table-hover table-constructor">
+            <colgroup>
+                <col style="width: 40px;">
+                <col style="width: 100px;">
+                <col style="width: 120px;">
+                <col>
+                <col style="width: 120px;">
+                <col style="width: 120px;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th colspan="2">번호</th>
+                <th>이름</th>
+                <th>주소</th>
+                <th>평점</th>
+                <th>설정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="7" class="loading"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination margin-top"></div>
+    </div>
+</div>
+
+<% include ../../partials/admin/foot.ejs %>

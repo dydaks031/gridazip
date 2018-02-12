@@ -1,0 +1,114 @@
+<% include ../../partials/admin/head.ejs %>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/scripts/pages/admin/designer.js"></script>
+
+<input type="hidden" id="designer_id" value="<%=did%>">
+
+<div class="management designer no-margin">
+    <form class="form form-designer">
+        <input type="hidden" id="file-upload-path" name="file_upload_path" value="designer">
+        <h2>
+            <p>디자이너 등록</p>
+            <div class="form-description">
+                <span class="required">*</span>
+                <span>항목은 필수 입력 항목입니다.</span>
+            </div>
+        </h2>
+        <div class="form-inner">
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>이름</span>
+                </div>
+                <input type="text" name="designer_name" id="designer_name" placeholder="이름을 입력하세요">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>스타일</span>
+                </div>
+                <input type="text" name="designer_style" id="designer_style" placeholder="ex) 모던">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>최소금액(만원)</span>
+                </div>
+                <input type="text" name="designer_price_min" id="designer_price_min" placeholder="ex) 100">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>최대금액(만원)</span>
+                </div>
+                <input type="text" name="designer_price_max" id="designer_price_max" placeholder="ex) 200">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>설명</span>
+                </div>
+                <textarea type="text" name="designer_introduce" id="designer_introduce" placeholder="ex) 안녕하세요. 디자이너 *** 입니다."></textarea>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>커뮤니케이션 점수</span>
+                </div>
+                <div class="skill-form-group designer-score-communication" id="designer_score_communication">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>퀄리티 점수</span>
+                </div>
+                <div class="skill-form-group designer-score-quality" id="designer_score_quality">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>시간엄수 점수</span>
+                </div>
+                <div class="skill-form-group designer-score-timestrict" id="designer_score_timestrict">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>테스트 여부(Y로 입력하실 경우 업로드는 되지만 사용자에게 보이지 않습니다.)</span>
+                </div>
+                <label for="ds_is_test"><input type="radio" id="ds_is_test" value="1" name="designer_is_dev"/>Y</label>
+                <label for="ds_is_not_test"><input type="radio" id="ds_is_not_test" value="0" name="designer_is_dev"/>N</label>
+            </div>
+            <div class="divider"></div>
+            <h2>
+                <p>이미지 등록</p>
+            </h2>
+            <div class="form-item margin-bottom">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>디자이너 사진</span>
+                </div>
+                <div class="form-item">
+                    <div class="col-group">
+                        <div class="col-12"><input type="file" name="designer_image" id="designer_image" placeholder="Image"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-wrapper">
+            <div class="button-group">
+                <button class="complete">완료</button>
+                <a href="/admin/designer/list" class="button soft">뒤로가기</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<% include ../../partials/admin/foot.ejs %>

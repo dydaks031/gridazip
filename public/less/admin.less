@@ -1,3 +1,14 @@
+@import 'normalize.less';
+@import 'font.less';
+@import 'prefixer.less';
+@import 'fluidable.less';
+@import 'variables.less';
+@import 'layout.less';
+@import 'components.less';
+@import 'helpers.less';
+@import 'style.less';
+@import 'mediaquery.less';
+
 .table {
     thead,
     tbody {
@@ -5,6 +16,39 @@
             td, th {
                 height: 80px;
             }
+        }
+    }
+}
+
+
+.form-constructor, .form-designer {
+    .skill-form-group {
+        height:3.4em;
+        line-height:3.4em;
+
+        i {
+            vertical-align: middle;
+            color: @color-disabled
+        }
+        i.active {
+            color: @color-info
+        }
+    }
+
+    .form-item {
+        .btn-file {
+            img {
+                max-height:200px !important;
+            }
+        }
+    }
+}
+
+.form {
+    .form-item {
+        input[type=radio] {
+            display:inline-block;
+            width:20px;
         }
     }
 }

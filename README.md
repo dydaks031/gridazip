@@ -2,7 +2,7 @@
 
 ### Overall
 
-- Node.js v7.6.0 (ES6)
+- Node.js v8.9.3 (ES6)
 - Less
 - With browser-sync
 
@@ -13,3 +13,19 @@
   $ npm install
   $ npm start
 ```
+
+### Deploy
+
+> You must install eb CLI and set your IAM Account Before deploy to server. See the link below for more detail
+https://docs.aws.amazon.com/ko_kr/elasticbeanstalk/latest/dg/eb-cli3-configuration.html
+
+```bash
+  $ git checkout *your-branch-name*
+  $ eb use
+  $ eb deploy
+```
+
+### History
+
+**2017-02-09**
+Update Node.js version 7.6.0 to 8.9.3
