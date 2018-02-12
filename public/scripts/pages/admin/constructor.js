@@ -4,7 +4,7 @@ $(function () {
 
     var $inputConstructorName = $('#constructor_name');
     var $inputConstructorCompany = $('#constructor_cppk');
-    var $inputConstructorScore = $('#constructor_score_communication');
+    var $inputConstructorScore = $('#constructor_score');
     var $inputConstructorIsDev = $('input[name=constructor_is_dev]')
 
 
@@ -165,7 +165,6 @@ $(function () {
                         for ( var i = 0; i < constructor.cr_score; i ++ ) {
                             $inputConstructorScore.children().eq(i).addClass('active');
                         }
-
 
                         var $image;
 

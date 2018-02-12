@@ -39,7 +39,6 @@ $(function () {
         })
             .then(function (data) {
                 page.set(data.page);
-                debugger;
                 if (data.data.length > 0) {
                     data.data.forEach(function (element, idx) {
                         var $row = $('\

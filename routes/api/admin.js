@@ -380,7 +380,8 @@ router.post('/portfolio/save/:pid*?', (req, res, next) => {
                                     pf_size: portfolio_size,
                                     pf_address: portfolio_address,
                                     pf_title: portfolio_title,
-                                    pf_description: portfolio_description
+                                    pf_description: portfolio_description,
+                                    pf_is_dev: portfolio_is_dev
                                 });
                         }
                     })
@@ -1088,7 +1089,8 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
                                     ds_introduce: designer_introduce,
                                     ds_price_min: designer_price_min,
                                     ds_price_max: designer_price_max,
-                                    ds_image: designer_image
+                                    ds_image: designer_image,
+                                    ds_is_dev: designer_is_dev,
                                 });
                         }
                     })
@@ -1354,7 +1356,8 @@ router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
                                     cr_name: constructor_name,
                                     cr_score: constructor_score,
                                     cr_address: constructor_address,
-                                    cr_image: constructor_image
+                                    cr_image: constructor_image,
+                                    cr_is_dev: constructor_is_dev,
                                 });
                         }
                     })

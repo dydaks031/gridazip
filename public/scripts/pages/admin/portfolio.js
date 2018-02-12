@@ -162,7 +162,7 @@ $(function () {
     http.post('/api/admin/portfolio/designer')
         .then(function (data) {
             data.data.forEach(function(element, index) {
-                $inputPortfolioDesigner.append('<option value="' + element.ds_pk + '">' + element.ds_name + '</option>');
+                $inputPortfolioDesigner.append('<option value="' + element.ds_pk + '">' + element.ds_name + '[' + (element.ds_is_dev === 0 ? 'REAL' : 'DEV') + ']</option>');
             });
             $inputPortfolioDesigner.triggerHandler('patch');
         });
