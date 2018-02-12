@@ -680,114 +680,6 @@ router.post('/portfolio/:pid', (req, res, next) => {
     });
 });
 
-router.post('/profile/designer', (req, res, next) => {
-    var page = req.body['page'];
-    var filter = req.body['filter'];
-    var pageInst = new paginationService(page);
-    var filterInst = new filterService(filter);
-    var pageData = pageInst.get();
-    var filterData = filterInst.get();
-
-    if (pageInst.isEnd() === true) {
-        res.json(
-            resHelper.getJson({
-                data: [],
-                page: pageData.get()
-            })
-        );
-        return;
-    }
-
-    knexBuilder.getConnection().then(cur => {
-        var query = cur('designer_tbl')
-            .select('*')
-            .column(cur.raw(`
-      (
-        SELECT COUNT(*) AS count
-        FROM profile_view_hst AS view
-        WHERE view.pv_target = designer_tbl.ds_pk AND view.pv_type = ?
-      ) AS view
-      `, 'D'));
-
-        var filterSort = filterInst.getFilter('sort');
-
-        switch (filterSort) {
-            case 'popular':
-                query = query.orderBy('view', 'desc');
-                break;
-            default:
-                query = query.orderBy('designer_tbl.ds_recency');
-        }
-
-        // 임시
-        query = query.where('ds_is_dev', false);
-
-        query = query
-            .limit(pageData.limit)
-            .offset(pageData.page);
-
-        if (pageData.point !== null) {
-            query = query.where('ds_pk', '<=', pageData.point);
-        }
-
-        var list = [];
-
-        query
-            .then(response => {
-                if (response.length > 0) {
-                    if (pageData.point === null) {
-                        pageInst.setPoint(response[0]['ds_pk']);
-                    }
-                }
-
-                list = response;
-                pageInst.setPage(pageData.page += list.length);
-                pageInst.setLimit(pageData.limit);
-
-                if (list.length < pageInst.limit) {
-                    pageInst.setEnd(true);
-                }
-
-                return cur('designer_tbl').count('* as count');
-            })
-            .then(response => {
-                pageInst.setCount(response[0].count);
-
-                res.json(
-                    resHelper.getJson({
-                        data: list,
-                        page: pageInst.get()
-                    })
-                );
-            })
-            .catch(reason => {
-                res.json(
-                    resHelper.getError('디자이너 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
-                )
-            });
-    });
-});
-
-
-router.post('/style', (req, res, next) => {
-    knexBuilder.getConnection().then(cur => {
-        cur('style_tbl')
-            .orderBy('style_recency')
-            .then(response => {
-                res.json(
-                    resHelper.getJson({
-                        data: response
-                    })
-                );
-            })
-            .catch(reason => {
-                res.json(
-                    resHelper.getError(reason)
-                );
-            });
-    });
-});
-
 router.post('/company', (req, res, next) => {
     knexBuilder.getConnection().then(cur => {
         cur('company_tbl')
@@ -892,10 +784,118 @@ router.post('/company/save/:cpid*?', (req, res, next) => {
     }
 });
 
+router.post('/profile/designer', (req, res, next) => {
+    var page = req.body['page'];
+    var filter = req.body['filter'];
+    var pageInst = new paginationService(page);
+    var filterInst = new filterService(filter);
+    var pageData = pageInst.get();
+    var filterData = filterInst.get();
+
+    if (pageInst.isEnd() === true) {
+        res.json(
+            resHelper.getJson({
+                data: [],
+                page: pageData.get()
+            })
+        );
+        return;
+    }
+
+    knexBuilder.getConnection().then(cur => {
+        var query = cur('designer_tbl')
+            .select('*')
+            .column(cur.raw(`
+      (
+        SELECT COUNT(*) AS count
+        FROM profile_view_hst AS view
+        WHERE view.pv_target = designer_tbl.ds_pk AND view.pv_type = ?
+      ) AS view
+      `, 'D'));
+
+        var filterSort = filterInst.getFilter('sort');
+
+        switch (filterSort) {
+            case 'popular':
+                query = query.orderBy('view', 'desc');
+                break;
+            default:
+                query = query.orderBy('designer_tbl.ds_recency');
+        }
+
+        // 임시
+        query = query.where('ds_is_dev', false);
+
+        query = query
+            .limit(pageData.limit)
+            .offset(pageData.page);
+
+        if (pageData.point !== null) {
+            query = query.where('ds_pk', '<=', pageData.point);
+        }
+
+        var list = [];
+
+        query
+            .then(response => {
+                if (response.length > 0) {
+                    if (pageData.point === null) {
+                        pageInst.setPoint(response[0]['ds_pk']);
+                    }
+                }
+
+                list = response;
+                pageInst.setPage(pageData.page += list.length);
+                pageInst.setLimit(pageData.limit);
+
+                if (list.length < pageInst.limit) {
+                    pageInst.setEnd(true);
+                }
+
+                return cur('designer_tbl').count('* as count');
+            })
+            .then(response => {
+                pageInst.setCount(response[0].count);
+
+                res.json(
+                    resHelper.getJson({
+                        data: list,
+                        page: pageInst.get()
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('디자이너 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
+                )
+            });
+    });
+});
+
+router.post('/style', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        cur('style_tbl')
+            .orderBy('style_recency')
+            .then(response => {
+                res.json(
+                    resHelper.getJson({
+                        data: response
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError(reason)
+                );
+            });
+    });
+});
+
 router.post('/profile/designer/:did', (req, res, next) => {
     knexBuilder.getConnection().then(cur => {
         var ipLong = ip.toLong(req.ip);
         var designerID = req.params.did;
+        console.log('/profile/designer/:did  ::: ' + designerID);
         var designer;
         var portfolio;
 
@@ -1015,7 +1015,7 @@ router.post('/profile/designer/delete/:did', (req, res, next) => {
 
 router.post('/profile/designer/save/:did*?', (req, res, next) => {
     var did = req.params.did;
-    var wkid = null;
+    console.log('/profile/designer/save/:did*?  ::: ' + designerID);
 
     var designer_name = req.body.designer_name || '';
     var designer_score_communication = req.body.designer_score_communication || '';
@@ -1028,6 +1028,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
     var designer_price_max = req.body.designer_price_max || '';
     var designer_image = req.body.designer_image || '';
     var designer_is_dev = req.body.designer_is_dev || false;
+
 
     var errorMsg = null;
 
