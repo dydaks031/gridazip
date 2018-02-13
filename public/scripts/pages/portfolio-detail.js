@@ -143,7 +143,7 @@ $(function () {
                 $portfolioProfile.find('.info-skill-communication .info-skill-score').html(Render.generateStar(portfolio.ds_score_communication));
                 $portfolioProfile.find('.info-skill-timestrict .info-skill-score').html(Render.generateStar(portfolio.ds_score_timestrict));
                 $portfolioProfile.find('.info-skill-quality .info-skill-score').html(Render.generateStar(portfolio.ds_score_quality));
-                $portfolioProfile.find('.info-ext-address .textarea').text(portfolio.ds_address);
+                $portfolioProfile.find('.info-ext-address .textarea').text(portfolio.ds_address || '-');
                 $portfolioProfile.find('.info-ext-style .textarea').text(portfolio.ds_style);
                 $portfolioProfile.find('.info-ext-introduce .textarea').text(portfolio.ds_introduce);
                 $portfolioProfile.find('.info-ext-price .textarea').text((portfolio.ds_price_min || 0).format() + ' ~ ' + (portfolio.ds_price_max || portfolio.ds_price_min || 0).format() + ' 만');

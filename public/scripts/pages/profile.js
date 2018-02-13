@@ -396,10 +396,6 @@ $(function () {
           </div>\
         </div>\
         <div class="info-group">\
-          <div class="info-ext-group info-ext-address">\
-            <div class="title">주소</div>\
-            <div class="textarea"></div>\
-          </div>\
           <div class="info-ext-group info-ext-style">\
             <div class="title">스타일</div>\
             <div class="textarea"></div>\
@@ -436,12 +432,6 @@ $(function () {
               </div>\
             </div>\
             <div class="info-skill-value"></div>\
-          </div>\
-        </div>\
-        <div class="info-group">\
-          <div class="info-ext-group info-ext-address">\
-            <div class="title">주소</div>\
-            <div class="textarea"></div>\
           </div>\
         </div>\
       </div>\
@@ -714,9 +704,9 @@ $(function () {
                     $designerGridItem.find('.info-skill-communication .info-skill-score').html(Render.generateStar(element.ds_score_communication));
                     $designerGridItem.find('.info-skill-timestrict .info-skill-score').html(Render.generateStar(element.ds_score_timestrict));
                     $designerGridItem.find('.info-skill-quality .info-skill-score').html(Render.generateStar(element.ds_score_quality));
-                    $designerGridItem.find('.info-ext-address .textarea').text(element.ds_address);
+                    $designerGridItem.find('.info-ext-address .textarea').text(element.ds_address || '-');
                     $designerGridItem.find('.info-ext-style .textarea').text(element.ds_style);
-                    $designerGridItem.find('.info-ext-introduce .textarea').text(element.ds_introduce);
+                    $designerGridItem.find('.info-ext-introduce .textarea').text(element.ds_introduce || '-');
                     $designerGridItem.find('.info-ext-price .textarea').text((element.ds_price_min || 0).format() + ' ~ ' + (element.ds_price_max || element.ds_price_min || 0).format() + ' 만');
                     $designerGridItem.appendTo($profileList);
                     designerGridItemBind($designerGridItem);
@@ -758,7 +748,7 @@ $(function () {
                     $constructorGridItem.find('.name .value').text(element.cr_name);
                     $constructorGridItem.find('.info-skill-detail .info-skill-score').html(Render.generateStar(element.cr_score));
                     $constructorGridItem.find('.info-skill-value').text(element.cr_score.toFixed(1));
-                    $constructorGridItem.find('.info-ext-address .textarea').text(element.cr_address);
+                    $constructorGridItem.find('.info-ext-address .textarea').text(element.cr_address || '-');
                     $constructorGridItem.appendTo($profileList);
                 });
             })

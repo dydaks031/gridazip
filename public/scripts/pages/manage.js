@@ -232,7 +232,7 @@ $(function () {
                     $manageConstructor.find('.manage-profile .picture').css('background-image', "url('" + scheduleItem.cr_image + "')");
                     $manageConstructor.find('.manage-profile h3').text(scheduleItem.cr_name);
                     $manageConstructor.find('.manage-profile-company .value').text(scheduleItem.cp_name);
-                    $manageConstructor.find('.manage-profile-address .value').text(scheduleItem.cr_address);
+                    $manageConstructor.find('.manage-profile-address .value').text(scheduleItem.cr_address || '-');
 
                     $manageConstructionDetail.find('.col-4 .manage-item:not(".manage-item-header")').remove();
                     $manageConstructionDetail.find('.col-4.place').append('<div class="manage-item">' + scheduleItem.cp_name + '</div>');

@@ -174,8 +174,8 @@ $(function () {
                         $input.attr('name', name);
 
                         if (mimeTypesSplited[0] === 'image') {
-                            var $image = $('<img src="' + result.value + '">');
                             $this.siblings().remove();
+                            var $image = $('<img src="' + result.value + '">');
                             $image.insertAfter($this);
                             $input.val(result.value);
                         }
