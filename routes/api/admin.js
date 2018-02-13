@@ -413,6 +413,7 @@ router.post('/portfolio/save/:pid*?', (req, res, next) => {
                                 promises.push(cur('portfolio_image_hst')
                                     .insert({
                                         pi_pfpk: pid,
+                                        pi_dspk: portfolio_designer,
                                         pi_before: element.value,
                                         pi_after: target.value,
                                         pi_is_primary: element.index === 0? 'Y':'N',
