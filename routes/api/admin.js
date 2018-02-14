@@ -1567,7 +1567,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
 
         cur('request_tbl')
             .where({
-                rp_pk: rq_pk
+                rq_pk: rq_pk
             })
             .then(response => {
                 if (response.length < 1) {
