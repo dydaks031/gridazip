@@ -1534,7 +1534,7 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     var request_is_valuable = req.body.request_is_valuable;
     var validation = false;
     ['0','1','2'].forEach(i => {
-        if(request_is_valuable === item) validation = true;
+        if(request_is_valuable === i) validation = true;
     });
 
     if(!validation) {
