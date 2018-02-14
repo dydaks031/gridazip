@@ -1473,7 +1473,7 @@ router.post('/request/list', (req, res, next) => {
             .select('*');
 
         var filterIsValuableValue = filterInst.getFilter('isValuable');
-        if (filterIsValuableValue) {
+        if (filterIsValuableValue !== null) {
             query = query.where('rq_is_valuable', filterIsValuableValue);
         }
 
