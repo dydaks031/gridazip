@@ -1,8 +1,8 @@
 $(function () {
-    var $designerSortTab = $('#designer_sort_tab');
-    var $designerStyle = $('#designer_style');
-    var $designerSize = $('#designer_size');
-    var $designerPrice = $('#designer_price');
+    var $requestSortTab = $('#request_sort_tab');
+    var $requestStyle = $('#request_style');
+    var $requestSize = $('#request_size');
+    var $requestPrice = $('#request_price');
 
     var page = new Pagination();
     var filter = new Filter({
@@ -12,12 +12,12 @@ $(function () {
         price: null
     });
 
-    var $designer = $('.table-designer');
+    var $request = $('.table-request');
     page.setLimit(20);
 
     var loadPromise;
     var loadDesigner = function () {
-        $designer.find('tbody').empty().append('<tr><td colspan="7" class="loading"></td></tr>');
+        $request.find('tbody').empty().append('<tr><td colspan="7" class="loading"></td></tr>');
 
         try {
             if (typeof loadPromise !== 'undefined') {
@@ -35,28 +35,52 @@ $(function () {
 
         loadPromise
             ['finally'](function () {
-            $designer.find('.loading').closest('tr').remove();
+            $request.find('.loading').closest('tr').remove();
         })
             .then(function (data) {
                 page.set(data.page);
                 if (data.data.length > 0) {
                     data.data.forEach(function (element, idx) {
+                        console.log(element.rq_date);
+                        console.log(element.rq_date === '0000-00-00');
                         var $row = $('\
                             <tr data-idx="' + element.rq_pk + '">\
-                                <td class="center">\' + element.rq_pk + \'</td>\
+                                <td class="center">' + element.rq_pk + '</td>\
                                 <td class="center">' + element.rq_name + '</td>\
-                                <td class="center">' + element.rq_size + '</td>\
-                                <td class="center">' + element.rq_budget + '</td>\
-                                <td class="center">' + element.rq.phone + '</td>\
-                                <td class="center">' + element.rq.date + ' ' + element.rq.time + '</td>\
+                                <td class="center">' + element.rq_size_str + '</td>\
+                                <td class="center">' + element.rq_budget_str + '</td>\
+                                <td class="center">' + element.rq_phone + '</td>\
+                                <td class="center">' + (element.rq_date === '0000-00-00' ? '' : moment.utc(element.rq_date).format('YYYY-MM-DD')) + '</td>\
+                                <td class="center">' + element.rq_time + '</td>\
+                                <td class="center switch-btn">\
+                                    <label class="switch">\
+                                      <input type="checkbox" ' + (element.rq_is_valuable === 2 ? 'checked="checked"': '' ) + '">\
+                                      <span class="slider round"></span>\
+                                    </label>\
+                                </td>\
                             </tr>\
                         ');
+
+                        console.log($row);
 
                         $row.bind('click', function(event) {
                             event.preventDefault();
                             var $this = $(this);
                             var index = $this.data('idx');
                             location.href = '/admin/request/' + index;
+                        });
+
+                        $row.find('.switch-btn').bind('click', function(event) {
+                            // event.preventDefault();
+                            event.stopPropagation();
+                        })
+
+                        $row.find('.switch-btn input[type=checkbox]').bind('change', function() {
+                            var $this = $(this);
+                            var index = $this.parents('tr').data('idx');
+                            var isValuable = $this.prop('checked');
+
+                            updateIsValueable(index, isValuable);
                         });
 
                         $row.find('.magnific').bind('click', function(event) {
@@ -78,7 +102,7 @@ $(function () {
                             }
                         });
 
-                        $row.appendTo($designer.find('tbody'));
+                        $row.appendTo($request.find('tbody'));
                     });
                 }
                 else {
@@ -90,7 +114,7 @@ $(function () {
                         </td>\
                     </tr>\
                 ');
-                    $emptySection.appendTo($designer);
+                    $emptySection.appendTo($request);
                 }
 
                 var $pagination = $('.pagination');
@@ -105,6 +129,7 @@ $(function () {
 
             })
             ['catch'](function (error) {
+                console.log(error);
             swal({
                 title: error.value,
                 type: 'error'
@@ -112,4 +137,13 @@ $(function () {
         });
     };
     loadDesigner();
+
+    function updateIsValueable(index, isValuable) {
+        var updatePromise = http.post('/api/admin/request/save/' + index, {
+            request_is_valuable: isValuable ? 2: 1
+        }).then(function(data) {
+            console.log(data);
+        })
+    }
+
 });
