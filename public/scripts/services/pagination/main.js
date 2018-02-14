@@ -22,7 +22,7 @@ Pagination.prototype.set = function(data) {
   this.limit = parseInt((typeof data.limit !== 'undefined')? data.limit : ((typeof this.limit !== 'undefined')? this.limit : this.options.limit));
   this.point = (typeof data.point === 'undefined' || data.point === null? this.options.point : parseInt(data.point));
   this.index = Math.max(Math.ceil(this.page / this.limit), 1);
-  this.count = parseInt(data.count || this.count || this.options.count);
+  this.count = parseInt((typeof data.count !== 'undefined' && data.count !== null) ? data.count : (typeof this.count !== 'undefined' ) ? this.count : this.options.count);
   this.end = (typeof data.end !== 'undefined')? data.end : ((typeof this.end !== 'undefined')? this.end : this.options.end);
   this.max = parseInt(typeof data.max === 'undefined' || data.max === null? (this.max || this.options.max) : data.max);
 };

@@ -1,0 +1,52 @@
+<% include ../../partials/admin/head.ejs %>
+
+<script src="/scripts/pages/admin/request-list.js"></script>
+
+<div class="section">
+    <h2>상담 신청 관리</h2>
+
+    <div class="section margin-vertical">
+        <div id="request_sort_tab" class="tab">
+            <a href="#" class="tab-item active" data-value="">전체</a>
+            <a href="#" class="tab-item" data-value="0">신규요청</a>
+            <a href="#" class="tab-item" data-value="1">유효고객</a>
+            <a href="#" class="tab-item" data-value="2">비유효고객</a>
+        </div>
+    </div>
+
+    <div class="article" style="padding-top:0;">
+        <table class="table table-click table-hover table-request">
+            <colgroup>
+                <col style="width: 40px;">
+                <col style="width: 100px;">
+                <col style="width: 120px;">
+                <col style="width: 120px;">
+                <col style="width: 160px;">
+                <col style="width: 120px;">
+                <col style="width: 120px;">
+                <col style="width:80px;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>평수</th>
+                <th>예산</th>
+                <th>전화번호</th>
+                <th>방문상담일</th>
+                <th>방문상담시각</th>
+                <th>유효여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="8" class="loading"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination margin-top"></div>
+    </div>
+</div>
+
+<% include ../../partials/admin/foot.ejs %>

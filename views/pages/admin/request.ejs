@@ -1,0 +1,115 @@
+<% include ../../partials/admin/head.ejs %>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/scripts/pages/admin/request.js"></script>
+
+<input type="hidden" id="request_id" value="<%=rid%>">
+
+<div class="management request no-margin">
+    <form class="form form-request">
+        <h2>
+            <p>상담신청 내역 상세</p>
+        </h2>
+        <div class="form-inner">
+            <div class="form-item" id="rq_valuable">
+                <div class="title">
+                    <span>유효여부</span>
+                </div>
+                <label for="rq_is_valuable"><input type="radio" id="rq_is_valuable" value="1" name="request_is_valuable"/>Y</label>
+                <label for="rq_is_not_valuable"><input type="radio" id="rq_is_not_valuable" value="2" name="request_is_valuable"/>N</label>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>이름</span>
+                </div>
+                <span id="request_name"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>연락처</span>
+                </div>
+                <span id="request_phone"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>가족구성원</span>
+                </div>
+                <span id="request_family"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>평수</span>
+                </div>
+                <span id="request_size_str"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>예산</span>
+                </div>
+                <span id="request_budget_str"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>주소</span>
+                </div>
+                <span id="request_address"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>이사날짜</span>
+                </div>
+                <span id="request_move_date"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>좋아하는 인테리어 스타일</span>
+                </div>
+                <div class="form-grid form-grid-zoom form-style" id="request_style_likes"></div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>싫어하는 인테리어 스타일</span>
+                </div>
+                <div class="form-grid form-grid-zoom form-style" id="request_style_dislikes"></div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>좋아하는 색감</span>
+                </div>
+                <div class="form-grid form-grid-zoom form-style" id="request_color_likes"></div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>싫어하는 색감</span>
+                </div>
+                <div class="form-grid form-grid-zoom form-style" id="request_color_dislikes"></div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>방문 상담일</span>
+                </div>
+                <span id="request_date"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>방문 시간</span>
+                </div>
+                <span id="request_time"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>방문장소</span>
+                </div>
+                <span id="request_place"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>요구사항</span>
+                </div>
+                <span id="request_request"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<% include ../../partials/admin/foot.ejs %>

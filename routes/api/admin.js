@@ -3,10 +3,54 @@ const router = express.Router();
 const ip = require('ip');
 const paginationService = require('../../services/pagination/main');
 const filterService = require('../../services/filter/main');
+const FormatService = require('../../services/format/helper');
 const knexBuilder = require('../../services/connection/knex');
 const cryptoHelper = require('../../services/crypto/helper');
 const resHelper = require('../../services/response/helper');
 const resModel = require('../../services/response/model');
+
+var request_size_map = {
+    '': '평수 없음',
+    'lt20': '20평대 미만',
+    'eq20': '20평대',
+    'eq30': '30평대',
+    'eq40': '40평대',
+    'eq50': '50평대',
+    'eq60': '60평대',
+    'gte70': '70평대 이상'
+};
+
+var request_budget_map = {
+    '': '예산 선택안함',
+    '1500~2000': '1500~2000만원',
+    '2000~2500': '2000~2500만원',
+    '2500~3000': '2500~3000만원',
+    '3000~3500': '3000~3500만원',
+    '3500~4000': '3500~4000만원',
+    '4000~4500': '4000~4500만원',
+    '4500~5000': '4500~5000만원',
+    '5000~5500': '5000~5500만원',
+    '5500~6000': '5500~6000만원',
+    '6000~6500': '6000~6500만원',
+    '6500~7000': '6500~7000만원',
+    'lt1500': '1500만원 미만',
+    'lt2000': '2000만원 미만',
+    'lt2500': '2500만원 미만',
+    'lt3000': '3000만원 미만',
+    'lt3500': '3500만원 미만',
+    'lt4000': '4000만원 미만',
+    'lt4500': '4500만원 미만',
+    'lt5000': '5000만원 미만',
+    'gte2500': '2500만원 이상',
+    'gte3000': '3000만원 이상',
+    'gte3500': '3500만원 이상',
+    'gte4000': '4000만원 이상',
+    'gte4500': '4500만원 이상',
+    'gte5000': '5000만원 이상',
+    'gte6000': '6000만원 이상',
+    'gte7000': '7000만원 이상',
+    'contact': '협의로 결정'
+};
 
 router.get('/*', (req, res, next) => {
     if (req.user === null || req.user.user_permit !== 'A') {
@@ -1406,5 +1450,164 @@ router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
     }
 });
 
+
+router.post('/request/list', (req, res, next) => {
+    var page = req.body['page'];
+    var filter = req.body['filter'];
+    var pageInst = new paginationService(page);
+    var filterInst = new filterService(filter);
+    var pageData = pageInst.get();
+    var filterIsValuableValue = filterInst.getFilter('isValuable');
+    if (pageInst.isEnd() === true) {
+        res.json(
+            resHelper.getJson({
+                data: [],
+                page: pageData.get()
+            })
+        );
+        return;
+    }
+
+    knexBuilder.getConnection().then(cur => {
+        var query = cur('request_tbl')
+            .select('*');
+
+        if (filterIsValuableValue !== null) {
+            query = query.where('rq_is_valuable', filterIsValuableValue);
+        }
+
+        query = query.orderBy('request_tbl.rq_recency');
+
+        query = query
+            .limit(pageData.limit)
+            .offset(pageData.page);
+
+        if (pageData.point !== null) {
+            query = query.where('rq_pk', '<=', pageData.point);
+        }
+
+        var list = [];
+
+        query
+            .then(response => {
+                if (response.length > 0) {
+                    if (pageData.point === null) {
+                        pageInst.setPoint(response[0]['rq_pk']);
+                    }
+                }
+
+                list = response;
+                list.map(item => {
+                    item.rq_size_str = request_size_map[item.rq_size];
+                    item.rq_budget_str = request_budget_map[item.rq_budget];
+                    item.rq_phone = FormatService.toDashedPhone(item.rq_phone);
+                    return item;
+                });
+                pageInst.setPage(pageData.page += list.length);
+                pageInst.setLimit(pageData.limit);
+
+                if (list.length < pageInst.limit) {
+                    pageInst.setEnd(true);
+                }
+                if (filterIsValuableValue !== null) {
+                    query = query.where('rq_is_valuable', filterIsValuableValue);
+                }
+
+                var countQuery = cur('request_tbl').count('* as count');
+                if (filterIsValuableValue !== null) {
+                    countQuery = countQuery.where('rq_is_valuable', filterIsValuableValue);
+                }
+                return countQuery
+            })
+            .then(response => {
+                pageInst.setCount(response[0].count);
+
+                res.json(
+                    resHelper.getJson({
+                        data: list,
+                        page: pageInst.get()
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('상담요청 정보를 가지고 오는 중 알 수 없는 오류가 발생하였습니다.')
+                )
+            });
+    });
+});
+
+router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
+    var rq_ok = req.params.rqpk;
+    var request_is_valuable = req.body.request_is_valuable;
+    var validation = false;
+    ['0','1','2'].forEach(i => {
+        if(request_is_valuable === i) validation = true;
+    });
+
+    if(!validation) {
+        res.json(
+            resHelper.getError('올바르지 않은 값입니다.')
+        )
+    }
+
+    knexBuilder.getConnection().then(cur => {
+
+        cur('request_tbl')
+            .where({
+                rq_pk: rq_ok
+            })
+            .update({
+                rq_is_valuable: request_is_valuable
+            })
+            .finally(() => {
+                res.json(
+                    resHelper.getJson({
+                        msg: 'ok'
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError(reason)
+                );
+            });
+    });
+});
+
+router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        var rq_pk = req.params.rqpk;
+        var request;
+
+        cur('request_tbl')
+            .where({
+                rq_pk: rq_pk
+            })
+            .then(response => {
+                if (response.length < 1) {
+                    return res.json(
+                        resHelper.getError('해당 상담 요청이 존재하지 않습니다.')
+                    );
+                }
+                request = response[0];
+                request.rq_size_str = request_size_map[request.rq_size];
+                request.rq_budget_str = request_budget_map[request.rq_budget];
+                request.rq_phone = FormatService.toDashedPhone(request.rq_phone);
+            })
+            .then(() => {
+                res.json(
+                    resHelper.getJson({
+                        data: request
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('상담 요청 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
+                );
+            });
+    });
+});
 
 module.exports = router;

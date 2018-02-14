@@ -80,4 +80,25 @@ router.get('/constructor/:cid*?', (req, res, next) => {
     });
 });
 
+router.get('/request/list', (req, res, next) => {
+    var constructorId = req.params.cid;
+    res.render('pages/admin/request-list', {
+        id: 'admin',
+        sub: 'request',
+        title: '상담내역 관리',
+        fullscreen: false,
+    });
+});
+
+router.get('/request/:rid*?', (req, res, next) => {
+    var requestId = req.params.rid;
+    res.render('pages/admin/request', {
+        id: 'admin',
+        sub: 'request',
+        title: '상담내역 관리',
+        fullscreen: false,
+        rid: requestId,
+    });
+});
+
 module.exports = router;
