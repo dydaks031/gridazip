@@ -6,10 +6,7 @@ $(function () {
 
     var page = new Pagination();
     var filter = new Filter({
-        sort: null,
-        style: null,
-        size: null,
-        price: null
+        isValuable: null
     });
 
     var $request = $('.table-request');
