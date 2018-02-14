@@ -1471,15 +1471,15 @@ router.post('/request/list', (req, res, next) => {
         var query = cur('request_tbl')
             .select('*');
 
-        // var filterSort = filterInst.getFilter('sort');
-        //
-        // switch (filterSort) {
-        //     case 'popular':
-        //         query = query.orderBy('view', 'desc');
-        //         break;
-        //     default:
-        //         query = query.orderBy('constructor_tbl.cr_recency');
-        // }
+        var filterSort = filterInst.getFilter('sort');
+
+        switch (filterSort) {
+            case 'popular':
+                query = query.orderBy('view', 'desc');
+                break;
+            default:
+                query = query.orderBy('request_tbl.rq_recency');
+        }
 
         query = query
             .limit(pageData.limit)
@@ -1500,7 +1500,7 @@ router.post('/request/list', (req, res, next) => {
                 }
 
                 list = response;
-                list.map((item) => {
+                list.map(item => {
                     item.rq_size_str = request_size_map[item.rq_size];
                     item.rq_budget_str = request_budget_map[item.rq_budget];
                     return item;
@@ -1532,5 +1532,32 @@ router.post('/request/list', (req, res, next) => {
     });
 });
 
+router.post('/request/save/:rqpk', (req, res, next) => {
+    var rq_ok = req.params.rqpk;
+    var request_is_valuable = req.body.request_is_valuable;
+
+    knexBuilder.getConnection().then(cur => {
+
+        cur('request_tbl')
+            .where({
+                rq_pk: rq_ok
+            })
+            .update({
+                rq_is_valuable: request_is_valuable
+            })
+            .finally(() => {
+                res.json(
+                    resHelper.getJson({
+                        msg: 'ok'
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError(reason)
+                );
+            });
+    });
+});
 
 module.exports = router;
