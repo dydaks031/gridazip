@@ -11,6 +11,13 @@
             <p>상담신청 내역 상세</p>
         </h2>
         <div class="form-inner">
+            <div class="form-item" id="rq_valuable">
+                <div class="title">
+                    <span>유효여부</span>
+                </div>
+                <label for="rq_is_valuable"><input type="radio" id="rq_is_valuable" value="1" name="request_is_valuable"/>Y</label>
+                <label for="rq_is_not_valuable"><input type="radio" id="rq_is_not_valuable" value="2" name="request_is_valuable"/>N</label>
+            </div>
             <div class="form-item">
                 <div class="title">
                     <span>이름</span>
@@ -57,25 +64,25 @@
                 <div class="title">
                     <span>좋아하는 인테리어 스타일</span>
                 </div>
-                <span id="request_style_likes"></span>
+                <div class="form-grid form-grid-zoom form-style" id="request_style_likes"></div>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>싫어하는 인테리어 스타일</span>
                 </div>
-                <span id="request_style_dislikes"></span>
+                <div class="form-grid form-grid-zoom form-style" id="request_style_dislikes"></div>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>좋아하는 색감</span>
                 </div>
-                <span id="request_color_likes"></span>
+                <div class="form-grid form-grid-zoom form-style" id="request_color_likes"></div>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>싫어하는 색감</span>
                 </div>
-                <span id="request_color_dislikes"></span>
+                <div class="form-grid form-grid-zoom form-style" id="request_color_dislikes"></div>
             </div>
             <div class="form-item">
                 <div class="title">

@@ -1,23 +1,30 @@
 $(function () {
     var $requestSortTab = $('#request_sort_tab');
-    var $requestStyle = $('#request_style');
-    var $requestSize = $('#request_size');
-    var $requestPrice = $('#request_price');
+
 
     var page = new Pagination();
     var filter = new Filter({
-        sort: null,
-        style: null,
-        size: null,
-        price: null
+        isValuable: null
     });
 
     var $request = $('.table-request');
     page.setLimit(20);
 
+    $requestSortTab.find('.tab-item').bind('click', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        $this.addClass('active').siblings('.active').removeClass('active');
+
+        var value = $this.data('value');
+        filter.setFilter('isValuable', value === '' ? null : value.toString());
+        page.reset();
+        page.setLimit(20);
+        loadRequest();
+    });
+
     var loadPromise;
-    var loadDesigner = function () {
-        $request.find('tbody').empty().append('<tr><td colspan="7" class="loading"></td></tr>');
+    var loadRequest = function () {
+        $request.find('tbody').empty().append('<tr><td colspan="8" class="loading"></td></tr>');
 
         try {
             if (typeof loadPromise !== 'undefined') {
@@ -41,8 +48,6 @@ $(function () {
                 page.set(data.page);
                 if (data.data.length > 0) {
                     data.data.forEach(function (element, idx) {
-                        console.log(element.rq_date);
-                        console.log(element.rq_date === '0000-00-00');
                         var $row = $('\
                             <tr data-idx="' + element.rq_pk + '">\
                                 <td class="center">' + element.rq_pk + '</td>\
@@ -52,16 +57,17 @@ $(function () {
                                 <td class="center">' + element.rq_phone + '</td>\
                                 <td class="center">' + (element.rq_date === '0000-00-00' ? '' : moment(element.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD')) + '</td>\
                                 <td class="center">' + element.rq_time + '</td>\
-                                <td class="center switch-btn">\
-                                    <label class="switch">\
-                                      <input type="checkbox" ' + (element.rq_is_valuable === 2 ? 'checked="checked"': '' ) + '">\
-                                      <span class="slider round"></span>\
-                                    </label>\
+                                <td class="center rq-is-valuable-wrap">\
+                                    <label for="rq_is_valuable_' +  idx + '"><input type="radio" id="rq_is_valuable_' +  idx + '" value="1" name="request_is_valuable_' +  idx + '" />Y</label>\
+                                    <label for="rq_is_not_valuable_' +  idx + '"><input type="radio" id="rq_is_not_valuable_' +  idx + '" value="2" name="request_is_valuable_' +  idx + '" />N</label>\
                                 </td>\
                             </tr>\
                         ');
 
-                        console.log($row);
+
+                        if (element.rq_is_valuable) {
+                            $row.find('input[value=' + element.rq_is_valuable + ']').prop('checked', true);
+                        }
 
                         $row.bind('click', function(event) {
                             event.preventDefault();
@@ -70,18 +76,24 @@ $(function () {
                             location.href = '/admin/request/' + index;
                         });
 
-                        $row.find('.switch-btn').bind('click', function(event) {
-                            // event.preventDefault();
+                        $row.find('.rq-is-valuable-wrap').bind('click', function(event) {
                             event.stopPropagation();
                         })
 
-                        $row.find('.switch-btn input[type=checkbox]').bind('change', function() {
+                        $row.find('input[type=radio]').bind('click', function(event) {
+                            // event.preventDefault();
+                            event.stopPropagation();
+
                             var $this = $(this);
                             var index = $this.parents('tr').data('idx');
-                            var isValuable = $this.prop('checked');
+                            var isValuable = $this.val()
 
                             updateIsValueable(index, isValuable);
-                        });
+                        })
+
+                        // $row.find('.switch-btn input[type=checkbox]').bind('change', function() {
+                        //
+                        // });
 
                         $row.find('.magnific').bind('click', function(event) {
                             event.preventDefault();
@@ -107,14 +119,15 @@ $(function () {
                 }
                 else {
                     var $emptySection = $('\
-                    <tr>\
-                        <td colspan="6" class="empty-section">\
-                            <i class="pe-7s-attention"></i>\
-                            <span>조회된 항목이 없습니다.</span>\
-                        </td>\
-                    </tr>\
-                ');
+                        <tr>\
+                            <td colspan="8" class="empty-section">\
+                                <i class="pe-7s-attention"></i>\
+                                <span>조회된 항목이 없습니다.</span>\
+                            </td>\
+                        </tr>\
+                    ');
                     $emptySection.appendTo($request);
+                    page.reset();
                 }
 
                 var $pagination = $('.pagination');
@@ -124,25 +137,29 @@ $(function () {
                     var $this = $(this);
                     var index = $this.data('index');
                     page.setIndex(index);
-                    loadDesigner();
+                    loadRequest();
                 });
 
             })
             ['catch'](function (error) {
-                console.log(error);
             swal({
                 title: error.value,
                 type: 'error'
             });
         });
     };
-    loadDesigner();
+    loadRequest();
 
     function updateIsValueable(index, isValuable) {
         var updatePromise = http.post('/api/admin/request/save/' + index, {
-            request_is_valuable: isValuable ? 2: 1
+            request_is_valuable: isValuable,
         }).then(function(data) {
-            console.log(data);
+            ;
+        }).catch(function(error) {
+            swal({
+                title: error.value,
+                type: 'error'
+            });
         })
     }
 
