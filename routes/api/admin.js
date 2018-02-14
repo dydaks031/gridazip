@@ -8,6 +8,49 @@ const cryptoHelper = require('../../services/crypto/helper');
 const resHelper = require('../../services/response/helper');
 const resModel = require('../../services/response/model');
 
+var request_size_map = {
+    '': '평수 없음',
+    'lt20': '20평대 미만',
+    'eq20': '20평대',
+    'eq30': '30평대',
+    'eq40': '40평대',
+    'eq50': '50평대',
+    'eq60': '60평대',
+    'gte70': '70평대 이상'
+};
+
+var request_budget_map = {
+    '': '예산 선택안함',
+    '1500~2000': '1500~2000만원',
+    '2000~2500': '2000~2500만원',
+    '2500~3000': '2500~3000만원',
+    '3000~3500': '3000~3500만원',
+    '3500~4000': '3500~4000만원',
+    '4000~4500': '4000~4500만원',
+    '4500~5000': '4500~5000만원',
+    '5000~5500': '5000~5500만원',
+    '5500~6000': '5500~6000만원',
+    '6000~6500': '6000~6500만원',
+    '6500~7000': '6500~7000만원',
+    'lt1500': '1500만원 미만',
+    'lt2000': '2000만원 미만',
+    'lt2500': '2500만원 미만',
+    'lt3000': '3000만원 미만',
+    'lt3500': '3500만원 미만',
+    'lt4000': '4000만원 미만',
+    'lt4500': '4500만원 미만',
+    'lt5000': '5000만원 미만',
+    'gte2500': '2500만원 이상',
+    'gte3000': '3000만원 이상',
+    'gte3500': '3500만원 이상',
+    'gte4000': '4000만원 이상',
+    'gte4500': '4500만원 이상',
+    'gte5000': '5000만원 이상',
+    'gte6000': '6000만원 이상',
+    'gte7000': '7000만원 이상',
+    'contact': '협의로 결정'
+};
+
 router.get('/*', (req, res, next) => {
     if (req.user === null || req.user.user_permit !== 'A') {
         res.json(
@@ -1403,6 +1446,90 @@ router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
             }
         });
     }
+});
+
+
+router.post('/request/list', (req, res, next) => {
+    var page = req.body['page'];
+    var filter = req.body['filter'];
+    var pageInst = new paginationService(page);
+    var filterInst = new filterService(filter);
+    var pageData = pageInst.get();
+    var filterData = filterInst.get();
+
+    if (pageInst.isEnd() === true) {
+        res.json(
+            resHelper.getJson({
+                data: [],
+                page: pageData.get()
+            })
+        );
+        return;
+    }
+
+    knexBuilder.getConnection().then(cur => {
+        var query = cur('request_tbl')
+            .select('*');
+
+        // var filterSort = filterInst.getFilter('sort');
+        //
+        // switch (filterSort) {
+        //     case 'popular':
+        //         query = query.orderBy('view', 'desc');
+        //         break;
+        //     default:
+        //         query = query.orderBy('constructor_tbl.cr_recency');
+        // }
+
+        query = query
+            .limit(pageData.limit)
+            .offset(pageData.page);
+
+        if (pageData.point !== null) {
+            query = query.where('rq_pk', '<=', pageData.point);
+        }
+
+        var list = [];
+
+        query
+            .then(response => {
+                if (response.length > 0) {
+                    if (pageData.point === null) {
+                        pageInst.setPoint(response[0]['rq_pk']);
+                    }
+                }
+
+                list = response;
+                list.map((item) => {
+                    item.rq_size_str = request_size_map[item.rq_size];
+                    item.rq_budget_str = request_budget_map[item.rq_budget];
+                    return item;
+                });
+                pageInst.setPage(pageData.page += list.length);
+                pageInst.setLimit(pageData.limit);
+
+                if (list.length < pageInst.limit) {
+                    pageInst.setEnd(true);
+                }
+
+                return cur('request_tbl').count('* as count');
+            })
+            .then(response => {
+                pageInst.setCount(response[0].count);
+
+                res.json(
+                    resHelper.getJson({
+                        data: list,
+                        page: pageInst.get()
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('상담요청 정보를 가지고 오는 중 알 수 없는 오류가 발생하였습니다.')
+                )
+            });
+    });
 });
 
 
