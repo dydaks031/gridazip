@@ -1532,7 +1532,7 @@ router.post('/request/list', (req, res, next) => {
     });
 });
 
-router.post('/request/save/:rqpk', (req, res, next) => {
+router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     var rq_ok = req.params.rqpk;
     var request_is_valuable = req.body.request_is_valuable;
 
@@ -1555,6 +1555,38 @@ router.post('/request/save/:rqpk', (req, res, next) => {
             .catch(reason => {
                 res.json(
                     resHelper.getError(reason)
+                );
+            });
+    });
+});
+
+router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
+    knexBuilder.getConnection().then(cur => {
+        var rp_pk = req.params.rppk;
+        var request;
+
+        cur('request_tbl')
+            .where({
+                rp_pk: rp_pk
+            })
+            .then(response => {
+                if (response.length < 1) {
+                    return res.json(
+                        resHelper.getError('해당 상담 요청이 존재하지 않습니다.')
+                    );
+                }
+                request = response[0];
+            })
+            .then(() => {
+                res.json(
+                    resHelper.getJson({
+                        data: constructor
+                    })
+                );
+            })
+            .catch(reason => {
+                res.json(
+                    resHelper.getError('상담 요청 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
                 );
             });
     });
