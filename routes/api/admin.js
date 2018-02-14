@@ -1456,8 +1456,7 @@ router.post('/request/list', (req, res, next) => {
     var pageInst = new paginationService(page);
     var filterInst = new filterService(filter);
     var pageData = pageInst.get();
-    var filterData = filterInst.get();
-
+    var filterIsValuableValue = filterInst.getFilter('isValuable');
     if (pageInst.isEnd() === true) {
         res.json(
             resHelper.getJson({
@@ -1472,7 +1471,6 @@ router.post('/request/list', (req, res, next) => {
         var query = cur('request_tbl')
             .select('*');
 
-        var filterIsValuableValue = filterInst.getFilter('isValuable');
         if (filterIsValuableValue !== null) {
             query = query.where('rq_is_valuable', filterIsValuableValue);
         }
@@ -1510,8 +1508,15 @@ router.post('/request/list', (req, res, next) => {
                 if (list.length < pageInst.limit) {
                     pageInst.setEnd(true);
                 }
+                if (filterIsValuableValue !== null) {
+                    query = query.where('rq_is_valuable', filterIsValuableValue);
+                }
 
-                return cur('request_tbl').count('* as count');
+                var countQuery = cur('request_tbl').count('* as count');
+                if (filterIsValuableValue !== null) {
+                    countQuery = countQuery.where('rq_is_valuable', filterIsValuableValue);
+                }
+                return countQuery
             })
             .then(response => {
                 pageInst.setCount(response[0].count);
