@@ -1532,6 +1532,16 @@ router.post('/request/list', (req, res, next) => {
 router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     var rq_ok = req.params.rqpk;
     var request_is_valuable = req.body.request_is_valuable;
+    var validation = false;
+    ['0','1','2'].forEach(i => {
+        if(request_is_valuable === item) validation = true;
+    });
+
+    if(!validation) {
+        res.json(
+            resHelper.getError('올바르지 않은 값입니다.')
+        )
+    }
 
     knexBuilder.getConnection().then(cur => {
 
