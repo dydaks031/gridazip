@@ -1477,6 +1477,8 @@ router.post('/request/list', (req, res, next) => {
             query = query.where('rq_is_valuable', filterIsValuableValue);
         }
 
+        query = query.orderBy('request_tbl.rq_recency');
+
         query = query
             .limit(pageData.limit)
             .offset(pageData.page);
