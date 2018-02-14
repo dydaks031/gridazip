@@ -1576,6 +1576,8 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
                     );
                 }
                 request = response[0];
+                request.rq_size_str = request_size_map[request.rq_size];
+                request.rq_budget_str = request_budget_map[request.rq_budget];
             })
             .then(() => {
                 res.json(
