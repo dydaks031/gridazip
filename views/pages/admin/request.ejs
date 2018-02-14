@@ -7,105 +7,99 @@
 
 <div class="management request no-margin">
     <form class="form form-request">
-        <input type="hidden" id="file-upload-path" name="file_upload_path" value="request">
         <h2>
             <p>상담신청 내역 상세</p>
         </h2>
         <div class="form-inner">
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>이름</span>
                 </div>
-                <span>강형원</span>
+                <span id="request_name"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>연락처</span>
                 </div>
-                <input type="text" name="request_style" id="request_style" placeholder="ex) 모던">
+                <span id="request_phone"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>가족구성원</span>
                 </div>
-                <input type="text" name="request_style" id="request_style" placeholder="ex) 모던">
+                <span id="request_family"></span>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>평수</span>
                 </div>
-                <input type="text" name="request_price_min" id="request_price_min" placeholder="ex) 100">
+                <span id="request_size_str"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>예산</span>
                 </div>
-                <input type="text" name="request_price_max" id="request_price_max" placeholder="ex) 200">
+                <span id="request_budget_str"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>주소</span>
                 </div>
-                <textarea type="text" name="request_introduce" id="request_introduce" placeholder="ex) 안녕하세요. 디자이너 *** 입니다."></textarea>
+                <span id="request_address"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>이사날짜</span>
                 </div>
-                <div class="skill-form-group request-score-communication" id="request_score_communication">
-                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
-                </div>
+                <span id="request_move_date"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
-                    <span>인테리어 스타일</span>
+                    <span>좋아하는 인테리어 스타일</span>
                 </div>
-                <div class="skill-form-group request-score-quality" id="request_score_quality">
-                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
-                </div>
+                <span id="request_style_likes"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
-                    <span>색감</span>
+                    <span>싫어하는 인테리어 스타일</span>
                 </div>
-                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
-                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
-                </div>
+                <span id="request_style_dislikes"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
-                    <span>방문 상담시간</span>
+                    <span>좋아하는 색감</span>
                 </div>
-                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
-                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
-                </div>
+                <span id="request_color_likes"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
+                    <span>싫어하는 색감</span>
+                </div>
+                <span id="request_color_dislikes"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>방문 상담일</span>
+                </div>
+                <span id="request_date"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>방문 시간</span>
+                </div>
+                <span id="request_time"></span>
+            </div>
+            <div class="form-item">
+                <div class="title">
                     <span>방문장소</span>
                 </div>
-                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
-                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
-                </div>
+                <span id="request_place"></span>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span class="required">*</span>
                     <span>요구사항</span>
                 </div>
-                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
-                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
-                </div>
+                <span id="request_request"></span>
             </div>
         </div>
     </form>

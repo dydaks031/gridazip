@@ -50,7 +50,7 @@ $(function () {
                                 <td class="center">' + element.rq_size_str + '</td>\
                                 <td class="center">' + element.rq_budget_str + '</td>\
                                 <td class="center">' + element.rq_phone + '</td>\
-                                <td class="center">' + (element.rq_date === '0000-00-00' ? '' : moment.utc(element.rq_date).format('YYYY-MM-DD')) + '</td>\
+                                <td class="center">' + (element.rq_date === '0000-00-00' ? '' : moment(element.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD')) + '</td>\
                                 <td class="center">' + element.rq_time + '</td>\
                                 <td class="center switch-btn">\
                                     <label class="switch">\
