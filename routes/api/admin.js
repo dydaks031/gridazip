@@ -3,6 +3,7 @@ const router = express.Router();
 const ip = require('ip');
 const paginationService = require('../../services/pagination/main');
 const filterService = require('../../services/filter/main');
+const FormatService = require('../../services/format/main');
 const knexBuilder = require('../../services/connection/knex');
 const cryptoHelper = require('../../services/crypto/helper');
 const resHelper = require('../../services/response/helper');
@@ -1471,14 +1472,9 @@ router.post('/request/list', (req, res, next) => {
         var query = cur('request_tbl')
             .select('*');
 
-        var filterSort = filterInst.getFilter('sort');
-
-        switch (filterSort) {
-            case 'popular':
-                query = query.orderBy('view', 'desc');
-                break;
-            default:
-                query = query.orderBy('request_tbl.rq_recency');
+        var filterIsValuableValue = filterInst.getFilter('isValuable');
+        if (filterIsValuableValue) {
+            query = query.where('rq_is_valuable', filterIsValuableValue);
         }
 
         query = query
@@ -1503,6 +1499,7 @@ router.post('/request/list', (req, res, next) => {
                 list.map(item => {
                     item.rq_size_str = request_size_map[item.rq_size];
                     item.rq_budget_str = request_budget_map[item.rq_budget];
+                    item.rq_phone = FormatService.toDashedPhone(item.rq_phone);
                     return item;
                 });
                 pageInst.setPage(pageData.page += list.length);
@@ -1578,6 +1575,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
                 request = response[0];
                 request.rq_size_str = request_size_map[request.rq_size];
                 request.rq_budget_str = request_budget_map[request.rq_budget];
+                request.rq_phone = FormatService.toDashedPhone(request.rq_phone);
             })
             .then(() => {
                 res.json(
