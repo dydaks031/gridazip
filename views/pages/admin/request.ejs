@@ -1,0 +1,114 @@
+<% include ../../partials/admin/head.ejs %>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/scripts/pages/admin/request.js"></script>
+
+<input type="hidden" id="request_id" value="<%=rid%>">
+
+<div class="management request no-margin">
+    <form class="form form-request">
+        <input type="hidden" id="file-upload-path" name="file_upload_path" value="request">
+        <h2>
+            <p>상담신청 내역 상세</p>
+        </h2>
+        <div class="form-inner">
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>이름</span>
+                </div>
+                <span>강형원</span>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>연락처</span>
+                </div>
+                <input type="text" name="request_style" id="request_style" placeholder="ex) 모던">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>가족구성원</span>
+                </div>
+                <input type="text" name="request_style" id="request_style" placeholder="ex) 모던">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>평수</span>
+                </div>
+                <input type="text" name="request_price_min" id="request_price_min" placeholder="ex) 100">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>예산</span>
+                </div>
+                <input type="text" name="request_price_max" id="request_price_max" placeholder="ex) 200">
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>주소</span>
+                </div>
+                <textarea type="text" name="request_introduce" id="request_introduce" placeholder="ex) 안녕하세요. 디자이너 *** 입니다."></textarea>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>이사날짜</span>
+                </div>
+                <div class="skill-form-group request-score-communication" id="request_score_communication">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>인테리어 스타일</span>
+                </div>
+                <div class="skill-form-group request-score-quality" id="request_score_quality">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>색감</span>
+                </div>
+                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>방문 상담시간</span>
+                </div>
+                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>방문장소</span>
+                </div>
+                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="title">
+                    <span class="required">*</span>
+                    <span>요구사항</span>
+                </div>
+                <div class="skill-form-group request-score-timestrict" id="request_score_timestrict">
+                    <i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i><i class="fa fa-2x fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<% include ../../partials/admin/foot.ejs %>

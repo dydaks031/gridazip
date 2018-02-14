@@ -1,31 +1,31 @@
 <% include ../../partials/admin/head.ejs %>
 
-<script src="/scripts/pages/admin/designer-list.js"></script>
+<script src="/scripts/pages/admin/request-list.js"></script>
 
 <div class="section">
-    <h2>디자이너 관리</h2>
+    <h2>상담 신청 관리</h2>
     <div class="article">
-        <div class="article-header clearfix">
-            <a href="/admin/designer" class="btn btn-sm btn-primary pull-right">디자이너 추가</a>
-        </div>
-        <table class="table table-click table-hover table-designer">
+        <table class="table table-click table-hover table-request">
             <colgroup>
                 <col style="width: 40px;">
                 <col style="width: 100px;">
-                <col>
                 <col style="width: 120px;">
                 <col style="width: 120px;">
                 <col style="width: 160px;">
                 <col style="width: 120px;">
+                <col style="width: 120px;">
+                <col style="width:80px;">
             </colgroup>
             <thead>
             <tr>
-                <th colspan="2">번호</th>
+                <th>번호</th>
                 <th>이름</th>
-                <th>최소금액</th>
-                <th>최대금액</th>
-                <th>스타일</th>
-                <th>설정</th>
+                <th>평수</th>
+                <th>예산</th>
+                <th>전화번호</th>
+                <th>방문상담일</th>
+                <th>방문상담시각</th>
+                <th>유효여부</th>
             </tr>
             </thead>
             <tbody>
