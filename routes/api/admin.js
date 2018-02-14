@@ -1580,7 +1580,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
             .then(() => {
                 res.json(
                     resHelper.getJson({
-                        data: constructor
+                        data: request
                     })
                 );
             })
