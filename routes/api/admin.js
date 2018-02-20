@@ -1504,7 +1504,7 @@ router.post('/request/list', (req, res, next) => {
                 list.map(item => {
                     item.rq_size_str = request_size_map[item.rq_size];
                     item.rq_budget_str = request_budget_map[item.rq_budget];
-                    item.rq_phone = FormatService.toDashedPhone(item.rq_phone);
+                    item.rq_phone = FormatService.toDashedPhone(cryptoHelper.decrypt(item.rq_phone));
                     return item;
                 });
                 pageInst.setPage(pageData.page += list.length);
@@ -1542,37 +1542,62 @@ router.post('/request/list', (req, res, next) => {
 });
 
 router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
-    var rq_ok = req.params.rqpk;
-    var request_is_valuable = req.body.request_is_valuable;
-    var request_is_contracted = req.body.request_is_contracted;
-    var validation = false;
-    var updateObj = {};
-    if (!request_is_valuable || request_is_valuable === 'null') {
-        updateObj.rq_is_valuable = request_is_valuable;
+    const rq_pk = req.params.rqpk;
+
+    let updateObj = {};
+    
+    updateObj.request_is_valuable = req.body.request_is_valuable || 0;
+    updateObj.request_is_contracted = req.body.request_is_contracted || 0;
+
+    updateObj.request_name = req.body.request_name || '';
+    updateObj.request_family = req.body.request_family || '';
+    updateObj.request_size = req.body.request_size || '';
+    updateObj.request_address_brief = req.body.request_address_brief || '';
+    updateObj.request_address_detail = req.body.request_address_detail || '';
+    updateObj.request_move_date = req.body.request_move_date || '';
+    updateObj.request_style_likes = req.body.request_style_likes || '';
+    updateObj.request_style_dislikes = req.body.request_style_dislikes || '';
+    updateObj.request_color_likes = req.body.request_color_likes || '';
+    updateObj.request_color_dislikes = req.body.request_color_dislikes || '';
+    updateObj.request_place = req.body.request_place || '';
+    updateObj.request_date = req.body.request_date || '';
+    updateObj.request_time = req.body.request_time || '';
+    updateObj.request_request = req.body.request_request || '';
+
+    let errorMsg = null;
+
+    if (!updateObj.request_is_valuable) {
         ['0','1','2','3'].forEach(i => {
-            if(request_is_valuable === i) validation = true;
+            if(request_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
         });
     }
-    if (!request_is_contracted || request_is_contracted === 'null') {
-        updateObj.rq_is_contracted = request_is_contracted;
+    if (!updateObj.request_is_contracted) {
         ['0','1','2'].forEach(i => {
-            if(request_is_contracted === i) validation = true;
+            if(request_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
         });
     }
 
-    if(!validation) {
-        res.json(
-            resHelper.getError('올바르지 않은 값입니다.')
-        )
+    if (updateObj.request_name === '') {
+        errorMsg = '이름은 반드시 입력해야 합니다.';
+    }
+    else if (updateObj.request_phone === '') {
+        errorMsg = '휴대폰 번호는 반드시 입력해야 합니다.';
+    }
+    else if (regexPhone.test(updateObj.request_phone) === false) {
+        errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
     }
 
-
+    if (errorMsg !== null) {
+        res.json(
+            resHelper.getError(errorMsg)
+        );
+    }
 
     knexBuilder.getConnection().then(cur => {
 
         cur('request_tbl')
             .where({
-                rq_pk: rq_ok
+                rq_pk: rq_pk
             })
             .update(updateObj)
             .finally(() => {
@@ -1608,7 +1633,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
                 request = response[0];
                 request.rq_size_str = request_size_map[request.rq_size];
                 request.rq_budget_str = request_budget_map[request.rq_budget];
-                request.rq_phone = FormatService.toDashedPhone(request.rq_phone);
+                request.rq_phone = FormatService.toDashedPhone(cryptoHelper.decrypt(request.rq_phone));
             })
             .then(() => {
                 res.json(
@@ -1624,5 +1649,34 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
             });
     });
 });
+//
+// router.get('/request/cryptAll', (req, res, next) => {
+//     knexBuilder.getConnection().then(cur => {
+//             cur('request_tbl')
+//                 .select('rq_pk', 'rq_phone')
+//                 .then(response => {
+//                     response.forEach((item) => {
+//                         cur('request_tbl')
+//                             .where('rq_pk', item.rq_pk)
+//                             .update({rq_phone: cryptoHelper.encrypt(item.rq_phone)})
+//                             .then(result => {
+//                                 console.log(result);
+//                             });
+//                     })
+//                 })
+//         }
+//     )
+// });
+// router.get('/request/cryptTest', (req, res, next) => {
+//     knexBuilder.getConnection().then(cur => {
+//         cur('request_tbl')
+//             .where('rq_pk', 369)
+//             .update({rq_phone: cryptoHelper.encrypt('01012345678')})
+//             .then(result => {
+//                 console.log(result);
+//             });
+//         }
+//     )
+// });
 
 module.exports = router;
