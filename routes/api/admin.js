@@ -1573,12 +1573,15 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
         updateObj.rq_style_dislikes = req.body.request_style_dislikes || '';
         updateObj.rq_color_likes = req.body.request_color_likes || '';
         updateObj.rq_color_dislikes = req.body.request_color_dislikes || '';
+        updateObj.rq_budget = req.body.request_budget || '';
         updateObj.rq_place = req.body.request_place || '';
         updateObj.rq_date = req.body.request_date || '';
         updateObj.rq_time = req.body.request_time || '';
         updateObj.rq_request = req.body.request_request || '';
+        updateObj.rq_memo = req.body.request_memo || '';
         updateObj.rq_is_valuable = rq_is_valuable;
         updateObj.rq_is_contracted = rq_is_contracted;
+
         if (updateObj.rq_name === '') {
             errorMsg = '이름은 반드시 입력해야 합니다.';
         }
