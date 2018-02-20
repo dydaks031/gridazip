@@ -1471,10 +1471,7 @@ router.post('/request/list', (req, res, next) => {
 
     knexBuilder.getConnection().then(cur => {
         var query = cur('request_tbl')
-            .select('*')
-            .map((row) => {
-                return row.rq_phone = cryptoHelper.decrypt(row.rq_phone);
-            });
+            .select('*');
 
         if (filterIsValuableValue !== null) {
             query = query.where('rq_is_valuable', filterIsValuableValue);
@@ -1507,7 +1504,7 @@ router.post('/request/list', (req, res, next) => {
                 list.map(item => {
                     item.rq_size_str = request_size_map[item.rq_size];
                     item.rq_budget_str = request_budget_map[item.rq_budget];
-                    item.rq_phone = FormatService.toDashedPhone(item.rq_phone);
+                    item.rq_phone = FormatService.toDashedPhone(cryptoHelper.decrypt(item.rq_phone));
                     return item;
                 });
                 pageInst.setPage(pageData.page += list.length);
@@ -1652,26 +1649,34 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
             });
     });
 });
-
-router.post('/request/cryptAll', (req, res, next) => {
-    knexBuilder.getConnection().then(cur => {
-            cur('request_tbl')
-                .select('rq_pk', 'rq_phone')
-                .then(response => {
-                    cur('request_tbl')
-                        .where('rq_pk', response.rq_pk)
-                        .update({rq_phone: cryptoHelper.encrypt(response.rq_phone)})
-                })
-        }
-    )
-});
-router.post('/request/cryptTest', (req, res, next) => {
-    knexBuilder.getConnection().then(cur => {
-        cur('request_tbl')
-            .where('rq_pk', 369)
-            .update({rq_phone: cryptoHelper.encrypt('01011112222')})
-        }
-    )
-});
+//
+// router.get('/request/cryptAll', (req, res, next) => {
+//     knexBuilder.getConnection().then(cur => {
+//             cur('request_tbl')
+//                 .select('rq_pk', 'rq_phone')
+//                 .then(response => {
+//                     response.forEach((item) => {
+//                         cur('request_tbl')
+//                             .where('rq_pk', item.rq_pk)
+//                             .update({rq_phone: cryptoHelper.encrypt(item.rq_phone)})
+//                             .then(result => {
+//                                 console.log(result);
+//                             });
+//                     })
+//                 })
+//         }
+//     )
+// });
+// router.get('/request/cryptTest', (req, res, next) => {
+//     knexBuilder.getConnection().then(cur => {
+//         cur('request_tbl')
+//             .where('rq_pk', 369)
+//             .update({rq_phone: cryptoHelper.encrypt('01012345678')})
+//             .then(result => {
+//                 console.log(result);
+//             });
+//         }
+//     )
+// });
 
 module.exports = router;
