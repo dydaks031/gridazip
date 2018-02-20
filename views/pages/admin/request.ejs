@@ -28,91 +28,268 @@
                 <div class="title">
                     <span>이름</span>
                 </div>
-                <span id="request_name"></span>
+                <input type="text" id="request_name" />
+
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>연락처</span>
                 </div>
-                <span id="request_phone"></span>
+                <input type="text" id="request_phone" />
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>가족구성원</span>
                 </div>
-                <span id="request_family"></span>
+                <select name="request_family" id="request_family" class="selectric">
+                    <option value="">가족구성원 선택</option>
+                    <option value="싱글라이프">싱글라이프</option>
+                    <option value="신혼부부">신혼부부</option>
+                    <option value="초등학교 입학전의 아이를 둔 부부">초등학교 입학전의 아이를 둔 부부</option>
+                    <option value="어머니 아버지를 모시고 사는 20~30대">어머니 아버지를 모시고 사는 20~30대</option>
+                    <option value="시어머니 시아버지 등을 모시고 사는 결혼한 부부">시어머니 시아버지 등을 모시고 사는 결혼한 부부</option>
+                    <option value="시어머니 시아버지 등을 모시고 사는 결혼한 부부 + 아이를 둔 부부">시어머니 시아버지 등을 모시고 사는 결혼한 부부 + 아이를 둔 부부</option>
+                    <option value="other">기타</option>
+                </select>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>평수</span>
                 </div>
-                <span id="request_size_str"></span>
+                <!--<input type="text" id="request_size_str" />-->
+                <select name="request_size" id="request_size" class="selectric">
+                    <option value="">평수 선택</option>
+                    <option value="lt20">20평대 미만</option>
+                    <option value="eq20">20평대</option>
+                    <option value="eq30">30평대</option>
+                    <option value="eq40">40평대</option>
+                    <option value="eq50">50평대</option>
+                    <option value="eq60">60평대</option>
+                    <option value="gte70">70평대 이상</option>
+                </select>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>예산</span>
                 </div>
-                <span id="request_budget_str"></span>
+                <select name="request_budget" id="request_budget" class="selectric">
+                    <option value=''>예산 선택안함</option>
+                    <option value='1500~2000'>1500~2000만원</option>
+                    <option value='2000~2500'>2000~2500만원</option>
+                    <option value='2500~3000'>2500~3000만원</option>
+                    <option value='3000~3500'>3000~3500만원</option>
+                    <option value='3500~4000'>3500~4000만원</option>
+                    <option value='4000~4500'>4000~4500만원</option>
+                    <option value='4500~5000'>4500~5000만원</option>
+                    <option value='5000~5500'>5000~5500만원</option>
+                    <option value='5500~6000'>5500~6000만원</option>
+                    <option value='6000~6500'>6000~6500만원</option>
+                    <option value='6500~7000'>6500~7000만원</option>
+                    <option value='lt1500'>1500만원 미만</option>
+                    <option value='lt2000'>2000만원 미만</option>
+                    <option value='lt2500'>2500만원 미만</option>
+                    <option value='lt3000'>3000만원 미만</option>
+                    <option value='lt3500'>3500만원 미만</option>
+                    <option value='lt4000'>4000만원 미만</option>
+                    <option value='lt4500'>4500만원 미만</option>
+                    <option value='lt5000'>5000만원 미만</option>
+                    <option value='gte2500'>2500만원 이상</option>
+                    <option value='gte3000'>3000만원 이상</option>
+                    <option value='gte3500'>3500만원 이상</option>
+                    <option value='gte4000'>4000만원 이상</option>
+                    <option value='gte4500'>4500만원 이상</option>
+                    <option value='gte5000'>5000만원 이상</option>
+                    <option value='gte6000'>6000만원 이상</option>
+                    <option value='gte7000'>7000만원 이상</option>
+                    <option value='contact'>협의로 결</option>
+                </select>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>주소</span>
                 </div>
-                <span id="request_address"></span>
+                <input type="text" id="request_address" />
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>이사날짜</span>
                 </div>
-                <span id="request_move_date"></span>
+                <input type="text" class="calendar" id="request_move_date" name="request_move_date"/>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span>좋아하는 인테리어 스타일</span>
+                    <span>인테리어 스타일</span>
                 </div>
-                <div class="form-grid form-grid-zoom form-style" id="request_style_likes"></div>
+                <div class="form-grid form-grid-zoom form-style" id="request_style">
+                    <div class="form-col" data-value="1">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-01.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="2">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-02.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="3">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-03.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="4">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-04.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="5">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-05.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="6">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-06.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="7">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-07.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="8">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-08.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="9">
+                        <div class="picture" style="background-image: url('/images/temporary/bg-style-09.jpeg');">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-item">
                 <div class="title">
-                    <span>싫어하는 인테리어 스타일</span>
+                    <span>색감</span>
                 </div>
-                <div class="form-grid form-grid-zoom form-style" id="request_style_dislikes"></div>
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span>좋아하는 색감</span>
+                <div class="form-grid form-color" id="request_color">
+                    <div class="form-col" data-value="1">
+                        <div class="picture" style="background-color: #f9f2f1;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="2">
+                        <div class="picture" style="background-color: #0A0200;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="3">
+                        <div class="picture" style="background-color: #92C4E0;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="4">
+                        <div class="picture" style="background-color: #D4C1D3;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="5">
+                        <div class="picture" style="background-color: #F0E842;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="6">
+                        <div class="picture" style="background-color: #BDC3C7;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="7">
+                        <div class="picture" style="background-color: #16A085;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="8">
+                        <div class="picture" style="background-color: #B37618;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
+                    <div class="form-col" data-value="9">
+                        <div class="picture" style="background-color: #2DE3C3;">
+                            <a href="#" class="btn-like"></a>
+                            <a href="#" class="btn-dislike"></a>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-grid form-grid-zoom form-style" id="request_color_likes"></div>
-            </div>
-            <div class="form-item">
-                <div class="title">
-                    <span>싫어하는 색감</span>
-                </div>
-                <div class="form-grid form-grid-zoom form-style" id="request_color_dislikes"></div>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>방문 상담일</span>
                 </div>
-                <span id="request_date"></span>
+                <input type="text" class="calendar" name="request_date" id="request_date" placeholder="날짜선택">
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>방문 시간</span>
                 </div>
-                <span id="request_time"></span>
+                <select name="request_time" id="request_time" class="selectric">
+                    <option value="">없음</option>
+                    <option value="09:00 - 11:00">09:00 - 11:00</option>
+                    <option value="11:00 - 13:00">11:00 - 13:00</option>
+                    <option value="13:00 - 15:00">13:00 - 15:00</option>
+                    <option value="15:00 - 17:00">15:00 - 17:00</option>
+                    <option value="17:00 - 19:00">17:00 - 19:00</option>
+                </select>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>방문장소</span>
                 </div>
-                <span id="request_place"></span>
+                <div class="form-choice form-place" id="request_place">
+                    <div class="form-choice-item" data-value="현재 거주하고 있는 집">현재 거주하고 있는 집</div>
+                    <div class="form-choice-item" data-value="인테리어 할 집">인테리어 할 집</div>
+                    <div class="form-choice-item" data-value="카페">카페</div>
+                    <div class="form-choice-item" data-value="그리다집 사무실">그리다집 사무실</div>
+                </div>
             </div>
+
+
             <div class="form-item">
                 <div class="title">
-                    <span>요구사항</span>
+                    <span>추가 요구사항</span>
                 </div>
-                <span id="request_request"></span>
+                <select name="request_request" id="request_request">
+                    <option value="수납해야 할 물건은 많은데 공간이 부족해요.">수납해야 할 물건은 많은데 공간이 부족해요.</option>
+                    <option value="확장을 하고 싶은데 비용이 궁금해요.">확장을 하고 싶은데 비용이 궁금해요.</option>
+                    <option value="아이가 살고 있어 안전한 디자인을 원해요.">아이가 살고 있어 안전한 디자인을 원해요.</option>
+                    <option value="아이가 있어 친환경 자재로 시공하고 싶어요.">아이가 있어 친환경 자재로 시공하고 싶어요.</option>
+                    <option value="주방이 좁아 고민입니다. 새로운 공간설계를 원해요.">주방이 좁아 고민입니다. 새로운 공간설계를 원해요.</option>
+                    <option value="베란다에 이동식 욕조를 설치하고 싶습니다.">베란다에 이동식 욕조를 설치하고 싶습니다.</option>
+                    <option value="결로현상을 해결하고 싶습니다.">결로현상을 해결하고 싶습니다.</option>
+                    <option value="집이 추워 단열 내장재를 새롭게 시공하고 싶습니다.">집이 추워 단열 내장재를 새롭게 시공하고 싶습니다.</option>
+                    <option value="소리에 민감해 방음상태를 확인하고 싶습니다.">소리에 민감해 방음상태를 확인하고 싶습니다.</option>
+                    <option value="집에 콘센트가 부족해요. 콘센트를 새로 설치하고 싶습니다.">집에 콘센트가 부족해요. 콘센트를 새로 설치하고 싶습니다.</option>
+                    <option value="집 구조가 마음에 들지 않습니다. 구조를 새롭게 바꾸고 싶어요.">집 구조가 마음에 들지 않습니다. 구조를 새롭게 바꾸고 싶어요.</option>
+                    <option value="에어컨 설치를 어떻게 해야 할지 모르겠습니다.">에어컨 설치를 어떻게 해야 할지 모르겠습니다.</option>
+                    <option value="천장을 넓히고 싶어요.">천장을 넓히고 싶어요.</option>
+                    <option value="other">기타</option>
+                </select>
             </div>
         </div>
     </form>
