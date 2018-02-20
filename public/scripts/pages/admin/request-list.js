@@ -1,5 +1,6 @@
 $(function () {
-    var $requestSortTab = $('#request_sort_tab');
+    var $requestIsValuableSort = $('#request_is_valuable');
+    var $requestIsContractedSort = $('#request_is_contracted');
 
 
     var page = new Pagination();
@@ -10,13 +11,23 @@ $(function () {
     var $request = $('.table-request');
     page.setLimit(20);
 
-    $requestSortTab.find('.tab-item').bind('click', function (event) {
+    $requestIsValuableSort.bind('change', function (event) {
         event.preventDefault();
         var $this = $(this);
-        $this.addClass('active').siblings('.active').removeClass('active');
 
-        var value = $this.data('value');
+        var value = $this.val();
         filter.setFilter('isValuable', value === '' ? null : value.toString());
+        page.reset();
+        page.setLimit(20);
+        loadRequest();
+    });
+
+    $requestIsContractedSort.bind('change', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+
+        var value = $this.val();
+        filter.setFilter('isContracted', value === '' ? null : value.toString());
         page.reset();
         page.setLimit(20);
         loadRequest();
@@ -71,6 +82,9 @@ $(function () {
 
 
                         if (element.rq_is_valuable) {
+                            console.debug('rq_name : ' + element.rq_name)
+                            console.debug('rq_is_valuable : ' + element.rq_is_valuable)
+
                             $row.find('input[name=request_is_valuable_' + idx + ']').filter('[value=' + element.rq_is_valuable + ']').prop('checked', true);
                         }
 
@@ -144,7 +158,7 @@ $(function () {
                 else {
                     var $emptySection = $('\
                         <tr>\
-                            <td colspan="8" class="empty-section">\
+                            <td colspan="9" class="empty-section">\
                                 <i class="pe-7s-attention"></i>\
                                 <span>조회된 항목이 없습니다.</span>\
                             </td>\

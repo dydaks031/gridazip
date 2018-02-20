@@ -3,7 +3,8 @@ $(function () {
 
     var $inputRequestId = $('#request_id');
     var $form = $('.form-request');
-    var $inputRequestIsValuable = $('#rq_valuable input[type=radio]');
+    var $inputRequestIsValuable = $('#rq_valuable input[name=request_is_valuable]');
+    var $inputRequestIsContracted = $('#rq_valuable input[type=request_is_contracted]');
     var $inputRequestRegDt = $('#request_reg_dt');
     var $inputRequestName = $('#request_name');
     var $inputRequestPhone = $('#request_phone');
@@ -12,10 +13,6 @@ $(function () {
     var $inputRequestBudgetStr = $('#request_budget');
     var $inputRequestAddress = $('#request_address');
     var $inputRequestMoveDate = $('#request_move_date');
-    var $inputRequestStyleLikes = $('#request_style_likes');
-    var $inputRequestStyleDislikes = $('#request_style_dislikes');
-    var $inputRequestColorLikes = $('#request_color_likes');
-    var $inputRequestColorDislikes = $('#request_color_dislikes');
     var $inputRequestDate = $('#request_date');
     var $inputRequestTime = $('#request_time');
     var $inputRequestPlace = $('#request_place');
@@ -141,6 +138,7 @@ $(function () {
                     var request = data.data;
 
                     $inputRequestIsValuable.filter('[value=' + request.rq_is_valuable + ']').prop("checked", true);
+                    $inputRequestIsContracted.filter('[value=' + request.rq_is_contracted + ']').prop("checked", true);
 
                     $inputRequestId.text(request.rq_id || '없음');
                     $inputRequestRegDt.text(request.rq_reg_dt === '0000-00-00' ? '없음' : moment(request.rq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));

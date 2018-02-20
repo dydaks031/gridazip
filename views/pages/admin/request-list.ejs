@@ -5,12 +5,28 @@
 <div class="section">
     <h2>상담 신청 관리</h2>
 
-    <div class="section margin-vertical">
-        <div id="request_sort_tab" class="tab">
-            <a href="#" class="tab-item active" data-value="">전체</a>
-            <a href="#" class="tab-item" data-value="0">신규요청</a>
-            <a href="#" class="tab-item" data-value="1">유효고객</a>
-            <a href="#" class="tab-item" data-value="2">비유효고객</a>
+
+    <div class="section">
+        <div class="article center">
+            <div class="col-group no-margin">
+                <div class="col-6 no-padding">
+                    <select name="request_is_valuable" id="request_is_valuable" class="selectric">
+                        <option value="">유효여부선택</option>
+                        <option value="0">신규요청</option>
+                        <option value="1">실존하지 않는 고객</option>
+                        <option value="3">실존하나 유효하지 않은 고객</option>
+                        <option value="2">유효 고객</option>
+                    </select>
+                </div>
+                <div class="col-6 no-padding">
+                    <select name="request_is_contracted" id="request_is_contracted" class="selectric">
+                        <option value="">계약성사여부</option>
+                        <option value="0">신규계약</option>
+                        <option value="1">실패</option>
+                        <option value="2">완료</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
