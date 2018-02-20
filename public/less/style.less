@@ -1293,30 +1293,6 @@ body {
             font-size: 18px;
             .box-sizing(border-box);
         }
-        .form-select-group {
-            .form-select-item {
-                display: block;
-                height: 24px;
-                line-height: 24px;
-                font-size: 15px;
-                margin-bottom: 14px;
-                color: #000000;
-                border-bottom: 0;
-                text-decoration: none;
-                .clearfix;
-                &:last-child {
-                    border-bottom: 0;
-                }
-                i,
-                span {
-                    vertical-align: middle;
-                }
-                i {
-                    margin-right: 10px;
-                    font-size: 18px;
-                }
-            }
-        }
         .form-grid {
             text-align: center;
             .clearfix;
@@ -1572,34 +1548,60 @@ body {
                     display: none;
                 }
             }
-            .form-choice {
-                display: table;
-                table-layout: fixed;
-                margin-bottom: @size-margin-default;
-                width: 100%;
-                border-radius: 3px;
-                overflow: hidden;
-                .form-choice-item {
-                    display: table-cell;
-                    border: 1px solid #000000;
-                    border-left: none;
-                    height: 40px;
-                    font-size: 13px;
-                    text-align: center;
-                    cursor: pointer;
-                    vertical-align: middle;
-                    &:hover {
-                        background-color: rgba(0, 0, 0, .75);
-                        color: #ffffff;
-                    }
-                    &.active {
-                        background-color: #000000;
-                        color: #ffffff;
-                    }
-                    &:first-child {
-                        border-left: 1px solid #000000;
-                    }
-                }
+        }
+    }
+
+    .form-choice {
+        display: table;
+        table-layout: fixed;
+        margin-bottom: @size-margin-default;
+        width: 100%;
+        border-radius: 3px;
+        overflow: hidden;
+        .form-choice-item {
+            display: table-cell;
+            border: 1px solid #000000;
+            border-left: none;
+            height: 40px;
+            font-size: 13px;
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            &:hover {
+                background-color: rgba(0, 0, 0, .75);
+                color: #ffffff;
+            }
+            &.active {
+                background-color: #000000;
+                color: #ffffff;
+            }
+            &:first-child {
+                border-left: 1px solid #000000;
+            }
+        }
+    }
+
+    .form-select-group {
+        .form-select-item {
+            display: block;
+            height: 24px;
+            line-height: 24px;
+            font-size: 15px;
+            margin-bottom: 14px;
+            color: #000000;
+            border-bottom: 0;
+            text-decoration: none;
+            .clearfix;
+            &:last-child {
+                border-bottom: 0;
+            }
+            i,
+            span {
+                vertical-align: middle;
+            }
+            i {
+                margin-right: 10px;
+                font-size: 18px;
             }
         }
     }
