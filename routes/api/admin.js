@@ -1458,6 +1458,7 @@ router.post('/request/list', (req, res, next) => {
     var filterInst = new filterService(filter);
     var pageData = pageInst.get();
     var filterIsValuableValue = filterInst.getFilter('isValuable');
+    var filterIsContractedValue = filterInst.getFilter('isContracted');
     if (pageInst.isEnd() === true) {
         res.json(
             resHelper.getJson({
@@ -1474,6 +1475,9 @@ router.post('/request/list', (req, res, next) => {
 
         if (filterIsValuableValue !== null) {
             query = query.where('rq_is_valuable', filterIsValuableValue);
+        }
+        if (filterIsContractedValue !== null) {
+            query = query.where('rq_is_contracted', filterIsContractedValue);
         }
 
         query = query.orderBy('request_tbl.rq_recency');
@@ -1500,7 +1504,7 @@ router.post('/request/list', (req, res, next) => {
                 list.map(item => {
                     item.rq_size_str = request_size_map[item.rq_size];
                     item.rq_budget_str = request_budget_map[item.rq_budget];
-                    item.rq_phone = FormatService.toDashedPhone(item.rq_phone);
+                    item.rq_phone = FormatService.toDashedPhone(cryptoHelper.decrypt(item.rq_phone));
                     return item;
                 });
                 pageInst.setPage(pageData.page += list.length);
@@ -1509,13 +1513,13 @@ router.post('/request/list', (req, res, next) => {
                 if (list.length < pageInst.limit) {
                     pageInst.setEnd(true);
                 }
-                if (filterIsValuableValue !== null) {
-                    query = query.where('rq_is_valuable', filterIsValuableValue);
-                }
 
                 var countQuery = cur('request_tbl').count('* as count');
                 if (filterIsValuableValue !== null) {
                     countQuery = countQuery.where('rq_is_valuable', filterIsValuableValue);
+                }
+                if (filterIsContractedValue !== null) {
+                    countQuery = countQuery.where('rq_is_contracted', filterIsContractedValue);
                 }
                 return countQuery
             })
@@ -1538,28 +1542,78 @@ router.post('/request/list', (req, res, next) => {
 });
 
 router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
-    var rq_ok = req.params.rqpk;
-    var request_is_valuable = req.body.request_is_valuable;
-    var validation = false;
-    ['0','1','2'].forEach(i => {
-        if(request_is_valuable === i) validation = true;
-    });
+    const rq_pk = req.params.rqpk;
+    const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+    let errorMsg = null;
+    let updateObj = {};
 
-    if(!validation) {
+    const rq_is_valuable = req.body.request_is_valuable || 0;
+    const rq_is_contracted = req.body.request_is_contracted || 0;
+
+    if (!rq_is_valuable) {
+        ['0','1','2','3'].forEach(i => {
+            if(rq_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
+        });
+    }
+    if (!rq_is_contracted) {
+        ['0','1','2'].forEach(i => {
+            if(rq_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
+        });
+    }
+
+    if (rq_is_valuable && rq_is_contracted) {
+        updateObj.rq_name = req.body.request_name || '';
+        updateObj.rq_family = req.body.request_family || '';
+        updateObj.rq_phone = req.body.request_phone || '';
+        updateObj.rq_size = req.body.request_size || '';
+        updateObj.rq_address_brief = req.body.request_address_brief || '';
+        updateObj.rq_address_detail = req.body.request_address_detail || '';
+        updateObj.rq_move_date = req.body.request_move_date || '';
+        updateObj.rq_style_likes = req.body.request_style_likes || '';
+        updateObj.rq_style_dislikes = req.body.request_style_dislikes || '';
+        updateObj.rq_color_likes = req.body.request_color_likes || '';
+        updateObj.rq_color_dislikes = req.body.request_color_dislikes || '';
+        updateObj.rq_budget = req.body.request_budget || '';
+        updateObj.rq_place = req.body.request_place || '';
+        updateObj.rq_date = req.body.request_date || '';
+        updateObj.rq_time = req.body.request_time || '';
+        updateObj.rq_request = req.body.request_request || '';
+        updateObj.rq_memo = req.body.request_memo || '';
+        updateObj.rq_is_valuable = rq_is_valuable;
+        updateObj.rq_is_contracted = rq_is_contracted;
+
+        if (updateObj.rq_name === '') {
+            errorMsg = '이름은 반드시 입력해야 합니다.';
+        }
+        else if (updateObj.rq_phone === '') {
+            errorMsg = '휴대폰 번호는 반드시 입력해야 합니다.';
+        }
+        else if (regexPhone.test(updateObj.rq_phone) === false) {
+            errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
+        }
+    }
+    else {
+        if (rq_is_valuable) {
+            updateObj.rq_is_valuable = rq_is_valuable;
+        }
+        if (rq_is_contracted) {
+            updateObj.rq_is_contracted = rq_is_contracted;
+        }
+    }
+
+    if (errorMsg !== null) {
         res.json(
-            resHelper.getError('올바르지 않은 값입니다.')
-        )
+            resHelper.getError(errorMsg)
+        );
     }
 
     knexBuilder.getConnection().then(cur => {
 
         cur('request_tbl')
             .where({
-                rq_pk: rq_ok
+                rq_pk: rq_pk
             })
-            .update({
-                rq_is_valuable: request_is_valuable
-            })
+            .update(updateObj)
             .finally(() => {
                 res.json(
                     resHelper.getJson({
@@ -1593,7 +1647,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
                 request = response[0];
                 request.rq_size_str = request_size_map[request.rq_size];
                 request.rq_budget_str = request_budget_map[request.rq_budget];
-                request.rq_phone = FormatService.toDashedPhone(request.rq_phone);
+                request.rq_phone = FormatService.toDashedPhone(cryptoHelper.decrypt(request.rq_phone));
             })
             .then(() => {
                 res.json(
@@ -1609,5 +1663,34 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
             });
     });
 });
+//
+// router.get('/request/cryptAll', (req, res, next) => {
+//     knexBuilder.getConnection().then(cur => {
+//             cur('request_tbl')
+//                 .select('rq_pk', 'rq_phone')
+//                 .then(response => {
+//                     response.forEach((item) => {
+//                         cur('request_tbl')
+//                             .where('rq_pk', item.rq_pk)
+//                             .update({rq_phone: cryptoHelper.encrypt(item.rq_phone)})
+//                             .then(result => {
+//                                 console.log(result);
+//                             });
+//                     })
+//                 })
+//         }
+//     )
+// });
+// router.get('/request/cryptTest', (req, res, next) => {
+//     knexBuilder.getConnection().then(cur => {
+//         cur('request_tbl')
+//             .where('rq_pk', 369)
+//             .update({rq_phone: cryptoHelper.encrypt('01012345678')})
+//             .then(result => {
+//                 console.log(result);
+//             });
+//         }
+//     )
+// });
 
 module.exports = router;

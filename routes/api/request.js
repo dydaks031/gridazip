@@ -144,7 +144,7 @@ router.post('/save', (req, res, next) => {
                 rq_size: user_size,
                 rq_address_brief: user_address_brief,
                 rq_address_detail: user_address_detail,
-                rq_phone: user_phone,
+                rq_phone: cryptoHelper.encrypt(user_phone),
                 rq_move_date: user_move_date,
                 rq_style_likes: user_style_likes,
                 rq_style_dislikes: user_style_dislikes,

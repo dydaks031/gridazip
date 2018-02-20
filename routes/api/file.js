@@ -20,6 +20,12 @@ const MAX_IMAGE_WIDTH = 1600;
 const MAX_IMAGE_HEIGHT = 1000;
 
 router.post('/upload', upload, (req, res, next) => {
+    const fileUploadPath = req.body.file_upload_path;
+    if (!fileUploadPath || fileUploadPath === 'null') {
+        return res.json(
+            resHelper.getError('파일 경로를 설정해주시기 바랍니다.')
+        )
+    }
     if (typeof req.file === 'undefined' || typeof req.file.path === 'undefined') {
         return res.json(
             resHelper.getError('파일을 업로드해주시기 바랍니다.')
@@ -125,7 +131,7 @@ router.post('/upload', upload, (req, res, next) => {
                     });
                 })
                 .then(obj => {
-                    return s3Helper.save(`static/resources/portfolio/${obj.hash}.${fileExt}`, obj.data);
+                    return s3Helper.save(`static/resources/${fileUploadPath}/${obj.hash}.${fileExt}`, obj.data);
                 })
                 .then(data => {
                     res.json(
