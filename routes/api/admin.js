@@ -1577,7 +1577,8 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
         updateObj.rq_date = req.body.request_date || '';
         updateObj.rq_time = req.body.request_time || '';
         updateObj.rq_request = req.body.request_request || '';
-
+        updateObj.rq_is_valuable = rq_is_valuable;
+        updateObj.rq_is_contracted = rq_is_contracted;
         if (updateObj.rq_name === '') {
             errorMsg = '이름은 반드시 입력해야 합니다.';
         }
