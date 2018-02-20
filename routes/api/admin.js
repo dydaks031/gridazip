@@ -1543,45 +1543,46 @@ router.post('/request/list', (req, res, next) => {
 
 router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     const rq_pk = req.params.rqpk;
+    const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
     let errorMsg = null;
     let updateObj = {};
     
-    updateObj.request_is_valuable = req.body.request_is_valuable || 0;
-    updateObj.request_is_contracted = req.body.request_is_contracted || 0;
+    updateObj.rq_is_valuable = req.body.request_is_valuable || 0;
+    updateObj.rq_is_contracted = req.body.request_is_contracted || 0;
 
-    if (!updateObj.request_is_valuable) {
+    if (!updateObj.rq_is_valuable) {
         ['0','1','2','3'].forEach(i => {
-            if(updateObj.request_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
+            if(updateObj.rq_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
         });
     }
-    if (!updateObj.request_is_contracted) {
+    if (!updateObj.rq_is_contracted) {
         ['0','1','2'].forEach(i => {
-            if(updateObj.request_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
+            if(updateObj.rq_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
         });
     }
-    if (updateObj.request_is_valuable && updateObj.request_is_contracted) {
-        updateObj.request_name = req.body.request_name || '';
-        updateObj.request_family = req.body.request_family || '';
-        updateObj.request_size = req.body.request_size || '';
-        updateObj.request_address_brief = req.body.request_address_brief || '';
-        updateObj.request_address_detail = req.body.request_address_detail || '';
-        updateObj.request_move_date = req.body.request_move_date || '';
-        updateObj.request_style_likes = req.body.request_style_likes || '';
-        updateObj.request_style_dislikes = req.body.request_style_dislikes || '';
-        updateObj.request_color_likes = req.body.request_color_likes || '';
-        updateObj.request_color_dislikes = req.body.request_color_dislikes || '';
-        updateObj.request_place = req.body.request_place || '';
-        updateObj.request_date = req.body.request_date || '';
-        updateObj.request_time = req.body.request_time || '';
-        updateObj.request_request = req.body.request_request || '';
+    if (updateObj.rq_is_valuable && updateObj.rq_is_contracted) {
+        updateObj.rq_name = req.body.request_name || '';
+        updateObj.rq_family = req.body.request_family || '';
+        updateObj.rq_size = req.body.request_size || '';
+        updateObj.rq_address_brief = req.body.request_address_brief || '';
+        updateObj.rq_address_detail = req.body.request_address_detail || '';
+        updateObj.rq_move_date = req.body.request_move_date || '';
+        updateObj.rq_style_likes = req.body.request_style_likes || '';
+        updateObj.rq_style_dislikes = req.body.request_style_dislikes || '';
+        updateObj.rq_color_likes = req.body.request_color_likes || '';
+        updateObj.rq_color_dislikes = req.body.request_color_dislikes || '';
+        updateObj.rq_place = req.body.request_place || '';
+        updateObj.rq_date = req.body.request_date || '';
+        updateObj.rq_time = req.body.request_time || '';
+        updateObj.rq_request = req.body.request_request || '';
 
-        if (updateObj.request_name === '') {
+        if (updateObj.rq_name === '') {
             errorMsg = '이름은 반드시 입력해야 합니다.';
         }
-        else if (updateObj.request_phone === '') {
+        else if (updateObj.rq_phone === '') {
             errorMsg = '휴대폰 번호는 반드시 입력해야 합니다.';
         }
-        else if (regexPhone.test(updateObj.request_phone) === false) {
+        else if (regexPhone.test(updateObj.rq_phone) === false) {
             errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
         }
     }
