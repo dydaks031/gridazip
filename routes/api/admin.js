@@ -1564,6 +1564,7 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     if (rq_is_valuable && rq_is_contracted) {
         updateObj.rq_name = req.body.request_name || '';
         updateObj.rq_family = req.body.request_family || '';
+        updateObj.rq_phone = req.body.request_phone || '';
         updateObj.rq_size = req.body.request_size || '';
         updateObj.rq_address_brief = req.body.request_address_brief || '';
         updateObj.rq_address_detail = req.body.request_address_detail || '';
