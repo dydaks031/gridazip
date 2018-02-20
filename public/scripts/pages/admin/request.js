@@ -4,21 +4,34 @@ $(function () {
     var $inputRequestId = $('#request_id');
     var $form = $('.form-request');
     var $inputRequestIsValuable = $('#rq_valuable input[name=request_is_valuable]');
-    var $inputRequestIsContracted = $('#rq_valuable input[type=request_is_contracted]');
+    var $inputRequestIsContracted = $('#rq_contracted input[name=request_is_contracted]');
     var $inputRequestRegDt = $('#request_reg_dt');
     var $inputRequestName = $('#request_name');
     var $inputRequestPhone = $('#request_phone');
     var $inputRequestFamily = $('#request_family');
     var $inputRequestSizeStr = $('#request_size');
     var $inputRequestBudgetStr = $('#request_budget');
-    var $inputRequestAddress = $('#request_address');
+    var $inputRequestAddressBrief = $('#request_address_brief');
+    var $inputRequestAddressDetail = $('#request_address_detail');
     var $inputRequestMoveDate = $('#request_move_date');
     var $inputRequestDate = $('#request_date');
     var $inputRequestTime = $('#request_time');
-    var $inputRequestPlace = $('#request_place');
+    var $choiceRequestPlace = $('#request_place_choice');
     var $inputRequestRequest = $('#request_request');
     var $inputRequestStyle = $('#request_style');
     var $inputRequestColor = $('#request_color');
+    var $textareaRequestMemo = $('#request_memo');
+
+    var $inputRequestStyleLikes = $('#request_style_likes')
+    var $inputRequestStyleDislikes = $('#request_style_dislikes')
+    var $inputRequestColorLikes = $('#request_color_likes')
+    var $inputRequestColorDislikes = $('#request_color_dislikes')
+    var $inputRequestPlace = $('#request_place')
+    var $inputRequestFamilyOther = $('#request_family_other');
+    var $inputRequestTimeOther = $('#request_time_other');
+    var $inputRequestRequestOther = $('#request_request_other');
+
+    var $btnComplete = $('button.complete');
 
     var formStyleLikes = [];
     var formStyleDislikes = [];
@@ -117,6 +130,129 @@ $(function () {
         })
     }
 
+    $btnComplete.bind('click', function(event) {
+        event.preventDefault();
+
+        var $formStyleGrid = $('.form-grid.form-style');
+        var $formColorGrid = $('.form-grid.form-color');
+        var $formPlace = $('.form-choice.form-place');
+        var formStyleLikes = [];
+        var formStyleDislikes = [];
+        var formColorLikes = [];
+        var formColorDislikes = [];
+
+        $formStyleGrid.find('.form-col').filter('.liked, .disliked').each(function (index, element) {
+            var $element = $(element);
+            var value = $element.data('value');
+
+            if ($element.hasClass('liked')) {
+                formStyleLikes.push(value);
+            }
+            else {
+                formStyleDislikes.push(value);
+            }
+        });
+
+        $formColorGrid.find('.form-col').filter('.liked, .disliked').each(function (index, element) {
+            var $element = $(element);
+            var value = $element.data('value');
+
+            if ($element.hasClass('liked')) {
+                formColorLikes.push(value);
+            }
+            else {
+                formColorDislikes.push(value);
+            }
+        });
+
+        $inputRequestStyleLikes.val(formStyleLikes.join(','));
+        $inputRequestStyleDislikes.val(formStyleDislikes.join(','));
+        $inputRequestColorLikes.val(formColorLikes.join(','));
+        $inputRequestColorDislikes.val(formColorDislikes.join(','));
+
+        $inputRequestPlace.val($formPlace.find('.form-choice-item.active').eq(0).data('value'));
+
+        var form = $form.serializeJson();
+
+        if($inputRequestIsValuable.filter(':checked').length === 0) {
+            form.request_is_valuable = 0;
+        }
+
+        if($inputRequestIsContracted.filter(':checked').length === 0) {
+            form.request_is_contracted = 0;
+        }
+
+        form.request_phone = form.request_phone.replace(/\-/gi, '');
+
+        if (form.user_family === 'other') {
+            // form.user_family = $inputUserFamilyOther.val();
+            form.user_family = '기타';
+        }
+
+        if (form.user_time === 'other') {
+            form.user_time = '기타'
+        }
+
+        form.request_request = '';
+        $('.form-select-item.form-select-request.active').each(function (index, element) {
+            var $element = $(element);
+            var value = $element.data('value');
+            if (value !== 'other') {
+                form.request_request += (value + '\n');
+            }
+        });
+        // debugger;
+        // form.user_request += $inputUserRequestOther.val();
+
+        validation(form);
+
+
+    });
+
+    var validation = function(data) {
+        if (data.request_name === '') {
+            swal({
+                title: '이름은 반드시 입력해야 합니다.',
+                type: 'warning'
+            }, function() {
+                setTimeout(function() {
+                    $inputRequestName.focus();
+                }, 50);
+            });
+        } else if (data.request_phone === '') {
+            swal({
+                title: '전화번호는 반드시 입력해야 합니다.',
+                type: 'warning'
+            }, function() {
+                setTimeout(function() {
+                    $inputRequestPhone.focus();
+                }, 50);
+            });
+        } else {
+            http.post('/api/admin/request/save' + (requestID ? '/' + requestID: '/'), data)
+                ['finally'](function() {
+                loading(false);
+            })
+                .then(function(data) {
+                    window.onbeforeunload = null;
+                    swal({
+                        title: '상담정보가 수정되었습니다.',
+                        text: '아래 버튼을 클릭해서 리스트로로 이동하세요.',
+                        type: 'success',
+                        confirmButtonText: '상담정보 리스트 페이지로 이동'
+                    }, function() {
+                        location.href = '/admin/request/list';
+                    });
+                })
+                ['catch'](function(error) {
+                swal({
+                    title: error.value,
+                    type: 'warning'
+                });
+            });
+        }
+    };
+
     var loadRequest = function () {
         loading(true);
         http.post('/api/admin/request/' + requestID)
@@ -144,29 +280,34 @@ $(function () {
                     $inputRequestRegDt.text(request.rq_reg_dt === '0000-00-00' ? '없음' : moment(request.rq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
                     $inputRequestName.val(request.rq_name || '없음');
                     $inputRequestPhone.val(request.rq_phone || '없음');
-                    // $inputRequestFamily.val(request.rq_family || '없음');
 
                     $inputRequestFamily.children().filter('option[value=\"' + request.rq_family + '\"]').prop('selected', true);
                     $inputRequestFamily.selectric('refresh');
 
-                    console.log(request.rq_size);
                     $inputRequestSizeStr.children().filter('option[value=\"' + request.rq_size + '\"]').prop('selected', true);
                     $inputRequestSizeStr.selectric('refresh');
 
                     $inputRequestBudgetStr.children().filter('option[value=\"' + request.rq_budget + '\"]').prop('selected', true);
                     $inputRequestBudgetStr.selectric('refresh');
 
-                    $inputRequestAddress.val(request.rq_address_brief && request.rq_address_detail ? request.rq_address_brief + ' '  + request.rq_address_detail : '없음' );
-                    $inputRequestMoveDate.val(request.rq_move_date  === '0000-00-00 00:00:00' ? '없음' : moment(request.rq_move_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                    $inputRequestDate.val(request.rq_date  === '0000-00-00' ? '없음' : moment(request.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
+                    $inputRequestAddressBrief.val(request.rq_address_brief);
+                    $inputRequestAddressDetail.val(request.rq_address_detail);
+                    $inputRequestMoveDate.val(request.rq_move_date  === '0000-00-00 00:00:00' ? '' : moment(request.rq_move_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
+                    $inputRequestDate.val(request.rq_date  === '0000-00-00' ? '' : moment(request.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
 
                     $inputRequestTime.children().filter('option[value=\"' + request.rq_time + '\"]').prop('selected', true);
                     $inputRequestTime.selectric('refresh');
 
+                    $choiceRequestPlace.children().filter('[data-value=\"' + request.rq_place + '\"]').addClass('active');
 
-                    $inputRequestPlace.children().filter('[data-value=\"' + request.rq_place + '\"]').addClass('active');
-                    $inputRequestPlace.val(request.rq_place || '없음');
-                    $inputRequestRequest.val(request.rq_request|| '없음');
+                    $textareaRequestMemo.val(request.rq_memo);
+
+                    $form.find('.form-choice .form-choice-item').bind('click', function (event) {
+                        var $this = $(this);
+                        if ($this.hasClass('active') === false) {
+                            $this.addClass('active').siblings('.active').removeClass('active');
+                        }
+                    });
 
                     var styleLikesList = request.rq_style_likes === "" ? [] : request.rq_style_likes.split(',');
                     var styleDislikesList = request.rq_style_dislikes === "" ? [] : request.rq_style_dislikes.split(',');
