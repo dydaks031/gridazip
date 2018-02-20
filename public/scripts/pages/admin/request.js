@@ -2,23 +2,40 @@ $(function () {
     var requestID = $('#request_id').val() || '';
 
     var $inputRequestId = $('#request_id');
-
-    var $inputRequestIsValuable = $('#rq_valuable input[type=radio]');
+    var $form = $('.form-request');
+    var $inputRequestIsValuable = $('#rq_valuable input[name=request_is_valuable]');
+    var $inputRequestIsContracted = $('#rq_contracted input[name=request_is_contracted]');
+    var $inputRequestRegDt = $('#request_reg_dt');
     var $inputRequestName = $('#request_name');
     var $inputRequestPhone = $('#request_phone');
     var $inputRequestFamily = $('#request_family');
-    var $inputRequestSizeStr = $('#request_size_str');
-    var $inputRequestBudgetStr = $('#request_budget_str');
-    var $inputRequestAddress = $('#request_address');
+    var $inputRequestSizeStr = $('#request_size');
+    var $inputRequestBudgetStr = $('#request_budget');
+    var $inputRequestAddressBrief = $('#request_address_brief');
+    var $inputRequestAddressDetail = $('#request_address_detail');
     var $inputRequestMoveDate = $('#request_move_date');
-    var $inputRequestStyleLikes = $('#request_style_likes');
-    var $inputRequestStyleDislikes = $('#request_style_dislikes');
-    var $inputRequestColorLikes = $('#request_color_likes');
-    var $inputRequestColorDislikes = $('#request_color_dislikes');
     var $inputRequestDate = $('#request_date');
     var $inputRequestTime = $('#request_time');
-    var $inputRequestPlace = $('#request_place');
+    var $choiceRequestPlace = $('#request_place_choice');
     var $inputRequestRequest = $('#request_request');
+    var $inputRequestStyle = $('#request_style');
+    var $inputRequestColor = $('#request_color');
+    var $textareaRequestMemo = $('#request_memo');
+
+    var $inputRequestStyleLikes = $('#request_style_likes')
+    var $inputRequestStyleDislikes = $('#request_style_dislikes')
+    var $inputRequestColorLikes = $('#request_color_likes')
+    var $inputRequestColorDislikes = $('#request_color_dislikes')
+    var $inputRequestPlace = $('#request_place')
+    var $inputRequestFamilyOther = $('#request_family_other');
+    var $inputRequestTimeOther = $('#request_time_other');
+    var $inputRequestRequestOther = $('#request_request_other');
+
+    var $btnComplete = $('button.complete');
+
+    var formStyleLikes = [];
+    var formStyleDislikes = [];
+
 
     var styleTemplate = [
         '<div class="form-col">\
@@ -113,6 +130,129 @@ $(function () {
         })
     }
 
+    $btnComplete.bind('click', function(event) {
+        event.preventDefault();
+
+        var $formStyleGrid = $('.form-grid.form-style');
+        var $formColorGrid = $('.form-grid.form-color');
+        var $formPlace = $('.form-choice.form-place');
+        var formStyleLikes = [];
+        var formStyleDislikes = [];
+        var formColorLikes = [];
+        var formColorDislikes = [];
+
+        $formStyleGrid.find('.form-col').filter('.liked, .disliked').each(function (index, element) {
+            var $element = $(element);
+            var value = $element.data('value');
+
+            if ($element.hasClass('liked')) {
+                formStyleLikes.push(value);
+            }
+            else {
+                formStyleDislikes.push(value);
+            }
+        });
+
+        $formColorGrid.find('.form-col').filter('.liked, .disliked').each(function (index, element) {
+            var $element = $(element);
+            var value = $element.data('value');
+
+            if ($element.hasClass('liked')) {
+                formColorLikes.push(value);
+            }
+            else {
+                formColorDislikes.push(value);
+            }
+        });
+
+        $inputRequestStyleLikes.val(formStyleLikes.join(','));
+        $inputRequestStyleDislikes.val(formStyleDislikes.join(','));
+        $inputRequestColorLikes.val(formColorLikes.join(','));
+        $inputRequestColorDislikes.val(formColorDislikes.join(','));
+
+        $inputRequestPlace.val($formPlace.find('.form-choice-item.active').eq(0).data('value'));
+
+        var form = $form.serializeJson();
+
+        if($inputRequestIsValuable.filter(':checked').length === 0) {
+            form.request_is_valuable = 0;
+        }
+
+        if($inputRequestIsContracted.filter(':checked').length === 0) {
+            form.request_is_contracted = 0;
+        }
+
+        form.request_phone = form.request_phone.replace(/\-/gi, '');
+
+        if (form.user_family === 'other') {
+            // form.user_family = $inputUserFamilyOther.val();
+            form.user_family = '기타';
+        }
+
+        if (form.user_time === 'other') {
+            form.user_time = '기타'
+        }
+
+        form.request_request = '';
+        $('.form-select-item.form-select-request.active').each(function (index, element) {
+            var $element = $(element);
+            var value = $element.data('value');
+            if (value !== 'other') {
+                form.request_request += (value + '\n');
+            }
+        });
+        // debugger;
+        // form.user_request += $inputUserRequestOther.val();
+
+        validation(form);
+
+
+    });
+
+    var validation = function(data) {
+        if (data.request_name === '') {
+            swal({
+                title: '이름은 반드시 입력해야 합니다.',
+                type: 'warning'
+            }, function() {
+                setTimeout(function() {
+                    $inputRequestName.focus();
+                }, 50);
+            });
+        } else if (data.request_phone === '') {
+            swal({
+                title: '전화번호는 반드시 입력해야 합니다.',
+                type: 'warning'
+            }, function() {
+                setTimeout(function() {
+                    $inputRequestPhone.focus();
+                }, 50);
+            });
+        } else {
+            http.post('/api/admin/request/save' + (requestID ? '/' + requestID: '/'), data)
+                ['finally'](function() {
+                loading(false);
+            })
+                .then(function(data) {
+                    window.onbeforeunload = null;
+                    swal({
+                        title: '상담정보가 수정되었습니다.',
+                        text: '아래 버튼을 클릭해서 리스트로로 이동하세요.',
+                        type: 'success',
+                        confirmButtonText: '상담정보 리스트 페이지로 이동'
+                    }, function() {
+                        location.href = '/admin/request/list';
+                    });
+                })
+                ['catch'](function(error) {
+                swal({
+                    title: error.value,
+                    type: 'warning'
+                });
+            });
+        }
+    };
+
     var loadRequest = function () {
         loading(true);
         http.post('/api/admin/request/' + requestID)
@@ -134,70 +274,136 @@ $(function () {
                     var request = data.data;
 
                     $inputRequestIsValuable.filter('[value=' + request.rq_is_valuable + ']').prop("checked", true);
+                    $inputRequestIsContracted.filter('[value=' + request.rq_is_contracted + ']').prop("checked", true);
 
                     $inputRequestId.text(request.rq_id || '없음');
-                    $inputRequestName.text(request.rq_name || '없음');
-                    $inputRequestPhone.text(request.rq_phone || '없음');
-                    $inputRequestFamily.text(request.rq_family || '없음');
-                    $inputRequestSizeStr.text(request.rq_size_str || '없음');
-                    $inputRequestBudgetStr.text(request.rq_budget_str || '없음');
-                    $inputRequestAddress.text(request.rq_address_brief && request.rq_address_detail ? request.rq_address_brief + ' '  + request.rq_address_detail : '없음' );
-                    $inputRequestMoveDate.text(request.rq_move_date  === '0000-00-00 00:00:00' ? '없음' : moment(request.rq_move_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                    $inputRequestDate.text(request.rq_date  === '0000-00-00' ? '없음' : moment(request.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                    $inputRequestTime.text(request.rq_time || '없음');
-                    $inputRequestPlace.text(request.rq_place || '없음');
-                    $inputRequestRequest.text(request.rq_request|| '없음');
+                    $inputRequestRegDt.text(request.rq_reg_dt === '0000-00-00' ? '없음' : moment(request.rq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
+                    $inputRequestName.val(request.rq_name || '없음');
+                    $inputRequestPhone.val(request.rq_phone || '없음');
+
+                    $inputRequestFamily.children().filter('option[value=\"' + request.rq_family + '\"]').prop('selected', true);
+                    $inputRequestFamily.selectric('refresh');
+
+                    $inputRequestSizeStr.children().filter('option[value=\"' + request.rq_size + '\"]').prop('selected', true);
+                    $inputRequestSizeStr.selectric('refresh');
+
+                    $inputRequestBudgetStr.children().filter('option[value=\"' + request.rq_budget + '\"]').prop('selected', true);
+                    $inputRequestBudgetStr.selectric('refresh');
+
+                    $inputRequestAddressBrief.val(request.rq_address_brief);
+                    $inputRequestAddressDetail.val(request.rq_address_detail);
+                    $inputRequestMoveDate.val(request.rq_move_date  === '0000-00-00 00:00:00' ? '' : moment(request.rq_move_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
+                    $inputRequestDate.val(request.rq_date  === '0000-00-00' ? '' : moment(request.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
+
+                    $inputRequestTime.children().filter('option[value=\"' + request.rq_time + '\"]').prop('selected', true);
+                    $inputRequestTime.selectric('refresh');
+
+                    $choiceRequestPlace.children().filter('[data-value=\"' + request.rq_place + '\"]').addClass('active');
+
+                    $textareaRequestMemo.val(request.rq_memo);
+
+                    $form.find('.form-choice .form-choice-item').bind('click', function (event) {
+                        var $this = $(this);
+                        if ($this.hasClass('active') === false) {
+                            $this.addClass('active').siblings('.active').removeClass('active');
+                        }
+                    });
 
                     var styleLikesList = request.rq_style_likes === "" ? [] : request.rq_style_likes.split(',');
                     var styleDislikesList = request.rq_style_dislikes === "" ? [] : request.rq_style_dislikes.split(',');
                     var colorLikesList = request.rq_color_likes === "" ? [] : request.rq_color_likes.split(',');
                     var colorDislikesList = request.rq_color_dislikes === "" ? [] : request.rq_color_dislikes.split(',');
 
-                    var styleLikesListHtml = '';
-                    var styleDislikesListHtml = '';
+                    var requestStyleChildren = $inputRequestStyle.children();
+                    var requestColorChildren = $inputRequestColor.children();
 
                     for ( var i = 0; i < styleLikesList.length; i ++ ) {
-                        styleLikesListHtml += styleTemplate[(parseInt(styleLikesList[i], 10) - 1)];
+                        requestStyleChildren.filter('[data-value=\"' + styleLikesList[i] + '\"]').addClass('liked');
                     }
 
                     for ( var i = 0; i < styleDislikesList.length; i ++ ) {
-                        styleDislikesListHtml += styleTemplate[(parseInt(styleDislikesList[i], 10) - 1)];
+                        requestStyleChildren.filter('[data-value=\"' + styleDislikesList[i] + '\"]').addClass('disliked');
                     }
-
-                    $inputRequestStyleLikes.html(styleLikesListHtml || '없음');
-                    $inputRequestStyleDislikes.html(styleDislikesListHtml || '없음');
-
-                    if (!styleLikesListHtml) {
-                        $inputRequestStyleLikes.removeClass('form-grid')
-                    }
-
-                    if (!styleDislikesListHtml) {
-                        $inputRequestStyleDislikes.removeClass('form-grid')
-                    }
-
-
-                    var colorLikesListHtml = '';
-                    var colorDislikesListHtml = '';
 
                     for ( var i = 0; i < colorLikesList.length; i ++ ) {
-                        colorLikesListHtml += colorTemplate[(parseInt(colorLikesList[i], 10) - 1)];
+                        requestColorChildren.filter('[data-value=\"' + colorLikesList[i] + '\"]').addClass('liked');
                     }
 
                     for ( var i = 0; i < colorDislikesList.length; i ++ ) {
-                        colorDislikesListHtml += colorTemplate[(parseInt(colorDislikesList[i], 10) - 1)];
+                        requestColorChildren.filter('[data-value=\"' + colorDislikesList[i] + '\"]').addClass('disliked');
                     }
 
-                    $inputRequestColorLikes.html(colorLikesListHtml || '없음');
-                    $inputRequestColorDislikes.html(colorDislikesListHtml || '없음');
+                    $form.find('.form-grid .form-col').find('.btn-like, .btn-dislike').bind('click', function (event) {
+                        event.preventDefault();
+                        var $this = $(this);
+                        var $target = $this.closest('.form-col');
+                        $target.removeClass('liked').removeClass('disliked');
+                        if ($this.hasClass('btn-like')) {
+                            $target.addClass('liked');
+                        }
+                        else {
+                            $target.addClass('disliked');
+                        }
+                    });
 
-                    if (!colorLikesListHtml) {
-                        $inputRequestColorLikes.removeClass('form-grid')
-                    }
+                    var $selectItemGroup = $('<div class="form-select-group"></div>');
+                    var requestList = request.rq_request.split('\n');
 
-                    if (!colorDislikesListHtml) {
-                        $inputRequestColorDislikes.removeClass('form-grid')
-                    }
+                    $inputRequestRequest.hide().find('option').each(function (index, element) {
+                        var $this = $(element);
+                        var $selectItem = $('\
+                          <a href="#" class="form-select-item form-select-request" data-value="' + $this.val() + '">\
+                            <i class="fa fa-square"></i>\
+                            <span>' + $this.text() + '</span>\
+                          </a>\
+                        ');
 
+                        if (requestList.indexOf($this.val()) > -1) {
+                            $selectItem.addClass('active');
+                            $selectItem.find('i').removeClass('fa-sqaure').addClass('fa-check-square');
+                        }
+
+                        $selectItem.bind('click', function (event) {
+                            event.preventDefault();
+                            var $this = $(this);
+                            var value = $this.data('value');
+
+                            $inputRequestRequest.val(value);
+
+                            if ($this.hasClass('active')) {
+                                $this.removeClass('active');
+                                $this.find('i').removeClass('fa-check-square').addClass('fa-square');
+                            }
+                            else {
+                                $this.addClass('active');
+                                $this.find('i').removeClass('fa-sqaure').addClass('fa-check-square');
+                            }
+
+                            if (value === 'other') {
+                                /*
+                                $this.siblings('.active').each(function(index, element) {
+                                  var $this = $(element);
+                                  $this.removeClass('active');
+                                  $this.find('i').removeClass('fa-check-square').addClass('fa-square');
+                                });
+                                */
+                                if ($this.hasClass('active') === true) {
+                                    $selectItemGroup.next().show().focus();
+                                } else {
+                                    $selectItemGroup.next().hide();
+                                }
+                            }
+                            else {
+                                $selectItemGroup.find('.form-select-item.active[data-value="other"]').each(function (index, element) {
+                                    var $this = $(element);
+                                    $this.removeClass('active');
+                                    $this.find('i').removeClass('fa-check-square').addClass('fa-square');
+                                });
+                            }
+                        });
+                        $selectItem.appendTo($selectItemGroup);
+                    });
+                    $selectItemGroup.insertAfter($inputRequestRequest);
                 }
             })
             ['catch'](function (error) {

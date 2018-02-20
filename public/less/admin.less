@@ -164,8 +164,8 @@
                 .picture {
                     &:before {
                         background-color: @color-info;
-                        background-color: fade(@color-info, 90%);
-                        *filter: alpha(opacity=90);
+                        background-color: fade(@color-info, 30%);
+                        *filter: alpha(opacity=30);
                         content: '\e642';
                     }
                 }
@@ -174,8 +174,8 @@
                 .picture {
                     &:before {
                         background-color: @color-red;
-                        background-color: fade(@color-red, 90%);
-                        *filter: alpha(opacity=90);
+                        background-color: fade(@color-red, 30%);
+                        *filter: alpha(opacity=30);
                         content: '\e680';
                     }
                 }
@@ -259,6 +259,24 @@
         .name {
             font-size: 13px;
             text-align: center;
+        }
+    }
+}
+
+.selectric-input {
+    display:none !important;
+}
+
+.management .form {
+    max-width: 720px;
+
+    .form-item {
+        .title {
+            padding-bottom:0.5em;
+        }
+        input {
+            height:2.4em;
+            line-height:2.4em;
         }
     }
 }
