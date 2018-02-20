@@ -1576,16 +1576,18 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
             if(updateObj.request_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
         });
     }
+    if (updateObj.request_is_valuable && updateObj.request_is_contracted) {
+        if (updateObj.request_name === '') {
+            errorMsg = '이름은 반드시 입력해야 합니다.';
+        }
+        else if (updateObj.request_phone === '') {
+            errorMsg = '휴대폰 번호는 반드시 입력해야 합니다.';
+        }
+        else if (regexPhone.test(updateObj.request_phone) === false) {
+            errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
+        }
+    }
 
-    if (updateObj.request_name === '') {
-        errorMsg = '이름은 반드시 입력해야 합니다.';
-    }
-    else if (updateObj.request_phone === '') {
-        errorMsg = '휴대폰 번호는 반드시 입력해야 합니다.';
-    }
-    else if (regexPhone.test(updateObj.request_phone) === false) {
-        errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
-    }
 
     if (errorMsg !== null) {
         res.json(
