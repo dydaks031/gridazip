@@ -4,6 +4,7 @@ $(function () {
     var $inputRequestId = $('#request_id');
 
     var $inputRequestIsValuable = $('#rq_valuable input[type=radio]');
+    var $inputRequestRegDt = $('#request_reg_dt');
     var $inputRequestName = $('#request_name');
     var $inputRequestPhone = $('#request_phone');
     var $inputRequestFamily = $('#request_family');
@@ -136,6 +137,7 @@ $(function () {
                     $inputRequestIsValuable.filter('[value=' + request.rq_is_valuable + ']').prop("checked", true);
 
                     $inputRequestId.text(request.rq_id || '없음');
+                    $inputRequestRegDt.text(request.rq_reg_dt === '0000-00-00' ? '없음' : moment(request.rq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
                     $inputRequestName.text(request.rq_name || '없음');
                     $inputRequestPhone.text(request.rq_phone || '없음');
                     $inputRequestFamily.text(request.rq_family || '없음');
