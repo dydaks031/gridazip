@@ -36,14 +36,14 @@
                 <div class="title">
                     <span>이름</span>
                 </div>
-                <input type="text" id="request_name" />
+                <input type="text" id="request_name" name="request_name"/>
 
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>연락처</span>
                 </div>
-                <input type="text" id="request_phone" />
+                <input type="text" id="request_phone" name="request_phone"/>
             </div>
             <div class="form-item">
                 <div class="title">
@@ -109,20 +109,21 @@
                     <option value='gte5000'>5000만원 이상</option>
                     <option value='gte6000'>6000만원 이상</option>
                     <option value='gte7000'>7000만원 이상</option>
-                    <option value='contact'>협의로 결</option>
+                    <option value='contact'>협의로 결정</option>
                 </select>
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>주소</span>
                 </div>
-                <input type="text" id="request_address" />
+                <input type="text" id="request_address_brief" name="request_address_brief" placeholder="기본 주소" />
+                <input type="text" id="request_address_detail" name="request_address_detail" placeholder="상세 주소" />
             </div>
             <div class="form-item">
                 <div class="title">
                     <span>이사날짜</span>
                 </div>
-                <input type="text" class="calendar" id="request_move_date" name="request_move_date"/>
+                <input type="text" class="calendar" id="request_move_date" name="request_move_date" placeholder="날짜 선택" />
             </div>
             <div class="form-item">
                 <div class="title">
@@ -184,6 +185,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="request_style_likes" id="request_style_likes" />
+                <input type="hidden" name="request_style_dislikes" id="request_style_dislikes" />
             </div>
             <div class="form-item">
                 <div class="title">
@@ -245,6 +248,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="request_color_likes" id="request_color_likes" />
+                <input type="hidden" name="request_color_dislikes" id="request_color_dislikes" />
             </div>
             <div class="form-item">
                 <div class="title">
@@ -269,12 +274,13 @@
                 <div class="title">
                     <span>방문장소</span>
                 </div>
-                <div class="form-choice form-place" id="request_place">
+                <div class="form-choice form-place" id="request_place_choice">
                     <div class="form-choice-item" data-value="현재 거주하고 있는 집">현재 거주하고 있는 집</div>
                     <div class="form-choice-item" data-value="인테리어 할 집">인테리어 할 집</div>
                     <div class="form-choice-item" data-value="카페">카페</div>
                     <div class="form-choice-item" data-value="그리다집 사무실">그리다집 사무실</div>
                 </div>
+                <input type="hidden" id="request_place" name="request_place" />
             </div>
 
 
@@ -299,8 +305,21 @@
                     <option value="other">기타</option>
                 </select>
             </div>
+            <div class="form-item">
+                <div class="title">
+                    <span>메모</span>
+                </div>
+                <textarea style="height:300px;" name="request_memo" id="request_memo"></textarea>
+            </div>
+        </div>
+        <div class="button-wrapper">
+            <div class="button-group">
+                <button class="complete">완료</button>
+                <a href="/admin/request/list" class="button soft">뒤로가기</a>
+            </div>
         </div>
     </form>
+
 </div>
 
 <% include ../../partials/admin/foot.ejs %>
