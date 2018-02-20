@@ -1560,6 +1560,7 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
             if(rq_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
         });
     }
+
     if (rq_is_valuable && rq_is_contracted) {
         updateObj.rq_name = req.body.request_name || '';
         updateObj.rq_family = req.body.request_family || '';
