@@ -1546,21 +1546,21 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
     let errorMsg = null;
     let updateObj = {};
-    
-    updateObj.rq_is_valuable = req.body.request_is_valuable || 0;
-    updateObj.rq_is_contracted = req.body.request_is_contracted || 0;
 
-    if (!updateObj.rq_is_valuable) {
+    const rq_is_valuable = req.body.request_is_valuable || 0;
+    const rq_is_contracted = req.body.request_is_contracted || 0;
+
+    if (!rq_is_valuable) {
         ['0','1','2','3'].forEach(i => {
-            if(updateObj.rq_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
+            if(rq_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
         });
     }
-    if (!updateObj.rq_is_contracted) {
+    if (!rq_is_contracted) {
         ['0','1','2'].forEach(i => {
-            if(updateObj.rq_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
+            if(rq_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
         });
     }
-    if (updateObj.rq_is_valuable && updateObj.rq_is_contracted) {
+    if (rq_is_valuable && rq_is_contracted) {
         updateObj.rq_name = req.body.request_name || '';
         updateObj.rq_family = req.body.request_family || '';
         updateObj.rq_size = req.body.request_size || '';
@@ -1584,6 +1584,14 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
         }
         else if (regexPhone.test(updateObj.rq_phone) === false) {
             errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
+        }
+    }
+    else {
+        if (rq_is_valuable) {
+            updateObj.rq_is_valuable = rq_is_valuable;
+        }
+        if (rq_is_contracted) {
+            updateObj.rq_is_contracted = rq_is_contracted;
         }
     }
 
