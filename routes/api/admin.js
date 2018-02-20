@@ -1543,28 +1543,11 @@ router.post('/request/list', (req, res, next) => {
 
 router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     const rq_pk = req.params.rqpk;
-
+    let errorMsg = null;
     let updateObj = {};
     
     updateObj.request_is_valuable = req.body.request_is_valuable || 0;
     updateObj.request_is_contracted = req.body.request_is_contracted || 0;
-
-    updateObj.request_name = req.body.request_name || '';
-    updateObj.request_family = req.body.request_family || '';
-    updateObj.request_size = req.body.request_size || '';
-    updateObj.request_address_brief = req.body.request_address_brief || '';
-    updateObj.request_address_detail = req.body.request_address_detail || '';
-    updateObj.request_move_date = req.body.request_move_date || '';
-    updateObj.request_style_likes = req.body.request_style_likes || '';
-    updateObj.request_style_dislikes = req.body.request_style_dislikes || '';
-    updateObj.request_color_likes = req.body.request_color_likes || '';
-    updateObj.request_color_dislikes = req.body.request_color_dislikes || '';
-    updateObj.request_place = req.body.request_place || '';
-    updateObj.request_date = req.body.request_date || '';
-    updateObj.request_time = req.body.request_time || '';
-    updateObj.request_request = req.body.request_request || '';
-
-    let errorMsg = null;
 
     if (!updateObj.request_is_valuable) {
         ['0','1','2','3'].forEach(i => {
@@ -1577,6 +1560,21 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
         });
     }
     if (updateObj.request_is_valuable && updateObj.request_is_contracted) {
+        updateObj.request_name = req.body.request_name || '';
+        updateObj.request_family = req.body.request_family || '';
+        updateObj.request_size = req.body.request_size || '';
+        updateObj.request_address_brief = req.body.request_address_brief || '';
+        updateObj.request_address_detail = req.body.request_address_detail || '';
+        updateObj.request_move_date = req.body.request_move_date || '';
+        updateObj.request_style_likes = req.body.request_style_likes || '';
+        updateObj.request_style_dislikes = req.body.request_style_dislikes || '';
+        updateObj.request_color_likes = req.body.request_color_likes || '';
+        updateObj.request_color_dislikes = req.body.request_color_dislikes || '';
+        updateObj.request_place = req.body.request_place || '';
+        updateObj.request_date = req.body.request_date || '';
+        updateObj.request_time = req.body.request_time || '';
+        updateObj.request_request = req.body.request_request || '';
+
         if (updateObj.request_name === '') {
             errorMsg = '이름은 반드시 입력해야 합니다.';
         }
@@ -1587,7 +1585,6 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
             errorMsg = '휴대폰 번호 형식이 올바르지 않습니다.';
         }
     }
-
 
     if (errorMsg !== null) {
         res.json(
