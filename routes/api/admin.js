@@ -1568,12 +1568,12 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
 
     if (!updateObj.request_is_valuable) {
         ['0','1','2','3'].forEach(i => {
-            if(request_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
+            if(updateObj.request_is_valuable === i) errorMsg = '[request_is_valuable] 값이 올바르지 않습니다.';
         });
     }
     if (!updateObj.request_is_contracted) {
         ['0','1','2'].forEach(i => {
-            if(request_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
+            if(updateObj.request_is_contracted === i) errorMsg = '[request_is_contracted] 값이 올바르지 않습니다.';
         });
     }
 
