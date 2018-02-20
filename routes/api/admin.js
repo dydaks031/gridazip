@@ -1458,6 +1458,7 @@ router.post('/request/list', (req, res, next) => {
     var filterInst = new filterService(filter);
     var pageData = pageInst.get();
     var filterIsValuableValue = filterInst.getFilter('isValuable');
+    var filterIsContractedValue = filterInst.getFilter('isContracted');
     if (pageInst.isEnd() === true) {
         res.json(
             resHelper.getJson({
@@ -1474,6 +1475,9 @@ router.post('/request/list', (req, res, next) => {
 
         if (filterIsValuableValue !== null) {
             query = query.where('rq_is_valuable', filterIsValuableValue);
+        }
+        if (filterIsContractedValue !== null) {
+            query = query.where('rq_is_contracted', filterIsContractedValue);
         }
 
         query = query.orderBy('request_tbl.rq_recency');
@@ -1509,13 +1513,13 @@ router.post('/request/list', (req, res, next) => {
                 if (list.length < pageInst.limit) {
                     pageInst.setEnd(true);
                 }
-                if (filterIsValuableValue !== null) {
-                    query = query.where('rq_is_valuable', filterIsValuableValue);
-                }
 
                 var countQuery = cur('request_tbl').count('* as count');
                 if (filterIsValuableValue !== null) {
                     countQuery = countQuery.where('rq_is_valuable', filterIsValuableValue);
+                }
+                if (filterIsContractedValue !== null) {
+                    countQuery = countQuery.where('rq_is_contracted', filterIsContractedValue);
                 }
                 return countQuery
             })
@@ -1540,10 +1544,21 @@ router.post('/request/list', (req, res, next) => {
 router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
     var rq_ok = req.params.rqpk;
     var request_is_valuable = req.body.request_is_valuable;
+    var request_is_contracted = req.body.request_is_contracted;
     var validation = false;
-    ['0','1','2'].forEach(i => {
-        if(request_is_valuable === i) validation = true;
-    });
+    var updateObj = {};
+    if (!request_is_valuable || request_is_valuable === 'null') {
+        updateObj.rq_is_valuable = request_is_valuable;
+        ['0','1','2','3'].forEach(i => {
+            if(request_is_valuable === i) validation = true;
+        });
+    }
+    if (!request_is_contracted || request_is_contracted === 'null') {
+        updateObj.rq_is_contracted = request_is_contracted;
+        ['0','1','2'].forEach(i => {
+            if(request_is_contracted === i) validation = true;
+        });
+    }
 
     if(!validation) {
         res.json(
@@ -1551,15 +1566,15 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
         )
     }
 
+
+
     knexBuilder.getConnection().then(cur => {
 
         cur('request_tbl')
             .where({
                 rq_pk: rq_ok
             })
-            .update({
-                rq_is_valuable: request_is_valuable
-            })
+            .update(updateObj)
             .finally(() => {
                 res.json(
                     resHelper.getJson({
