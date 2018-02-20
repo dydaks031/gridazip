@@ -24,7 +24,7 @@ $(function () {
 
     var loadPromise;
     var loadRequest = function () {
-        $request.find('tbody').empty().append('<tr><td colspan="8" class="loading"></td></tr>');
+        $request.find('tbody').empty().append('<tr><td colspan="9" class="loading"></td></tr>');
 
         try {
             if (typeof loadPromise !== 'undefined') {
@@ -57,6 +57,7 @@ $(function () {
                                 <td class="center">' + element.rq_phone + '</td>\
                                 <td class="center">' + (element.rq_date === '0000-00-00' ? '' : moment(element.rq_date, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD')) + '</td>\
                                 <td class="center">' + element.rq_time + '</td>\
+                                <td class="center">' + (element.rq_reg_dt === '0000-00-00' ? '' : moment(element.rq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD')) + '</td>\
                                 <td class="center rq-is-valuable-wrap">\
                                     <label for="rq_is_valuable_' +  idx + '"><input type="radio" id="rq_is_valuable_' +  idx + '" value="1" name="request_is_valuable_' +  idx + '" />Y</label>\
                                     <label for="rq_is_not_valuable_' +  idx + '"><input type="radio" id="rq_is_not_valuable_' +  idx + '" value="2" name="request_is_valuable_' +  idx + '" />N</label>\
