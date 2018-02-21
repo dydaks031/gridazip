@@ -6,7 +6,8 @@
     "start": "node ./node_modules/.bin/pm2 start bin/www --name gridazip-site",
     "poststart": "node ./node_modules/.bin/pm2 logs",
     "start-gulp": "gulp",
-    "build": "gulp build"
+    "build": "gulp build",
+    "stop":  "node ./node_modules/.bin/pm2 stop gridazip-site"
   },
   "dependencies": {
     "aws-sdk": "^2.46.0",
