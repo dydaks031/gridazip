@@ -4,3 +4,5 @@ job_deploy:
     stage: deploy
     script:
         - echo 'hi'
+    tags:
+      devbuild2
