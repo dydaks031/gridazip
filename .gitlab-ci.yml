@@ -4,4 +4,3 @@ lets_testing:
     stage: test
     script:
         - echo hi
-        - echo $CI_PROJECT_DIR
