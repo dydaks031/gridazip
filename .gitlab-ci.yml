@@ -1,6 +1,8 @@
 stages:
     - test
-lets_testing:
-    stage: test
+before_script:
+  - sudo npm install
+job_deploy:
+    stage: deploy
     script:
-        - echo hi
+        - sudo npm start
