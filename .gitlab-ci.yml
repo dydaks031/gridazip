@@ -1,8 +1,6 @@
 stages:
     - deploy
-before_script:
-  - sudo npm install
 job_deploy:
     stage: deploy
     script:
-        - sudo npm start
+        - echo 'hi'
