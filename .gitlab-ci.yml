@@ -3,6 +3,6 @@ stages:
 job_deploy:
     stage: deploy
     script:
-        - echo 'hi'
+      - echo 'hi'
     tags:
-      devbuild2
+      - devbuild2
