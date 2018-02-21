@@ -1,5 +1,5 @@
 stages:
-    - test
+    - deploy
 before_script:
   - sudo npm install
 job_deploy:
