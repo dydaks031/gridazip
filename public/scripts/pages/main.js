@@ -22,7 +22,6 @@ $(function () {
         }
     }).triggerHandler('scroll.geo');
     */
-    alert('a');
     $visual.find('h1').addClass('active');
     setTimeout(function () {
         $visual.find('h2').addClass('active');
