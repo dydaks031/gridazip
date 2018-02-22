@@ -2,7 +2,6 @@ stages:
   - deploy
 before_script:
   - sudo npm install
-  - sudo npm run stop
 job_deploy:
   stage: deploy
   script:
