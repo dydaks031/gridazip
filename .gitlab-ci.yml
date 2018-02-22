@@ -1,9 +1,6 @@
-
-
 cache:
-  paths:
+  directories:
     - node_modules/
-
 stages:
   - deploy
 before_script:
