@@ -1,6 +1,5 @@
 stages:
   - deploy
-
 before_script:
   - sudo npm run stop
   - sudo npm install
