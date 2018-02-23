@@ -39,7 +39,7 @@ $(function () {
               '<tr data-idx="' + element.cr_pk + '">' +
               '    <td class="center">' + element.cr_pk + '</td>' +
               '    <td class="center">' +
-              '        <a href="' + element.cr_image + '" class="block no-font magnific"><img src="' + element.cr_image + '/></a>' +
+              '        <a href="' + element.cr_image + '" class="block no-font magnific"><img src="' + element.cr_image + '"/></a>' +
               '    </td>' +
               '    <td class="left">' + element.cr_name + '</td>' +
               '    <td class="left">' + (element.cr_address || '-') + '</td>' +

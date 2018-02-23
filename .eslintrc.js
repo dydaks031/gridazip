@@ -6,6 +6,7 @@ module.exports = {
   },
   "rules": {
     "no-useless-escape": 0,
+    "no-multi-str": 0,
   },
   "globals": {
     "$": true,
@@ -19,5 +20,12 @@ module.exports = {
     "confirm": true,
     "moment": true,
     "daum": true,
+    "_": true,
+    "tingle": true,
+    "Render": true,
+    "user": true,
+    "ga": true,
+    "$selectric": true,
+    "browser": true,
   }
 };
