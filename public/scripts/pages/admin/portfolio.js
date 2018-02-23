@@ -165,7 +165,7 @@ $(function () {
     var loadPortfolio = function () {
       loading(true)
       http.post('/api/admin/portfolio/' + portfolioID)
-        ['finally'](function () {
+        .finally(function () {
           loading(false)
         })
         .then(function (data) {
@@ -181,11 +181,7 @@ $(function () {
           } else {
             var portfolio = data.data
             var images = data.images
-            var positions = data.positions
             var documents = data.documents
-            var designer_images = data.designer_images
-            var receipt_employee = data.receipt.employee
-            var receipt_resource = data.receipt.resource
 
             $inputPortfolioTitle.val(portfolio.pf_title)
             $inputPortfolioDesigner.val(portfolio.ds_pk).bind('patch', function () {
@@ -211,16 +207,16 @@ $(function () {
                 $before.after('<img src="' + element.pi_before + '">')
                 $after.after('<img src="' + element.pi_after + '">')
               } else {
-                var index = $btnAddImage.siblings('.form-item').length
-                var $formItem = $('\
-                                <div class="form-item">\
-                                    <div class="col-group">\
-                                        <div class="col-6"><input type="file" name="portfolio_before[' + index + ']" id="portfolio_before" placeholder="Before"></div>\
-                                        <div class="col-6"><input type="file" name="portfolio_after[' + index + ']" id="portfolio_after" placeholder="After"></div>\
-                                    </div>\
-                                    <a href="#" class="btn-close"></a>\
-                                </div>\
-                            ')
+                var imageIndex = $btnAddImage.siblings('.form-item').length
+                var $formItem = $(
+                  '<div class="form-item">' +
+                  '    <div class="col-group">' +
+                  '        <div class="col-6"><input type="file" name="portfolio_before[' + imageIndex + ']" id="portfolio_before" placeholder="Before"></div>' +
+                  '        <div class="col-6"><input type="file" name="portfolio_after[' + imageIndex + ']" id="portfolio_after" placeholder="After"></div>' +
+                  '    </div>' +
+                  '    <a href="#" class="btn-close"></a>' +
+                  '</div>'
+                )
                 $formItem.insertBefore($btnAddImage)
                 $formItem.find('input:file').bindFile()
                 $formItem.find('.btn-close').bind('click', function (event) {
@@ -234,8 +230,8 @@ $(function () {
                 $before.after('<img src="' + element.pi_before + '">')
                 $after.after('<img src="' + element.pi_after + '">')
               }
-              var $beforeInput = $('<input type="hidden" name="portfolio_before_data[' + index + ']">')
-              var $afterInput = $('<input type="hidden" name="portfolio_after_data[' + index + ']">')
+              var $beforeInput = $('<input type="hidden" name="portfolio_before_data[' + imageIndex + ']">')
+              var $afterInput = $('<input type="hidden" name="portfolio_after_data[' + imageIndex + ']">')
 
               $beforeInput.val(element.pi_before)
               $afterInput.val(element.pi_after)
@@ -272,7 +268,7 @@ $(function () {
             // console.log(receipt_resource);
           }
         })
-        ['catch'](function (error) {
+        .catch(function (error) {
           console.log(error)
           swal({
             title: error.value,
