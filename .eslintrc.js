@@ -10,6 +10,7 @@ module.exports = {
   },
   "globals": {
     "$": true,
+    "jQuery": true,
     "swal": true,
     "loading": true,
     "http": true,
@@ -27,5 +28,8 @@ module.exports = {
     "ga": true,
     "$selectric": true,
     "browser": true,
+    "FB": true,
+    "openWindow": true,
+    "NaverApiKey": true,
   }
 };
