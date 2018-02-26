@@ -14,15 +14,9 @@ const Helper = {
             key = key || config.key;
             var decipher = crypto.createDecipher('aes-256-cbc', key);
             var plain = decipher.update(secure, 'hex', 'utf8');
-            console.log('plain : ' + plain);
             plain += decipher.final('utf8');
             return plain;
         } catch(e) {
-            console.log('================================================================================');
-            console.log('secure :'+ secure);
-            console.log('key :'+ key);
-            console.log('e :'+ e);
-            console.log('================================================================================');
             return secure
         }
     }
