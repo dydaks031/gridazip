@@ -171,7 +171,7 @@ $(function () {
                         $beforeType.attr('rowspan', rowspan);
                     }
 
-                    $tr.append('<td class="no-padding"><a href="' + element.rs_image + '" class="magnific" target="_blank"><div class="picture" style="background-image: url(\'' + element.rs_image + '\');" /></a></td>');
+                    $tr.append('<td class="no-padding"><a href="' + element.rs_image + '" class="magnific" target="_blank"><div class="picture" style="background-image: url(' + element.rs_image + ');" /></a></td>');
                     $tr.append('<td>' + element.rt_name + '</td>');
                     $tr.append('<td>' + element.rc_name + '</td>');
                     $tr.append('<td>' + element.rs_name + '</td>');
