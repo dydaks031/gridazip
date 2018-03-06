@@ -3,7 +3,7 @@ const router = express.Router();
 const knexBuilder = require('../services/connection/knex');
 
 router.get('/', (req, res, next) => {
-    res.render('pages/index', {
+    res.render('pages/main', {
         id: 'main',
         sub: 'index',
         title: '그리다집 | 기술이 측정하고 사람이 완성하다',

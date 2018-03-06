@@ -18,28 +18,28 @@ $(function () {
         }, floatingTimeout);
     };
 
-    $window.bind('scroll.floating', function (event) {
-        var scrollTop = $window.scrollTop();
-        var scrollBottom = scrollTop + $window.outerHeight();
-
-        try {
-            clearTimeout(floatingTimer);
-        } catch (e) {
-            ;
-        }
-
-        $floating.removeClass('active');
-
-        if (
-            (
-                window.location.pathname !== '/' ||
-                $visual.offset().top + $visual.outerHeight() < scrollTop
-            ) &&
-            scrollBottom < $footer.offset().top
-        ) {
-            resetFloating();
-        }
-    }).triggerHandler('scroll.floating');
+    // $window.bind('scroll.floating', function (event) {
+    //     var scrollTop = $window.scrollTop();
+    //     var scrollBottom = scrollTop + $window.outerHeight();
+    //
+    //     try {
+    //         clearTimeout(floatingTimer);
+    //     } catch (e) {
+    //         ;
+    //     }
+    //
+    //     $floating.removeClass('active');
+    //
+    //     if (
+    //         (
+    //             window.location.pathname !== '/' ||
+    //             $visual.offset().top + $visual.outerHeight() < scrollTop
+    //         ) &&
+    //         scrollBottom < $footer.offset().top
+    //     ) {
+    //         resetFloating();
+    //     }
+    // }).triggerHandler('scroll.floating');
 
     $('.phone').each(function (i, e) {
         $(e).bind('keydown.phoneHandler keyup.phoneHandler', function (event) {

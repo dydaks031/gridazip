@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <%
+    var fixedTitle = (id === 'main'? title : getTitle(title));
+    %>
+    <title><%= fixedTitle %></title>
+    <link rel="canonical" href="http://<%=domain%><%= path %>">
+    <link rel="alternate" type="application/rss+xml" title="<%= sitename %> RSS" href="http://<%= domain %>/rss">
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#ffe115">
+    <meta name="msapplication-navbutton-color" content="#ffe115">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ffe115">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="Cache-Control" content="public">
+    <meta http-equiv="Cache-Control" content="max-age=3600">
+    <meta http-equiv="Cache-Control" content="must-revalidate">
+    <meta name="author" content="<%= sitename %> [http://<%= domain %>/]" />
+    <meta name="keywords" content="<%= keywords %>">
+    <meta name="description" content="<%= description %>">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="naver-site-verification" content="43b524ef9814fcd30e806f69e902a15d7389f7c0">
+    <meta name="msvalidate.01" content="4D5853AE45A2A2CCC0A48379FA4E0AD8">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= fixedTitle %>">
+    <meta name="twitter:description" content="<%= description %>">
+    <meta name="twitter:image:src" content="https://static.gridazip.com/assets/images/COVER_APP_LARGE.png">
+    <meta name="twitter:url" content="http://<%=domain%><%= path %>">
+    <meta property="og:title" content="<%= fixedTitle %>">
+    <meta property="og:description" content="<%= description %>">
+    <meta property="fb:app_id" content="<%=auth.facebook.key%>">
+    <meta property="og:url" content="http://<%=domain%><%= path %>">
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:site_name" content="<%= sitename %>">
+    <%
+    if (typeof images !== 'undefined') {
+            for (let idx in images) {
+        let image = images[idx].pi_after;
+    %>
+    <meta property="og:image" content="<%=image%>">
+    <%
+    }
+    }
+    else {
+    if (/kakao/.test(agent) === true || true) {
+    %>
+    <meta property="og:image" content="https://static.gridazip.com/assets/images/COVER_APP_LARGE.png">
+    <meta property="og:image:secure_url" content="https://static.gridazip.com/assets/images/COVER_APP_LARGE.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="500">
+    <meta property="og:image:height" content="480">
+    <%
+    }
+    else {
+    %>
+    <meta property="og:image" content="https://static.gridazip.com/assets/images/LOGO_MAIN@x250.png">
+    <meta property="og:image:secure_url" content="https://www.gridazip.com/images/LOGO_MAIN@x250.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="250">
+    <meta property="og:image:height" content="250">
+    <%
+    }
+    }
+    %>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.gridazip.com/assets/images/favicon.ico">
+    <%
+    if (env === 'production') {
+    %>
+    <link rel="stylesheet" href="/styles/dist/bundle.min.css">
+    <%
+    }
+    else {
+    %>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" href="/tingle.js/dist/tingle.min.css">
+    <link rel="stylesheet" href="/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="/pg-calendar/dist/css/pignose.calendar.min.css">
+    <link rel="stylesheet" href="/magnific-popup/dist/magnific-popup.css">
+    <link rel="stylesheet" href="/styles/pickadate/default.css">
+    <link rel="stylesheet" href="/styles/pickadate/default.date.css">
+    <link rel="stylesheet" href="/styles/pickadate/default.time.css">
+    <%
+    }
+    %>
+    <script>
+      window.user = <%-(user ? JSON.stringify(user) : 'null') %>;
+    </script>
+    <script>
+      var FacebookApiKey = '<%=auth.facebook.key%>';
+      var NaverApiKey = '<%=auth.naver.key%>';
+    </script>
+    <script src="/scripts/dist/vendors.min.js"></script>
+    <!--[if lte IE 9]>
+    <script src="/classlist-polyfill/src/index.js"></script>
+    <![endif]-->
+    <%
+    if (env === 'production') {
+    %>
+    <script src="/scripts/dist/bundles.min.js"></script>
+    <%
+    }
+    else {
+    %>
+    <script src="/scripts/polyfills/event-listener.js"></script>
+    <script src="/scripts/lib/jquery.selectric.min.js"></script>
+    <script src="/tingle.js/dist/tingle.js"></script>
+    <script src="/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+    <script src="/scripts/services/http/main.js"></script>
+    <script src="/scripts/services/render/main.js"></script>
+    <script src="/scripts/services/pagination/main.js"></script>
+    <script src="/scripts/services/filter/main.js"></script>
+    <script src="/scripts/helpers/develop.js"></script>
+    <script src="/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="/pg-calendar/dist/js/pignose.calendar.min.js"></script>
+    <script src="/scripts/lib/picker.js"></script>
+    <script src="/scripts/lib/picker.date.js"></script>
+    <script src="/scripts/lib/picker.time.js"></script>
+    <script src="/scripts/helpers/binder.js"></script>
+    <script src="/scripts/helpers/main.js"></script>
+    <script src="/scripts/helpers/polyfills.js"></script>
+    <%
+    }
+    %>
+    <!--[if lte IE 8]>
+    <script async src="/scripts/lib/respond.js"></script>
+    <!-[endif]-->
+</head>
+<body>
+<div id="container">
+
+    <%
+    if (fullscreen === false) {
+    %>
+    <div id="header">
+        <div class="header-inner">
+            <div class="logo">
+                <a href="/" itemscope itemtype="http://schema.org/Organization">
+                    <img itemprop="logo" src="/images/logo_w.png" alt="그리다집 로고" />
+                </a>
+            </div>
+            <div class="menu-wrapper">
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <a href="#" class="button">홈</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#" class="button">포트폴리오</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#" class="button">왜 그리다집인가</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#" class="button">시공인/디자이너</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#" class="button">협력업체</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#" class="button request-button">무료방문상담 신청하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+    }
+    %>
+
+    <div class="contents main">
+        <section class="main-visual-slider">
+            <div class="pos-r">
+                <div class="slider-wrapper">
+                    <div class="image-items main-bg-01">
+                        <div class="main-text">
+                            <p>그리다_집</p>
+                            <p>당신의 삶에 인테리어를 그리다.</p>
+                        </div>
+                    </div>
+                    <div class="image-items main-bg-02">
+                        <div class="main-text">
+                            <p>그리다_집</p>
+                            <p>당신의 삶에 인테리어를 그리다.</p>
+                        </div>
+                    </div>
+                    <div class="image-items main-bg-03">
+                        <div class="main-text">
+                            <p>그리다_집</p>
+                            <p>당신의 삶에 인테리어를 그리다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pos-a request-btn-container">
+                    <a href="#">
+                        <button class="request-btn">무료 방문 상담 신청</button>
+                    </a>
+
+                    <div id='carousel-custom-dots' class='owl-dots'>
+                        <span class='owl-dot'>1</span>
+                        <span class='owl-dot'>2</span>
+                        <span class='owl-dot'>3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="main-portfolio">
+            <span class="background-word">Recent Works</span>
+            <div class="pos-r top-30">
+                <div class="slider-wrapper">
+                    <div class="image-items">
+                        <img src="/images/portpolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portpolio-images-2.jpg" alt="포트폴리오 이미지 1"/>
+                    </div><div class="image-items">
+                        <img src="/images/portpolio-images-3.jpg" alt="포트폴리오 이미지 1"/>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="main-features">
+            <span class="background-word">Features</span>
+            <div class="feature-info">
+                <div class="feature-images">
+                    <img class="vertical-center" src="/images/features_img01.png" alt="그리다집 피쳐 이미지 1번"/>
+                </div>
+                <div class="feature-text-info">
+                    <div class="feature-description-wrapper">
+                        <div class="feature-description">
+                            <p class="feature-description-header">그리다집은 투명하다</p>
+                            <p class="feature-description-body">그리다집은 통합적인 서비스 비용 대신 공사 요소 하나하나의 <br />원가를 투명하게 공개합니다.</p>
+                        </div>
+                        <div class="request-download-btn">
+                            <a href="#">
+                                <button class="request-btn large">가견적서 샘플 다운받기</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-info">
+                <div class="feature-text-info left-align">
+                    <div class="feature-description-wrapper">
+                        <div class="feature-description">
+                            <p class="feature-description-header">그리다집은 디자인이다.</p>
+                            <p class="feature-description-body">그리다집은 모든 고객에게 디자인 제안서, 3D 모델링 스크린 샷 등을 <br />제공합니다.</p>
+                        </div>
+                        <div class="request-download-btn">
+                            <a href="#">
+                                <button class="request-btn large">디자인제안서 샘플 다운받기</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-images right-align">
+                    <img class="vertical-center" src="/images/features_img02.png" alt="그리다집 피쳐 이미지 2번"/>
+                </div>
+            </div>
+            <div class="feature-info">
+                <div class="feature-images">
+                    <img class="vertical-center" src="/images/features_img03.png" alt="그리다집 피쳐 이미지 3번"/>
+                </div>
+                <div class="feature-text-info">
+                    <div class="feature-description-wrapper">
+                        <div class="feature-description">
+                            <p class="feature-description-header">그리다집은 고객이다</p>
+                            <p class="feature-description-body">그리다집은 매니저-디자이너-시공인이 한 프로젝트의 처음과 끝을 함께합니다.</p>
+                        </div>
+                        <div class="request-download-btn">
+                            <a href="#">
+                                <button class="request-btn large">회사소개서 다운받기</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="main-customer-review">
+            <div class="review-wrapper">
+                <p>고객 리뷰</p>
+                <div class="review-slider">
+                    <div class="pos-r">
+                        <div class="review">
+                            <p>
+                                확장방은 단열도 다시 시공하고 샤시를 바꾸니..오 놀랍습니다.
+                                알미늄샤시랑은 차원이 틀리네요... 오늘 아침에 감동먹고 그리다집에 문자보냈어요... 고맙다고.. :)
+                                문고리 하나하나까지 제가 고를 수 있고, 좋아요~
+                            </p>
+                        </div>
+                    </div>
+                    <div class="review-customer-info">
+                        <p class="reviewer-name">세곡동 수지엄마</p>
+                        <p class="reviewer-place">30평 아파트 인테리어</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="main-request">
+            <div class="request-wrapper">
+                <p>무료 방문상담 신청하기</p>
+                <div class="clearing">
+                    <div class="request-form">
+                        <div class="request-input-wrapper">
+                            <div class="input-label-wrapper">
+                                <label for="inputRequestName">이름<span class="red-star">*</span></label>
+                                <input type="text" id="inputRequestName" placeholder="이름을 입력해주세요." />
+                            </div>
+
+                            <div class="input-label-wrapper">
+                                <label for="inputRequestPhone">전화번호<span class="red-star">*</span></label>
+                                <input type="text" id="inputRequestPhone" placeholder="전화번호를 입력해주세요."/>
+                            </div>
+
+                            <a href="#">
+                                <button>본인인증 하기</button>
+                            </a>
+                        </div>
+                        <div class="request-input-wrapper">
+                            <div class="input-label-wrapper">
+                                <div class="clearing">
+                                    <label for="inputRequestName">인증번호 입력<span class="red-star">*</span></label>
+                                    <span class="timer">03:00</span>
+                                </div>
+                                <input type="text" id="inputRequestAuthCode" placeholder="인증번호를 입력해주세요." />
+                            </div>
+
+                            <a href="#">
+                                <button>인증하기</button>
+                            </a>
+                            <a href="#" class="ml-30">
+                                <button>재전송</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="info-download-wrapper">
+                        <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
+                        <img src="/images/logo_g.png" alt="그리다집 로고" />
+                        <p>그리다집의 전문 매니저가 입력하신 번호로 <br />연락을 드린 후, 무료로 방문 상담을 해드립니다.</p>
+                        <span class="info-download">그리다_집 소개자료 다운받기<i class="fa fa-download"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer id="footer">
+        <hr class="footer-stripe" />
+        <div class="footer-wrapper clearing">
+            <div class="logo-info">
+                <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
+                <img src="/images/logo_g.png" alt="그리다집 로고" />
+            </div>
+
+            <div class="contact-info">
+                <p class="footer-title">Contact info: </p>
+                <div class="contact-item">
+                    <div>
+                        <i class="fa fa-location-arrow"></i>
+                    </div>
+                    <div>
+                        <span>서울특별시 강서구 양천로 551-17,<br /> 한화비즈메트로 1차 1010호</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div>
+                        <span>info@gridazip.com</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <i class="fa fa-headphones"></i>
+                    </div>
+                    <div>
+                        <span>0507-1312-2412</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-info">
+                <p class="footer-title">We're social: </p>
+                <ul class="social-list clearing">
+                    <li class="social-icon facebook-icon"></li>
+                    <li class="social-icon instagram-icon"></li>
+                    <li class="social-icon kakao-icon"></li>
+                    <li class="social-icon kakaostory-icon"></li>
+                    <li class="social-icon naver-icon"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-provision">
+            <span>이용약관</span>
+            <span>개인정보처리방침</span>
+            <span>고객문의</span>
+        </div>
+        <div class="footer-compay-info">
+            <span>2018,(주) 그리다집 All right Reserved</span>
+        </div>
+    </footer>
+</div>
+
+<script>
+  (function() {
+    $('.main-visual-slider .slider-wrapper').addClass('owl-carousel').owlCarousel({
+      loop: true,
+      items: 1,
+      nav: true,
+      dots: true,
+      navContainerClass: 'owl-nav-custom',
+      navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+      dotsContainer: '#carousel-custom-dots'
+    });
+  })();
+
+  (function() {
+    $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+      loop: true,
+      items: 2,
+      nav: false,
+      center: true,
+      dots: false,
+      margin:40,
+      navContainerClass: 'owl-nav-custom',
+      navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+    });
+  })();
+</script>
+    <div id="content">
+        <%
+        if (
+                fullscreen === false &&
+                ['login', 'signup', 'find', 'request', 'manage', 'support', 'portfolio'].indexOf(id) === -1 &&
+                (user === null || user.user_work === false)
+        ) {
+        %>
+<%
+}
+%>
+
+
+        <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name": "그리다집",
+    "url": "http://www.gridazip.com",
+    "sameAs": [
+        "https://www.facebook.com/gridazip",
+        "https://www.instagram.com/gridazip/",
+        "https://story.kakao.com/ch/gridazib",
+        "http://blog.naver.com/gridazip"
+    ]
+}
+</script>
+
+        <script src="/scripts/pages/main.js"></script>
+    </div>
+    <%
+    if(fullscreen === false) {
+    %>
+
+    <!-- Channel Plugin Scripts -->
+    <script>
+      window.channelPluginSettings = {
+        "pluginKey": "50362d2e-ba2b-447d-9780-eca5da560176"
+      };
+      (function() {
+        var node = document.createElement('div');
+        node.id = 'ch-plugin';
+        document.body.appendChild(node);
+        var async_load = function() {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = '//cdn.channel.io/plugin/ch-plugin-web.js';
+          s.charset = 'UTF-8';
+          var x = document.getElementsByTagName('script')[0];
+          x.parentNode.insertBefore(s, x);
+        };
+        if (window.attachEvent) {
+          window.attachEvent('onload', async_load);
+        } else {
+          window.addEventListener('DOMContentLoaded', async_load, false);
+        }
+      })();
+    </script>
+    <!-- End Channel Plugin -->
+
+    <%
+    }
+    %>
+</div>
+</body>
+</html>
