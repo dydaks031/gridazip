@@ -69,61 +69,40 @@
 </head>
 <body>
     <% include ./snippets/head-snippet.ejs %>
-    <div id="wrapper">
+    <div id="container">
     <%
         if (fullscreen === false) {
     %>
-    <div id="header">
-        <div class="top">
-            <div class="header-inner">
-                <h1 class="logo">
-                    <a href="/" itemscope itemtype="http://schema.org/Organization">
-                        <%
-                            if (browser.name === "ie" && browser.versionNumber <= 8) {
-                        %>
-                            <img itemprop="logo" src="https://static.gridazip.com/assets/images/logo-main-black.png" alt="그리다집 로고">
-                        <%
-                            }
-                            else {
-                        %>
-                            <img itemprop="logo" src="https://static.gridazip.com/assets/images/logo-main-black.svg" alt="그리다집 로고">
-                        <%
-                            }
-                        %>
-                    </a>
-                </h1>
-                <a href="#" class="btn-menu"></a>
-            </div>
-        </div>
-        <div class="menu">
-            <div class="header-inner">
-                <div class="menu-top">
-                    <%
-                        if (typeof user !== 'object' || typeof (user || {}).user_pk === 'undefined') {
-                    %>
-                        <a href="/user/login">로그인</a>
-                    <%
-                        }
-                        else {
-                    %>
-                        <a href="/user/logout?redirect_url=<%=url%>">로그아웃</a>
-                    <%
-                        }
-                    %>
-                    <a href="/support">고객센터</a>
-                </div>
-                <div class="menu-list">
-                    <a href="/intro" class="menu-item <%= activeLink(id, 'intro', 'active') %>">그리다집이란</a>
-                    <a href="/portfolio" class="menu-item <%= activeLink(id, 'portfolio', 'active') %>">그리다집 포트폴리오</a>
-                    <a href="/request" class="menu-item <%= activeLink(id, 'request', 'active') %>">무료견적받기</a>
-                    <div class="menu-item <%= activeLink(id, 'profile', 'active') %>" data-sub="profile">
-                        <a href="/profile">디자이너, 시공자 소개</a>
-                        <div id="sub-menu-profile" class="sub-menu-group">
-                            <a href="/profile/designer" class="<%= activeSubLink(id, sub, 'profile', 'designer', 'active') %>">디자이너 소개</a>
-                            <a href="/profile/constructor" class="<%= activeSubLink(id, sub, 'profile', 'constructor', 'active') %>">시공자 소개</a>
+        <div id="header">
+            <div>
+                <div class="header-inner">
+                    <div class="logo">
+                        <a href="/" itemscope itemtype="http://schema.org/Organization">
+                            <img itemprop="logo" src="/images/logo_w.png" alt="그리다집 로고" />
+                        </a>
+                    </div>
+                    <div class="menu-wrapper">
+                        <div class="menu-list">
+                            <div class="menu-item">
+                                <a href="#" class="button">홈</a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="#" class="button">포트폴리오</a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="#" class="button">왜 그리다집인가</a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="#" class="button">시공인/디자이너</a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="#" class="button">협력업체</a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="#" class="button request-button">무료방문상담 신청하기</a>
+                            </div>
                         </div>
                     </div>
-                    <a href="/manage" class="menu-item <%= activeLink(id, 'manage', 'active') %>">내 공사관리</a>
                 </div>
             </div>
         </div>
@@ -131,18 +110,3 @@
         }
     %>
     </div>
-    <div id="content">
-        <%
-            if (
-                fullscreen === false &&
-                ['login', 'signup', 'find', 'request', 'manage', 'support', 'portfolio'].indexOf(id) === -1 &&
-                (user === null || user.user_work === false)
-            ) {
-        %>
-        <a href="/request" class="btn-floating">
-            <span>무료 방문상담 신청하기</span>
-            <i class="pe-7s-angle-right"></i>
-        </a>
-        <%
-            }
-        %>

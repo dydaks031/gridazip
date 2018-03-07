@@ -1,176 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <%
-    var fixedTitle = (id === 'main'? title : getTitle(title));
-    %>
-    <title><%= fixedTitle %></title>
-    <link rel="canonical" href="http://<%=domain%><%= path %>">
-    <link rel="alternate" type="application/rss+xml" title="<%= sitename %> RSS" href="http://<%= domain %>/rss">
-    <meta charset="UTF-8">
-    <meta name="theme-color" content="#ffe115">
-    <meta name="msapplication-navbutton-color" content="#ffe115">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#ffe115">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Content-Script-Type" content="text/javascript">
-    <meta http-equiv="Content-Style-Type" content="text/css">
-    <meta http-equiv="Cache-Control" content="public">
-    <meta http-equiv="Cache-Control" content="max-age=3600">
-    <meta http-equiv="Cache-Control" content="must-revalidate">
-    <meta name="author" content="<%= sitename %> [http://<%= domain %>/]" />
-    <meta name="keywords" content="<%= keywords %>">
-    <meta name="description" content="<%= description %>">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="naver-site-verification" content="43b524ef9814fcd30e806f69e902a15d7389f7c0">
-    <meta name="msvalidate.01" content="4D5853AE45A2A2CCC0A48379FA4E0AD8">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<%= fixedTitle %>">
-    <meta name="twitter:description" content="<%= description %>">
-    <meta name="twitter:image:src" content="https://static.gridazip.com/assets/images/COVER_APP_LARGE.png">
-    <meta name="twitter:url" content="http://<%=domain%><%= path %>">
-    <meta property="og:title" content="<%= fixedTitle %>">
-    <meta property="og:description" content="<%= description %>">
-    <meta property="fb:app_id" content="<%=auth.facebook.key%>">
-    <meta property="og:url" content="http://<%=domain%><%= path %>">
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ko_KR">
-    <meta property="og:locale:alternate" content="en_US">
-    <meta property="og:site_name" content="<%= sitename %>">
-    <%
-    if (typeof images !== 'undefined') {
-            for (let idx in images) {
-        let image = images[idx].pi_after;
-    %>
-    <meta property="og:image" content="<%=image%>">
-    <%
-    }
-    }
-    else {
-    if (/kakao/.test(agent) === true || true) {
-    %>
-    <meta property="og:image" content="https://static.gridazip.com/assets/images/COVER_APP_LARGE.png">
-    <meta property="og:image:secure_url" content="https://static.gridazip.com/assets/images/COVER_APP_LARGE.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="500">
-    <meta property="og:image:height" content="480">
-    <%
-    }
-    else {
-    %>
-    <meta property="og:image" content="https://static.gridazip.com/assets/images/LOGO_MAIN@x250.png">
-    <meta property="og:image:secure_url" content="https://www.gridazip.com/images/LOGO_MAIN@x250.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="250">
-    <meta property="og:image:height" content="250">
-    <%
-    }
-    }
-    %>
-    <link rel="shortcut icon" type="image/x-icon" href="https://static.gridazip.com/assets/images/favicon.ico">
-    <%
-    if (env === 'production') {
-    %>
-    <link rel="stylesheet" href="/styles/dist/bundle.min.css">
-    <%
-    }
-    else {
-    %>
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/sweetalert/dist/sweetalert.css">
-    <link rel="stylesheet" href="/tingle.js/dist/tingle.min.css">
-    <link rel="stylesheet" href="/owl.carousel/dist/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="/pg-calendar/dist/css/pignose.calendar.min.css">
-    <link rel="stylesheet" href="/magnific-popup/dist/magnific-popup.css">
-    <link rel="stylesheet" href="/styles/pickadate/default.css">
-    <link rel="stylesheet" href="/styles/pickadate/default.date.css">
-    <link rel="stylesheet" href="/styles/pickadate/default.time.css">
-    <%
-    }
-    %>
-    <script>
-      window.user = <%-(user ? JSON.stringify(user) : 'null') %>;
-    </script>
-    <script>
-      var FacebookApiKey = '<%=auth.facebook.key%>';
-      var NaverApiKey = '<%=auth.naver.key%>';
-    </script>
-    <script src="/scripts/dist/vendors.min.js"></script>
-    <!--[if lte IE 9]>
-    <script src="/classlist-polyfill/src/index.js"></script>
-    <![endif]-->
-    <%
-    if (env === 'production') {
-    %>
-    <script src="/scripts/dist/bundles.min.js"></script>
-    <%
-    }
-    else {
-    %>
-    <script src="/scripts/polyfills/event-listener.js"></script>
-    <script src="/scripts/lib/jquery.selectric.min.js"></script>
-    <script src="/tingle.js/dist/tingle.js"></script>
-    <script src="/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-    <script src="/scripts/services/http/main.js"></script>
-    <script src="/scripts/services/render/main.js"></script>
-    <script src="/scripts/services/pagination/main.js"></script>
-    <script src="/scripts/services/filter/main.js"></script>
-    <script src="/scripts/helpers/develop.js"></script>
-    <script src="/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src="/pg-calendar/dist/js/pignose.calendar.min.js"></script>
-    <script src="/scripts/lib/picker.js"></script>
-    <script src="/scripts/lib/picker.date.js"></script>
-    <script src="/scripts/lib/picker.time.js"></script>
-    <script src="/scripts/helpers/binder.js"></script>
-    <script src="/scripts/helpers/main.js"></script>
-    <script src="/scripts/helpers/polyfills.js"></script>
-    <%
-    }
-    %>
-    <!--[if lte IE 8]>
-    <script async src="/scripts/lib/respond.js"></script>
-    <!-[endif]-->
-</head>
-<body>
-<div id="container">
-
-    <%
-    if (fullscreen === false) {
-    %>
-    <div id="header">
-        <div class="header-inner">
-            <div class="logo">
-                <a href="/" itemscope itemtype="http://schema.org/Organization">
-                    <img itemprop="logo" src="/images/logo_w.png" alt="그리다집 로고" />
-                </a>
-            </div>
-            <div class="menu-wrapper">
-                <div class="menu-list">
-                    <div class="menu-item">
-                        <a href="#" class="button">홈</a>
-                    </div>
-                    <div class="menu-item">
-                        <a href="#" class="button">포트폴리오</a>
-                    </div>
-                    <div class="menu-item">
-                        <a href="#" class="button">왜 그리다집인가</a>
-                    </div>
-                    <div class="menu-item">
-                        <a href="#" class="button">시공인/디자이너</a>
-                    </div>
-                    <div class="menu-item">
-                        <a href="#" class="button">협력업체</a>
-                    </div>
-                    <div class="menu-item">
-                        <a href="#" class="button request-button">무료방문상담 신청하기</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <%
-    }
-    %>
+<% include ../partials/head.ejs %>
 
     <div class="contents main">
         <section class="main-visual-slider">
@@ -179,19 +7,19 @@
                     <div class="image-items main-bg-01">
                         <div class="main-text">
                             <p>그리다_집</p>
-                            <p>당신의 삶에 인테리어를 그리다.</p>
+                            <p>당신의 삶에 인테리어를 그리다</p>
                         </div>
                     </div>
                     <div class="image-items main-bg-02">
                         <div class="main-text">
-                            <p>그리다_집</p>
-                            <p>당신의 삶에 인테리어를 그리다.</p>
+                            <p>그리다_꿈</p>
+                            <p>따뜻하고 행복한 당신의 꿈이 이루어지는 곳</p>
                         </div>
                     </div>
                     <div class="image-items main-bg-03">
                         <div class="main-text">
-                            <p>그리다_집</p>
-                            <p>당신의 삶에 인테리어를 그리다.</p>
+                            <p>그리다_일상</p>
+                            <p>소중한 당신의 일상이 더해지는 곳</p>
                         </div>
                     </div>
                 </div>
@@ -215,11 +43,23 @@
                 <div class="slider-wrapper">
                     <div class="image-items">
                         <img src="/images/portpolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
                     </div>
                     <div class="image-items">
                         <img src="/images/portpolio-images-2.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
                     </div><div class="image-items">
                         <img src="/images/portpolio-images-3.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
                     </div>
 
                 </div>
@@ -228,7 +68,7 @@
         <section class="main-features">
             <span class="background-word">Features</span>
             <div class="feature-info">
-                <div class="feature-images">
+                <div class="feature-images feature-1">
                     <img class="vertical-center" src="/images/features_img01.png" alt="그리다집 피쳐 이미지 1번"/>
                 </div>
                 <div class="feature-text-info">
@@ -259,12 +99,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="feature-images right-align">
+                <div class="feature-images right-align feature-2">
                     <img class="vertical-center" src="/images/features_img02.png" alt="그리다집 피쳐 이미지 2번"/>
                 </div>
             </div>
             <div class="feature-info">
-                <div class="feature-images">
+                <div class="feature-images feature-3">
                     <img class="vertical-center" src="/images/features_img03.png" alt="그리다집 피쳐 이미지 3번"/>
                 </div>
                 <div class="feature-text-info">
@@ -349,65 +189,9 @@
             </div>
         </section>
     </div>
-
-    <footer id="footer">
-        <hr class="footer-stripe" />
-        <div class="footer-wrapper clearing">
-            <div class="logo-info">
-                <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
-                <img src="/images/logo_g.png" alt="그리다집 로고" />
-            </div>
-
-            <div class="contact-info">
-                <p class="footer-title">Contact info: </p>
-                <div class="contact-item">
-                    <div>
-                        <i class="fa fa-location-arrow"></i>
-                    </div>
-                    <div>
-                        <span>서울특별시 강서구 양천로 551-17,<br /> 한화비즈메트로 1차 1010호</span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div>
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                    <div>
-                        <span>info@gridazip.com</span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div>
-                        <i class="fa fa-headphones"></i>
-                    </div>
-                    <div>
-                        <span>0507-1312-2412</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="social-info">
-                <p class="footer-title">We're social: </p>
-                <ul class="social-list clearing">
-                    <li class="social-icon facebook-icon"></li>
-                    <li class="social-icon instagram-icon"></li>
-                    <li class="social-icon kakao-icon"></li>
-                    <li class="social-icon kakaostory-icon"></li>
-                    <li class="social-icon naver-icon"></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-provision">
-            <span>이용약관</span>
-            <span>개인정보처리방침</span>
-            <span>고객문의</span>
-        </div>
-        <div class="footer-compay-info">
-            <span>2018,(주) 그리다집 All right Reserved</span>
-        </div>
-    </footer>
 </div>
+
+<% include ../partials/foot.ejs %>
 
 <script>
   (function() {
@@ -463,8 +247,7 @@
 }
 </script>
 
-        <script src="/scripts/pages/main.js"></script>
-    </div>
+<script src="/scripts/pages/main.js"></script>
     <%
     if(fullscreen === false) {
     %>
@@ -499,6 +282,3 @@
     <%
     }
     %>
-</div>
-</body>
-</html>
