@@ -568,10 +568,10 @@ $(function () {
           }
         })
         ['catch'](function (error) {
-        swal({
-          title: error.msg,
-          type: 'warning'
-        });
+          swal({
+            title: error.value,
+            type: 'warning'
+          });
       });
     }
   });

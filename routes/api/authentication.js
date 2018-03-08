@@ -25,45 +25,47 @@ router.post('/sms/request', (req, res, next) => {
       resHelper.getError(errorMsg)
     );
   }
-  const phoneNumber = inputPhoneNumber.replace(/[^\d]/g, '');
-  const cryptedPhoneNumber = cryptoHelper.encrypt(phoneNumber);
-  const authKey = formatHelper.lpad((Math.floor(Math.random() * 100) + 1), 2, '0');
-  const msg = `[그리다집] 인증번호는 (${authKey}) 입니다. 정확히 입력해주세요.`;
-  knexBuilder.getConnection().then(cur => {
-    cur('authentication_tbl')
-      .select('*')
-      .where({auth_phone: cryptedPhoneNumber})
-      .limit(1)
-      .then(response => {
-        if (response.length < 1) {
-          return cur('authentication_tbl').insert({
-            auth_phone: cryptedPhoneNumber,
-            auth_key: authKey,
-            auth_limited_minute: 3
-          })
-        }
-        else {
-          return cur('authentication_tbl').update({auth_key: authKey}).where({auth_phone: cryptedPhoneNumber})
-        }
-      })
-      .then(response => {
-        // smsHelper.send('01088329144', msg)
-        smsHelper.send(phoneNumber, msg)
-          .then(response => {
-            res.json(
-              resHelper.getJson({msg: '인증번호가 발송되었습니다.\n아래 인증번호란에 기입해주시기 바랍니다.'})
-            );
-          })
-          .catch(error => {
-            res.json(
-              resHelper.getError({value: 'SMS 발송 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.'})
-            );
-          });
-      })
-      .catch(reason => {
-        console.error(reason);
-      });
-  });
+  else {
+    const phoneNumber = inputPhoneNumber.replace(/[^\d]/g, '');
+    const cryptedPhoneNumber = cryptoHelper.encrypt(phoneNumber);
+    const authKey = formatHelper.lpad((Math.floor(Math.random() * 100) + 1), 2, '0');
+    const msg = `[그리다집] 인증번호는 (${authKey}) 입니다. 정확히 입력해주세요.`;
+    knexBuilder.getConnection().then(cur => {
+      cur('authentication_tbl')
+        .select('*')
+        .where({auth_phone: cryptedPhoneNumber})
+        .limit(1)
+        .then(response => {
+          if (response.length < 1) {
+            return cur('authentication_tbl').insert({
+              auth_phone: cryptedPhoneNumber,
+              auth_key: authKey,
+              auth_limited_minute: 3
+            })
+          }
+          else {
+            return cur('authentication_tbl').update({auth_key: authKey}).where({auth_phone: cryptedPhoneNumber})
+          }
+        })
+        .then(response => {
+          // smsHelper.send('01088329144', msg)
+          smsHelper.send(phoneNumber, msg)
+            .then(response => {
+              res.json(
+                resHelper.getJson({msg: '인증번호가 발송되었습니다.\n아래 인증번호란에 기입해주시기 바랍니다.'})
+              );
+            })
+            .catch(error => {
+              res.json(
+                resHelper.getError({value: 'SMS 발송 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.'})
+              );
+            });
+        })
+        .catch(reason => {
+          console.error(reason);
+        });
+    });
+  }
 });
 
 router.post('/sms/validate', (req, res, next) => {
