@@ -190,4 +190,13 @@ router.get('/manage', (req, res, next) => {
     }
 });
 
+router.get('/profiles-member', (req, res, next) => {
+    res.render('pages/profiles-member', {
+        id: 'profile',
+        sub: 'index',
+        title: '인테리어 팀',
+        fullscreen: false
+    });
+});
+
 module.exports = router;

@@ -300,3 +300,122 @@ footer {
     background: linear-gradient(315deg, #818CE3 0%, #818CE3 100%);
   }
 }
+
+.tab {
+  text-align: center;
+  clear: both;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+
+  > .inner {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid #e8ecef;
+
+    .tab-item {
+      margin: 0 auto;
+      display: inline-block;
+      position: relative;
+      padding: 53px 30px;
+      color:#818b95;
+      font-size:@size-font-16;
+      font-weight:bold;
+      line-height:1.2;
+      letter-spacing: 1.6px;
+      cursor: pointer;
+
+      &.active {
+        > span {
+          border-bottom: 2px solid #a6b4f9;
+          color: #2a2d32;
+          font-weight: bold;
+        }
+      }
+
+      &:hover {
+        > span {
+          border-bottom: 2px solid #a6b4f9;
+          color: #2a2d32;
+          font-weight: bold;
+        }
+      }
+
+      > span {
+        padding: 53px 22.5px;
+      }
+    }
+  }
+}
+
+.hover {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  .background {
+    height: 100%;
+    background-color: #14171d;
+    opacity: 0.7;
+  }
+
+  .text {
+    color: white;
+
+    > p {
+      &:first-child {
+        font-size:@size-font-18;
+      }
+
+      &:last-child {
+        font-size:@size-font-12;
+        letter-spacing: 1.2px;
+      }
+    }
+  }
+}
+
+.page-description {
+  height:750px;
+  position:relative;
+  background: url(/images/header_01.png) 0 0 no-repeat;
+  color: @color-white;
+  p {
+
+    &:first-child {
+      font-size: @size-font-80;
+      margin-bottom:@size-font-36;
+      line-height: 80px;
+    }
+
+    &:last-child {
+      font-size: @size-font-22;
+      font-family: 'NanumSquareOTFR';
+      font-weight: lighter;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+
+.default-btn {
+  width:230px;
+  height:56px;
+  background: linear-gradient(315deg, @color-main 0%, @color-main 51%, @color-second 100%);
+  font-size: 18px;
+  line-height: 2.89;
+  font-family: NanumSquareOTFB;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #ffffff;
+  border-radius: 25px;
+  border: 0;
+  cursor: pointer;
+}
