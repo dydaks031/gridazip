@@ -10,6 +10,14 @@
   margin-left:30px;
 }
 
+.center-pos {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
 
 // Main Pages;
 
@@ -540,5 +548,26 @@ section.main-request {
         }
       }
     }
+  }
+}
+
+// Portfolio
+
+.contents.portfolio {
+  .page-description {
+    height:750px;
+    position:relative;
+    background: url(/images/header_01.png) 0 0 no-repeat;
+    color: @color-white;
+
+    > p:first-child {
+      font-size: @size-font-80;
+      margin-bottom:@size-font-36;
+    }
+
+    > p:last-child {
+      font-size: @size-font-22;
+    }
+
   }
 }

@@ -219,20 +219,9 @@
     });
   })();
 </script>
-    <div id="content">
-        <%
-        if (
-                fullscreen === false &&
-                ['login', 'signup', 'find', 'request', 'manage', 'support', 'portfolio'].indexOf(id) === -1 &&
-                (user === null || user.user_work === false)
-        ) {
-        %>
-<%
-}
-%>
 
 
-        <script type="application/ld+json">
+<script type="application/ld+json">
 {
     "@context": "http://schema.org",
     "@type": "Person",
@@ -248,37 +237,37 @@
 </script>
 
 <script src="/scripts/pages/main.js"></script>
-    <%
-    if(fullscreen === false) {
-    %>
+<%
+if(fullscreen === false) {
+%>
 
-    <!-- Channel Plugin Scripts -->
-    <script>
-      window.channelPluginSettings = {
-        "pluginKey": "50362d2e-ba2b-447d-9780-eca5da560176"
-      };
-      (function() {
-        var node = document.createElement('div');
-        node.id = 'ch-plugin';
-        document.body.appendChild(node);
-        var async_load = function() {
-          var s = document.createElement('script');
-          s.type = 'text/javascript';
-          s.async = true;
-          s.src = '//cdn.channel.io/plugin/ch-plugin-web.js';
-          s.charset = 'UTF-8';
-          var x = document.getElementsByTagName('script')[0];
-          x.parentNode.insertBefore(s, x);
-        };
-        if (window.attachEvent) {
-          window.attachEvent('onload', async_load);
-        } else {
-          window.addEventListener('DOMContentLoaded', async_load, false);
-        }
-      })();
-    </script>
-    <!-- End Channel Plugin -->
-
-    <%
+<!-- Channel Plugin Scripts -->
+<script>
+  window.channelPluginSettings = {
+    "pluginKey": "50362d2e-ba2b-447d-9780-eca5da560176"
+  };
+  (function() {
+    var node = document.createElement('div');
+    node.id = 'ch-plugin';
+    document.body.appendChild(node);
+    var async_load = function() {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = '//cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    };
+    if (window.attachEvent) {
+      window.attachEvent('onload', async_load);
+    } else {
+      window.addEventListener('DOMContentLoaded', async_load, false);
     }
-    %>
+  })();
+</script>
+<!-- End Channel Plugin -->
+
+<%
+}
+%>
