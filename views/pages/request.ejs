@@ -94,6 +94,18 @@
             </div>
             <div class="form-description">고객님의 연락처를 입력해주세요.</div>
             <input type="text" name="user_phone" id="user_phone" class="phone">
+            <button class="btn primary auth-request">인증번호요청</button>
+        </div>
+        <div class="form-item auth" style="display: none">
+            <div class="title">
+                <span class="required">*</span>
+                <span class="value">인증번호</span>
+            </div>
+            <div class="form-description">인증번호를 입력해주세요.</div>
+            <input type="text" name="auth_key" id="auth_key" class="authkey">
+
+            <button class="btn primary auth-validate">인증번호확인</button>
+            <span class="auth-timer"></span>
         </div>
         <div class="form-item">
             <div class="title">

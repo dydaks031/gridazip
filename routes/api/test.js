@@ -11,6 +11,8 @@ const smsHelper = require('../../services/sms/helper');
 const path = require('path');
 const fs = require('fs');
 const pdf2images = require('pdf2images');
+const moment = require('moment');
+const calc = require('calculator');
 
 router.post('/', (req, res, next) => {
     var input = path.join(__dirname + '/../../public/scripts/pdf/files/example2.pdf');
@@ -77,13 +79,15 @@ router.post('/', (req, res, next) => {
 });
 
 router.post('/sms', (req, res, next) => {
-    smsHelper.send('01036167981', '테스트')
+    smsHelper.send('01088329144', '테스트')
         .then(response => {
+          console.log(response);
             res.json(
                 resHelper.getJson(response)
             );
         })
         .catch(error => {
+          console.error(error);
             res.json(
                 resHelper.getError(error)
             );
@@ -94,20 +98,6 @@ router.post('/mail', (req, res, next) => {
     mailHelper.getTemplate('content');
 });
 
-router.post('/sms', (req, res, next) => {
-    smsHelper.send('01036167981', 'Hello')
-        .then(response => {
-            res.json(
-                resHelper.getJson(response)
-            );
-        })
-        .catch(reason => {
-            res.json(
-                resHelper.getError(reason)
-            );
-        });
-})
-
 router.post('/template', (req, res, next) => {
     mailHelper.getTemplate('content')
         .then(result => {
@@ -116,6 +106,31 @@ router.post('/template', (req, res, next) => {
         .catch(reason => {
             console.error(reason);
         });
+});
+
+router.post('/moment', (req, res, next) => {
+  let now = moment();
+  console.log(now);
+  res.json(
+    resHelper.getJson(process.env.NODE_ENV)
+  );
+});
+
+router.post('/session', (req, res, next) => {
+  console.log(req.session.a);
+  req.session.smsValidated = null;
+  res.json(
+    resHelper.getJson('')
+  );
+});
+
+router.post('/calc', (req, res, next) => {
+  console.log(calc);
+
+  let r = calc.func('f(x) = x');
+  console.log(r);
+  console.log(r(4));
+  res.json(resHelper.getJson(r(4)));
 });
 
 module.exports = router;
