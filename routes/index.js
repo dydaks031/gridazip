@@ -199,4 +199,14 @@ router.get('/profiles-member', (req, res, next) => {
     });
 });
 
+router.get('/profiles-member/detail', (req, res, next) => {
+    res.render('pages/profiles-member-detail', {
+        id: 'profile',
+        sub: 'detail',
+        title: '인테리어 팀',
+        fullscreen: false
+    });
+});
+
+
 module.exports = router;

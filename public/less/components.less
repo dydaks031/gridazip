@@ -382,7 +382,7 @@ footer {
 }
 
 .page-description {
-  height:750px;
+  height:700px;
   position:relative;
   background: url(/images/header_01.png) 0 0 no-repeat;
   color: @color-white;
@@ -418,4 +418,70 @@ footer {
   border-radius: 25px;
   border: 0;
   cursor: pointer;
+}
+
+.owl-carousel .owl-nav-custom {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  clear: both;
+
+  div {
+    color: #fff;
+    z-index: 5;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    text-align: center;
+
+    &:hover {
+      background-color: @color-button-hover;
+    }
+
+    &:active {
+      background-color: @color-button-active;
+    }
+
+    &.owl-prev {
+      //left: 10px;
+      font-size: @size-font-22;
+      float: left;
+
+      i {
+        margin-top: 12px;
+      }
+    }
+
+    &.owl-next {
+      //right:10px;
+      font-size: @size-font-22;
+      float: right;
+
+      i {
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+.owl-dots {
+  clear:both;
+
+  .owl-dot {
+    width:26px;
+    height:26px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    display:inline-block;
+    background:url("/images/paginationdot.png") center center no-repeat;
+
+    &.active {
+      background: url("/images/paginationdot_active.png") center center no-repeat;
+    }
+  }
 }
