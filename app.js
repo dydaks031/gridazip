@@ -51,6 +51,7 @@ const apiProfile = require('./routes/api/profile');
 const apiManage = require('./routes/api/manage');
 const apiFile = require('./routes/api/file');
 const apiWorker = require('./routes/api/worker');
+const apiAuthentication = require('./routes/api/authentication');
 const oauthNaver = require('./routes/oauth/naver');
 
 raven.config('https://0f22cdb7d6f14189b765414605f7eb36:a76850f0a2e94b97a2dcc95da88af720@sentry.io/159366').install();
@@ -106,6 +107,7 @@ app.use('/api/profile/', apiProfile);
 app.use('/api/manage/', apiManage);
 app.use('/api/file', apiFile);
 app.use('/api/worker', apiWorker);
+app.use('/api/authentication', apiAuthentication);
 app.use(subdomain('worker', apiWorker));
 app.use('/oauth/naver/', oauthNaver);
 

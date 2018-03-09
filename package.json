@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./node_modules/.bin/pm2 start bin/www --name gridazip-site",
     "poststart": "node ./node_modules/.bin/pm2 logs",
+    "dev": "NODE_ENV=development nodemon ./bin/www",
     "start-gulp": "gulp",
     "build": "gulp build",
     "stop":  "node ./node_modules/.bin/pm2 stop gridazip-site"
@@ -14,6 +15,7 @@
     "blueimp-file-upload": "^9.18.0",
     "body-parser": "~1.17.1",
     "browser-detect": "^0.2.16",
+    "calculator": "^0.1.12",
     "classlist-polyfill": "^1.2.0",
     "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",
