@@ -17,7 +17,7 @@ const Helper = {
           rphone: phoneDashed,
           msg: message,
           description: appConfig.site.name
-          }
+        }
       };
 
       request.post(config.endpoint, parameter, (error, response, body) => {

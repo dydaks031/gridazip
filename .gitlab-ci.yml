@@ -1,0 +1,10 @@
+stages:
+  - deploy
+before_script:
+  - sudo npm install
+job_deploy:
+  stage: deploy
+  script:
+    - sudo npm run start
+  tags:
+    - devbuild2

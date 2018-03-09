@@ -1,13 +1,14 @@
 const knex = require('knex');
 const helper = require('./helper');
 
-const defaultConnectionInfo = helper.getInfo('default');
+
+const connectionInfo = helper.getInfo(process.env.NODE_ENV === 'development' ? 'development' : 'default');
 
 const Knex = {
     getConnection: () => {
         var cursor = knex({
             client: 'mysql',
-            connection: defaultConnectionInfo,
+            connection: connectionInfo,
             pool: { min: 0, max: 10000 }
         });
         return new Promise((resolve, reject) => {
