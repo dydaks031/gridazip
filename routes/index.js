@@ -102,6 +102,17 @@ router.get('/intro', (req, res, next) => {
     });
 });
 
+
+router.get('/about', (req, res, next) => {
+    res.render('pages/about', {
+        id: 'about',
+        sub: 'index',
+        title: '그리다집이란',
+        fullscreen: false
+    });
+});
+
+
 router.get('/portfolio', (req, res, next) => {
     res.render('pages/portfolio', {
         id: 'portfolio',
