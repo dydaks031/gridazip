@@ -1608,6 +1608,111 @@ section.main-request {
   }
 }
 
+.contents.cooperation {
+  .cooperation-form {
+    h3 {
+      font-size:40px;
+      font-family: NanumSquareOTFB;
+      padding:40px 0;
+      font-weight:normal
+    }
+    .request-form {
+      width:56.5%;
+      margin-right:60px;
+      .request-input-wrapper {
+        margin-bottom: 39px;
+
+        &:nth-child(1) {
+          .input-label-wrapper {
+            &:first-child {
+              margin-right:13px;
+            }
+
+            &:last-child {
+              margin-right:0;
+            }
+          }
+
+          input {
+            width:320px;
+            height:56px;
+          }
+        }
+
+        &:nth-child(2) {
+          input {
+            width:454px;
+          }
+          button {
+            width:170px;
+          }
+        }
+
+        &:nth-child(3) {
+          .input-label-wrapper {
+            width:100%;
+          }
+
+          textarea {
+            width:100%;
+            min-height:230px;
+            height:100%;
+            border: solid 1px #dddddd;
+            font-size:18px;
+            padding:20px;
+
+            &::placeholder {
+              color:#dddddd;
+            }
+          }
+        }
+      }
+    }
+    .info-download-wrapper {
+      margin-left:60px;
+      .logo-description {
+        display:block;
+      }
+
+      .contact-info {
+        margin-bottom:64px;
+        > p {
+          margin-bottom:23px;
+          font-size: 16px;
+          color: #758594;
+          font-weight: bold;
+        }
+
+        > div {
+          color:#758594;
+          margin-bottom:16px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          > div {
+            display:inline-block;
+            vertical-align: top;
+
+            i {
+              margin-right: 22px;
+            }
+          }
+        }
+      }
+      .info-download {
+        display: block;
+        padding-bottom:64px;
+      }
+
+      .request-btn {
+        display: block;
+      }
+    }
+  }
+}
+
 // Timeline view
 .timeline-view {
   position: relative;

@@ -1,0 +1,93 @@
+<% include ../partials/head.ejs %>
+
+<div class="contents cooperation">
+    <div class="page-description">
+        <div class="main-text center-pos">
+            <p>협력업체 신청</p>
+            <p>그리다_집과 함께 할 여러분을 환영합니다.</p>
+        </div>
+    </div>
+
+    <div class="cooperation-wrapper">
+        <div class="cooperation-form">
+            <form>
+                <section class="main-request">
+                    <div class="request-wrapper">
+                        <div class="clearing">
+                            <h3>협력업체 간편 신청</h3>
+                            <div class="request-form">
+                                <div class="request-input-wrapper">
+                                    <div class="input-label-wrapper">
+                                        <label for="inputRequestName">업체명<span class="red-star">*</span></label>
+                                        <input type="text" id="inputRequestName" placeholder="업체명을 입력해주세요." />
+                                    </div>
+
+                                    <div class="input-label-wrapper">
+                                        <label for="inputRequestPhone">담당자 전화번호<span class="red-star">*</span></label>
+                                        <input type="text" id="inputRequestPhone" placeholder="담당자 전화번호를 입력해주세요."/>
+                                    </div>
+                                </div>
+                                <div class="request-input-wrapper">
+                                    <div class="input-label-wrapper">
+                                        <div class="clearing">
+                                            <label for="inputRequestName">자재목록 & 단가표 업로드<span class="red-star">*</span></label>
+                                        </div>
+                                        <input type="text" id="inputRequestAuthCode" placeholder="자재목록 & 단가표를 업로드 해 주세요." />
+                                    </div>
+
+                                    <a href="#">
+                                        <button>파일 올리기</button>
+                                    </a>
+                                </div>
+                                <div class="request-input-wrapper">
+                                    <div class="input-label-wrapper">
+                                        <label for="inputRequestName">기타 문의 사항</label>
+                                        <textarea placeholder="기타 문의사항이 있으시면, 문의사항을 남겨주세요."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-download-wrapper">
+                                <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
+                                <img src="/images/logo_g.png" alt="그리다집 로고" />
+
+                                <div class="contact-info">
+                                    <p class="footer-title">Contact info: </p>
+                                    <div class="contact-item">
+                                        <div>
+                                            <i class="fa fa-location-arrow"></i>
+                                        </div>
+                                        <div>
+                                            <span>서울특별시 강서구 양천로 551-17,<br /> 한화비즈메트로 1차 1010호</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div>
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <div>
+                                            <span>info@gridazip.com</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div>
+                                            <i class="fa fa-headphones"></i>
+                                        </div>
+                                        <div>
+                                            <span>0507-1312-2412</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span class="info-download">그리다_집 소개자료 다운받기<i class="fa fa-download"></i></span>
+
+                                <button class="request-btn">협력업체 신청하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/foot.ejs %>

@@ -219,5 +219,14 @@ router.get('/profiles-member/detail', (req, res, next) => {
     });
 });
 
+router.get('/cooperation-request', (req, res, next) => {
+    res.render('pages/cooperation-request', {
+        id: 'cooperation',
+        sub: 'index',
+        title: '협력업체 신청',
+        fullscreen: false
+    });
+});
+
 
 module.exports = router;
