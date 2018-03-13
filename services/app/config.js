@@ -43,7 +43,9 @@ const Config = {
     }
   },
   mail: {
-      leader: 'leader@gridazip.com'
+      leader: 'leader@gridazip.com',
+      info: 'info@gridazip.com',
+      dev: 'dev@gridazip.com',
   }
 };
 

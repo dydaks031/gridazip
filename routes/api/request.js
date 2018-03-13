@@ -267,11 +267,12 @@ ${user_request}
           })
             .then(result => {
               mailHelper.send(
-                appConfig.mail.leader,
+                appConfig.mail.info,
                 title,
                 result.html
               )
                 .then(data => {
+                    console.log(data);
                   ;
                 })
                 .catch(reason => {
