@@ -189,6 +189,55 @@
             </div>
         </section>
     </div>
+
+    <div class="modal modal-portfolio hide">
+        <div class="background"></div>
+        <button class="close-btn">X</button>
+        <div class="slider-wrapper">
+            <div class="image-items">
+                <img src="/images/portfolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-2.jpg" alt="포트폴리오 이미지 1"/>
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-3.jpg" alt="포트폴리오 이미지 1"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-medium modal-request hide">
+        <div class="background"></div>
+        <div>
+            <button class="close-btn">
+                x
+            </button>
+            <h3>무료 방문상담 신청하기</h3>
+            <section class="main-request">
+                <div class="request-wrapper">
+                    <div class="request-form">
+                        <div class="request-input-wrapper">
+                            <div class="input-label-wrapper">
+                                <label for="inputRequestName">이름<span class="red-star">*</span></label>
+                                <input type="text" id="inputRequestName" placeholder="이름을 입력해주세요." />
+                            </div>
+
+                            <div class="input-label-wrapper">
+                                <label for="inputRequestPhone">전화번호<span class="red-star">*</span></label>
+                                <input type="text" id="inputRequestPhone" placeholder="전화번호를 입력해주세요."/>
+                            </div>
+
+                            <a href="#">
+                                <button>본인인증 하기</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <% include ../pages/modal/terms-modal.ejs %>
 </div>
 
 <% include ../partials/foot.ejs %>
@@ -204,6 +253,19 @@
       navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
       dotsContainer: '#carousel-custom-dots'
     });
+  })();
+
+  (function() {
+      $('.modal-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+          loop: true,
+          items: 2,
+          nav: true,
+          center: true,
+          dots: false,
+          margin:40,
+          navContainerClass: 'owl-nav-custom',
+          navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+      });
   })();
 
   (function() {
