@@ -86,6 +86,9 @@
                 </div>
             </div>
             <div class="feature-info">
+                <div class="feature-images right-align feature-2">
+                    <img class="vertical-center" src="/images/features_img02.png" alt="그리다집 피쳐 이미지 2번"/>
+                </div>
                 <div class="feature-text-info left-align">
                     <div class="feature-description-wrapper">
                         <div class="feature-description">
@@ -98,9 +101,6 @@
                             </a>
                         </div>
                     </div>
-                </div>
-                <div class="feature-images right-align feature-2">
-                    <img class="vertical-center" src="/images/features_img02.png" alt="그리다집 피쳐 이미지 2번"/>
                 </div>
             </div>
             <div class="feature-info">
@@ -255,14 +255,27 @@
     });
   })();
 
+  // Web
+  // (function() {
+  //     $('.modal-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+  //         loop: true,
+  //         items: 1,
+  //         nav: true,
+  //         // center: true,
+  //         dots: false,
+  //         margin:40,
+  //         navContainerClass: 'owl-nav-custom',
+  //         navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+  //     });
+  // })();
+
   (function() {
       $('.modal-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
           loop: true,
-          items: 2,
-          nav: true,
-          center: true,
+          items: 1,
+          nav: false,
+          // center: true,
           dots: false,
-          margin:40,
           navContainerClass: 'owl-nav-custom',
           navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
       });
@@ -271,11 +284,11 @@
   (function() {
     $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
       loop: true,
-      items: 2,
-      nav: false,
-      center: true,
-      dots: false,
-      margin:40,
+      items: 1,
+        nav: true,
+        center: true,
+        dots: false,
+        margin:40,
       navContainerClass: 'owl-nav-custom',
       navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
     });
