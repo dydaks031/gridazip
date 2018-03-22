@@ -1,5 +1,46 @@
 <% include ../partials/head.ejs %>
+<style>
+    * { box-sizing: border-box; }
 
+    /* force scrollbar */
+    html { overflow-y: scroll; }
+
+    body { font-family: sans-serif; }
+
+    /* ---- grid ---- */
+
+    .grid {
+        background: #DDD;
+    }
+
+    /* clear fix */
+    .grid:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    /* ---- .grid-item ---- */
+
+    /* fluid 5 columns */
+    .grid-sizer,
+    .grid-item { width: 20%; }
+    /* 2 columns */
+    .grid-item-width2 { width: 40%; }
+    .grid-item-width3 { width: 60%; }
+
+    .grid-item {
+        float: left;
+    }
+
+    .grid-item img {
+        display: block;
+        max-width: 100%;
+    }
+
+
+
+</style>
     <div class="contents main">
         <section class="main-visual-slider">
             <div class="pos-r">
@@ -54,16 +95,81 @@
                             <span>용산 시티파크</span>
                             <span>39py | 4,000만원</span>
                         </div>
-                    </div><div class="image-items">
+                    </div>
+                    <div class="image-items">
                         <img src="/images/portfolio-images-3.jpg" alt="포트폴리오 이미지 1"/>
                         <div class="clearing">
                             <span>용산 시티파크</span>
                             <span>39py | 4,000만원</span>
                         </div>
                     </div>
-
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-4.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-5.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-6.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-7.jpg" alt="포트폴리오 이미지 1"/>
+                        <div class="clearing">
+                            <span>용산 시티파크</span>
+                            <span>39py | 4,000만원</span>
+                        </div>
+                    </div>
+                </div>
+                <div id='carousel-custom-dots-portfolio' class='owl-dots'>
+                    <!--<span class='owl-dot'>1</span>-->
+                    <!--<span class='owl-dot'>2</span>-->
+                    <!--<span class='owl-dot'>3</span>-->
                 </div>
             </div>
+
+            <!--<div class="grid">-->
+                <!--<div class="grid-sizer"></div>-->
+                <!--<div class="grid-item">-->
+                    <!--<img src="/images/portfolio-images-1.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item grid-item-width3">-->
+                    <!--<img src="/images/portfolio-images-2.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item">-->
+                    <!--<img src="/images/portfolio-images-3.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item grid-item-width2">-->
+                    <!--<img src="/images/portfolio-images-3.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item">-->
+                    <!--<img src="/images/portfolio-images-2.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item grid-item-width2">-->
+                    <!--<img src="/images/portfolio-images-3.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item grid-item-width3">-->
+                    <!--<img src="/images/portfolio-images-1.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item">-->
+                    <!--<img src="/images/portfolio-images-1.jpg" />-->
+                <!--</div>-->
+                <!--<div class="grid-item grid-item-width2">-->
+                    <!--<img src="/images/portfolio-images-3.jpg" />-->
+                <!--</div>-->
+            <!--</div>-->
+
         </section>
         <section class="main-features">
             <span class="background-word">Features</span>
@@ -283,15 +389,31 @@
 
   (function() {
     $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-      loop: true,
-      items: 1,
-        nav: true,
+        loop: true,
+        items: 1,
+        nav: false,
         center: true,
-        dots: false,
+        dots: true,
         margin:40,
-      navContainerClass: 'owl-nav-custom',
-      navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+        // navContainerClass: 'owl-nav-custom',
+        // navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+        dotsContainer: '#carousel-custom-dots-portfolio'
     });
+  })();
+
+  (function() {
+      // init Masonry
+      var $grid = $('.grid').masonry({
+          itemSelector: '.grid-item',
+          percentPosition: true,
+          columnWidth: '.grid-sizer',
+          fitWidth: true
+      });
+// layout Masonry after each image loads
+      $grid.imagesLoaded().progress( function() {
+          $grid.masonry();
+      });
+
   })();
 </script>
 

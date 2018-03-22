@@ -1,5 +1,45 @@
 <% include ../partials/head.ejs %>
 
+<style>
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 10px;
+    }
+
+    /* Create four equal columns that sits next to each other */
+    .column {
+        flex: 25%;
+        max-width: 25%;
+        padding: 0 7.5px;
+    }
+
+    .column div.image-items {
+        margin-top: 15px;
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    .column div.image-items > span {
+
+    }
+
+    /* Responsive layout - makes a two column-layout instead of four columns */
+    @media screen and (max-width: 800px) {
+        .column {
+            flex: 50%;
+            max-width: 50%;
+        }
+    }
+
+    /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+        .column {
+            flex: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
 <div class="contents portfolio">
     <div class="page-description">
         <div class="main-text center-pos">
@@ -8,77 +48,106 @@
         </div>
     </div>
 
-  <div class="substance">
-    <div class="tab clearing">
-      <div class="inner">
-        <div class="tab-item">
-          <span>모던</span>
-        </div>
-        <div class="tab-item">
-          <span>내추럴</span>
-        </div>
-        <div class="tab-item">
-          <span>비비드</span>
-        </div>
-        <div class="tab-item">
-          <span>클래식</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="portfolio-pictures text-center">
-    <div class="image-wrapper">
-      <div class="row clearing">
-        <div class="image-items">
-          <img src="/images/portfolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
-        </div>
-        <div class="image-items">
-          <img src="/images/portfolio-images-2.jpg" alt="포트폴리오 이미지 2"/>
-        </div>
-      </div>
-      <div class="row clearing">
-        <div class="image-items">
-          <img src="/images/portfolio-images-3.jpg" alt="포트폴리오 이미지 3"/>
-        </div>
-        <div class="image-items">
-          <img src="/images/portfolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
-        </div>
-      </div>
-      <div class="row clearing">
-        <div class="image-items">
-          <img src="/images/portfolio-images-2.jpg" alt="포트폴리오 이미지 2"/>
-        </div>
-        <div class="image-items">
-          <img src="/images/portfolio-images-3.jpg" alt="포트폴리오 이미지 3"/>
-        </div>
-      </div>
-      <div class="row clearing">
-        <div class="image-items">
-          <img src="/images/portfolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
-          <div class="hover">
-            <div class="background"></div>
-            <div class="center-pos text-center text">
-              <p>서울 영등포구 양평동5가 9-1</p>
-              <p>31평 | 4,000 만원</p>
+    <div class="substance">
+        <div class="tab clearing">
+            <div class="inner">
+                <div class="tab-item">
+                    <span>모던</span>
+                </div>
+                <div class="tab-item">
+                    <span>내추럴</span>
+                </div>
+                <div class="tab-item">
+                    <span>비비드</span>
+                </div>
+                <div class="tab-item">
+                    <span>클래식</span>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="image-items">
-          <img src="/images/portfolio-images-2.jpg" alt="포트폴리오 이미지 2"/>
-        </div>
-      </div>
     </div>
 
-    <button class="more-btn">
-      <i class="fa fa-angle-down"></i>
-    </button>
+    <div class="portfolio-pictures text-center">
 
-  </div>
+        <div class="row">
+            <div class="column">
+                <div class="image-items">
+                    <img src="/images/portfolio-images-1.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
 
-  <div class="request-btn-wrapper text-center">
-    <button class="request-btn">무료 방문 상담 신청</button>
-  </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-7.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-3.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-4.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="image-items">
+                    <img src="/images/portfolio-images-5.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-7.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-1.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-3.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="image-items">
+                    <img src="/images/portfolio-images-1.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-2.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-3.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-4.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="image-items">
+                    <img src="/images/portfolio-images-9.jpg">
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-7.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-1.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+                <div class="image-items">
+                    <img src="/images/portfolio-images-3.jpg">
+                    <span>수원 스타벅스 40PY</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="request-btn-wrapper text-center">-->
+    <!--<button class="request-btn">무료 방문 상담 신청</button>-->
+    <!--</div>-->
 
 </div>
 
