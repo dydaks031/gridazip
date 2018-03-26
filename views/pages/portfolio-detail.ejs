@@ -1,4 +1,9 @@
 <% include ../partials/head.ejs %>
+<style>
+
+
+
+</style>
 <div class="contents portfolio-detail">
     <div class="page-description">
         <div class="main-text center-pos">
@@ -74,6 +79,19 @@
                     <div class="image-items">
                         <img src="/images/portfolio-images-3.jpg" />
                     </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-4.jpg" />
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-5.jpg" />
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-6.jpg" />
+                    </div>
+                    <div class="image-items">
+                        <img src="/images/portfolio-images-7.jpg" />
+                    </div>
+
                 </div>
                 <div class="pos-a dot-container">
                     <div id='carousel-custom-dots' class='owl-dots'>
@@ -106,11 +124,11 @@
             </div>
         </div>
     </div>
-    <div class="back-button-wrapper text-center">
-        <button class="request-btn">
-            포트폴리오 목록으로 돌아가기
-        </button>
-    </div>
+    <!--<div class="back-button-wrapper text-center">-->
+        <!--<button class="request-btn">-->
+            <!--포트폴리오 목록으로 돌아가기-->
+        <!--</button>-->
+    <!--</div>-->
 </div>
 <script>
     (function() {
@@ -121,8 +139,21 @@
             dots: true,
             navContainerClass: 'owl-nav-custom',
             dotsContainer: '#carousel-custom-dots',
+            // Enable thumbnails
+            thumbs: true,
+            thumbImage: true,
+            thumbContainerClass: 'owl-thumbs',
+            thumbItemClass: 'owl-thumb-item',
+            moveThumbsInside: true,
             navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
         });
+
+        var a = $('.owl-thumbs');
+        a.wrap('<div class="owl-thumbs-wrapper"></div>')
+
+        a.css({
+            width: (110 * a.children().length) + 20
+        })
     })();
 </script>
 

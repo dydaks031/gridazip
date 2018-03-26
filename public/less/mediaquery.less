@@ -1,3 +1,19 @@
+/* Responsive layout - makes a two column-layout instead of four columns */
+//@media screen and (max-width: 800px) {
+//  .column {
+//    flex: 50%;
+//    max-width: 50%;
+//  }
+//}
+//
+///* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+//@media screen and (max-width: 600px) {
+//  .column {
+//    flex: 100%;
+//    max-width: 100%;
+//  }
+//}
+
 @media screen and (min-width: 980px) {
   .contents.profiles-member {
     .profile-wrapper {
@@ -25,13 +41,13 @@
 
   #header {
     //padding: 0 21px;
-
-    .logo {
-      padding-left: 21px;
-      position: relative;
-      z-index: 5;
-    }
     .header-inner {
+      .logo {
+        padding-left: 21px;
+        position: relative;
+        z-index: 5;
+      }
+
       .menu-wrapper {
         display:none;
         position: absolute;
@@ -69,14 +85,15 @@
           }
         }
       }
-    }
 
-    .mobile-menu-icon {
-      padding-right:21px;
-      float:right;
-      cursor: pointer;
-      z-index: 5;
-      position: relative;
+      .mobile-menu-icon {
+        display: block;
+        padding-right:21px;
+        float:right;
+        cursor: pointer;
+        z-index: 5;
+        position: relative;
+      }
     }
   }
   body {
@@ -290,11 +307,9 @@
 
       .row {
         height: 680px;
-        > .image-items {
-          height: 340px;
-          display: block;
-          float: initial;
-          width: initial;
+        .column {
+          flex: 50%;
+          max-width: 50%;
         }
       }
     }
@@ -330,15 +345,21 @@
       margin-bottom: 50px;
       .customer-review-container {
         padding:24px;
-      }
 
-      .customer-review-items {
-        padding-left: 0 !important;
-        width:100% !important;
+        .customer-review-items {
+          padding-left: 0 !important;
+          width:100% !important;
 
-        .review {
-          float:right;
-          width:80%;
+          .customer-image {
+            width: 55px;
+            height: 55px;
+            margin-right: 10px;
+          }
+
+          .review {
+            float:right;
+            width:80%;
+          }
         }
       }
     }
@@ -363,41 +384,79 @@
       }
     }
   }
+
   .contents.profiles-member-detail {
     background: @color-white;
     .profile-detail {
-      padding: 60px 15px 15px 15px;
-
+      padding: 45px 15px 15px 15px;
       .profile-information {
+        left: initial;
+        transform: initial;
+        .btn-wrapper {
+          display:none;
+
+          &.mobile-ui {
+            display:block;
+          }
+        }
+
         .profile-image {
-          //padding-bottom: 100px;
+          width: 30%;
+          padding-bottom:0;
+          margin-right: 15px;
+
+          > img {
+            width:100px;
+            height: 100px;
+          }
         }
 
         .profile-info {
-          max-width:260px;
-          padding-right: 0;
+          padding: 0;
+          width: 65%;
 
           .description {
 
           }
+
+          .name {
+            padding: 0 10px 0 0;
+          }
         }
+
+
 
         .profile-score {
           float: initial;
-          display: inline-block;
+          display: none;
           width: 100%;
           text-align: center;
 
-          .score {
+          &.mobile-ui {
+            display:inline-block !important;
+          }
+
+          div.score {
             width:100%;
             display: inline-block;
+            padding: 15px 0;
 
             > div {
               float:initial !important;
               display: inline-block;
+              padding: 0 32px;
+              margin: 10px 0;
 
+              &:nth-child(2) {
+                border-right: 1px solid #aeaeae;
+                border-left: 1px solid #aeaeae;
+              }
+              span:not(.count) {
+                font-size:14px;
+              }
               span.count {
                 font-weight: normal !important;
+                font-size:28px;
               }
             }
           }
@@ -428,27 +487,30 @@
   }
   .contents.cooperation {
     .cooperation-form {
-      .request-form {
-        width:100%;
-        .request-input-wrapper{
-          &:nth-child(2) {
-            button {
-              width:160px;
+      .request-wrapper > div {
+        padding: 41px 15px 15px 15px;
+        .request-form {
+          width:100%;
+          .request-input-wrapper{
+            &:nth-child(2) {
+              button {
+                width:160px;
+              }
             }
           }
         }
-      }
 
-      .info-download-wrapper {
-        margin-left: 0;
-        text-align: center;
+        .info-download-wrapper {
+          margin-left: 0;
+          text-align: center;
 
-        *:not(button) {
-          display:none !important;
-        }
+          *:not(button) {
+            display:none !important;
+          }
 
-        .request-btn {
-          display:inline-block;
+          .request-btn {
+            display:inline-block;
+          }
         }
       }
     }
@@ -742,8 +804,15 @@
 
     .portfolio-pictures {
       padding: 0;
+      .row {
+        .column {
+          flex: 100%;
+          max-width: 100%;
+        }
+      }
     }
   }
+
   .contents.portfolio-detail {
     .portfolio-detail-wrapper {
       > div.portfolio-info {
@@ -857,20 +926,20 @@
   }
   .contents.profiles-member-detail {
     .profile-detail {
-      .profile-information {
-        .profile-image {
-          padding-bottom:50px;
-          width:100%;
-
-          > img {
-            width:100%;
-            height:100%;
-          }
-        }
-        .profile-info {
-          max-width:100%;
-        }
-      }
+      //.profile-information {
+      //   .profile-image {
+      //     padding-bottom:50px;
+      //     width:100%;
+      //
+      //     > img {
+      //       width:100%;
+      //       height:100%;
+      //     }
+      //   }
+      //   .profile-info {
+      //     max-width:100%;
+      //   }
+      // }
       .portfolio-pictures {
         .row {
           >.image-items {

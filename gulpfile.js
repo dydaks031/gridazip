@@ -49,6 +49,7 @@ const paths = {
             'public/scripts/helpers/develop.js',
             'node_modules/sweetalert/dist/sweetalert.min.js',
             'node_modules/owl.carousel/dist/owl.carousel.min.js',
+            'node_modules/owl.carousel2.thumbs/dist/owl.carousel2.thumbs.js',
             'node_modules/pg-calendar/dist/js/pignose.calendar.min.js',
             'public/scripts/lib/picker.js',
             'public/scripts/lib/picker.date.js',
