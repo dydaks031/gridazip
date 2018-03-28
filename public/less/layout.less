@@ -1437,6 +1437,7 @@ section.main-request {
       display:inline-block;
       vertical-align: top;
 
+
       &:first-child {
         margin-right:25px;
       }
@@ -1472,6 +1473,7 @@ section.main-request {
           padding: 18px;
           list-style: none;
           max-width:570px;
+          min-width:570px;
           width:100%;
           margin:12px 0 12px 0;
           border-radius: 5px;
@@ -1507,6 +1509,7 @@ section.main-request {
               text-align: center;
               border: 1px solid #80bffe;
               color: #80bffe;
+              background: white;
               border-radius: 50%;
               padding: 0;
               float:right;
@@ -1514,6 +1517,11 @@ section.main-request {
 
               > i {
                 font-size:16px;
+
+                &.fa-angle-up {
+                  position: relative;
+                  top: -2px;
+                }
               }
             }
           }
@@ -1595,8 +1603,8 @@ section.main-request {
       }
     }
   }
-  .daum-map {
-    height:690px;
+  .google-maps {
+    height:400px;
     width:100%;
     background: #80bffe;
   }

@@ -10,7 +10,7 @@
 
     <div class="substance">
         <div class="tab clearing">
-            <div class="inner">
+            <div class="inner" id="portfoliTab">
                 <div class="tab-item">
                     <span>모던</span>
                 </div>
@@ -113,6 +113,11 @@
             </div>
         </a>
     </script>
+        <script type="text/template" id="tabTemplate">
+            <div class="tab-item" data-value="{{TAB_VALUE}}">
+                <span>{{TAB_NAME}}</span>
+            </div>
+        </script>
 
     <!--<div class="request-btn-wrapper text-center">-->
     <!--<button class="request-btn">무료 방문 상담 신청</button>-->

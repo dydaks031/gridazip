@@ -13,59 +13,14 @@ Promise.config({
 moment.locale('ko');
 
 $(function() {
-  var $header = $('#header');
-  var $menu = $header.find('.menu-list .menu-item');
 
-  if (browser().mobile === false) {
-    $menu.bind('mouseover', function() {
-        var $this = $(this);
-        var sub = $this.data('sub');
-        $header.find('.sub-menu-group:visible').hide();
-
-        if (typeof sub !== 'undefined') {
-            var $target = $('#sub-menu-' + sub);
-            if ($target.length > 0) {
-                $target.show()
-
-                $header.unbind('mouseleave.subMenuHandler').bind('mouseleave.subMenuHandler', function() {
-                    console.log('out');
-                    $header.find('.sub-menu-group:visible').hide();
-                });
-            }
-        }
-    });
-  }
-  else {
-      $menu.find('.sub-menu-group a').bind('click touchstart', function(event) {
-          event.stopPropagation();
-      });
-
-      $menu.bind('click touchstart', function(event) {
-        var $this = $(this);
-        var sub = $this.data('sub');
-
-        if (typeof sub !== 'undefined') {
-            var $target = $('#sub-menu-' + sub);
-            if ($target.length > 0) {
-                event.preventDefault();
-                if ($target.hasClass('active')) {
-                    $target.removeClass('active').hide();
-                }
-                else {
-                    $target.addClass('active').show();
-                }
-            }
-        }
-    });
-  }
 });
 
 location.queryString = {};
 location.search.substr(1).split("&").forEach(function (pair) {
     if (pair === "") return;
     var parts = pair.split("=");
-    location.queryString[parts[0]] = parts[1] &&
-        decodeURIComponent(parts[1].replace(/\+/g, " "));
+    location.queryString[parts[0]] = parts[1] && decodeURIComponent(parts[1].replace(/\+/g, " "));
 });
 
 var loading;

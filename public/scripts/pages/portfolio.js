@@ -4,6 +4,8 @@ $(function () {
     var $portfolioSize = $('#portfolio_size');
     var $portfolioPrice = $('#portfolio_price');
 
+    var isSetTabList = false;
+
     var page = new Pagination();
     var filter = new Filter({
         sort: null,
@@ -12,23 +14,25 @@ $(function () {
         price: null
     });
 
-    $portfolioSortTab.find('.tab-item').bind('click', function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        $this.addClass('active').siblings('.active').removeClass('active');
+    var portfolioTabItemBind = function($element) {
+        $element.bind('click', function (event) {
+            event.preventDefault();
+            var $this = $(this);
+            $this.addClass('active').siblings('.active').removeClass('active');
 
-        var value = $this.data('value');
-        filter.setFilter('sort', value === '' ? null : value);
-        page.reset();
-        page.setLimit(4);
-        loadPortfolio();
-    });
+            var value = $this.data('value');
+            filter.setFilter('style', value === '' ? null : value);
+            page.reset();
+            page.setLimit(20);
+            loadPortfolio();
+        });
+    }
 
     $portfolioStyle.bind('change', function (event) {
         var value = $(this).val();
         filter.setFilter('style', value === '' ? null : value);
         page.reset();
-        page.setLimit(4);
+        page.setLimit(20);
         loadPortfolio();
     });
 
@@ -65,18 +69,19 @@ $(function () {
         })
         .then(function (data) {
             page.set(data.page);
-            console.log(data);
             var $portfolioList;
             var $portfolioListTemplate = $('#portfolioListTemplate').html();
-            var $portfolioListContainer = $('#')
 
             if (data.data.length > 0) {
+                if ( !isSetTabList ) {
+                    isSetTabList = true;
+                    setTabList(data.data);
+                }
+
                 data.data.forEach(function (element, index) {
                     if ( index % 4 === 0 ) {
-                        console.log($portfolioList);
                         $portfolio.append($portfolioList);
                         $portfolioList = $('<div class="column"></div>');
-                        console.log($portfolioList);
                     }
 
                     $portfolioList.append($(
@@ -113,5 +118,25 @@ $(function () {
             });
         });
     };
+
+    var setTabList = function(tabListData) {
+        var $portfolioTab = $('#portfoliTab');
+        var tabTemplate = $('#tabTemplate').html();
+        var tabData = _.uniq(_.pluck(tabListData,  'pf_style'));
+        var tabHtml = '';
+
+        tabData.unshift('전체');
+        tabData.forEach(function(element, index) {
+            tabHtml += tabTemplate
+                .replace(/{{TAB_NAME}}/gi, element)
+                .replace(/{{TAB_VALUE}}/gi, element === '전체' ? '' : element);
+        });
+
+        $portfolioTab.html(tabHtml);
+
+        portfolioTabItemBind($portfolioTab.find('.tab-item'));
+    };
+
     loadPortfolio();
+    setTabList()
 });
