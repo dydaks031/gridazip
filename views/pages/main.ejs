@@ -386,51 +386,35 @@
           navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
       });
   })();
-
-  (function() {
-    $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-        loop: true,
-        items: 1,
-        nav: false,
-        center: true,
-        dots: true,
-        margin:40,
-        // navContainerClass: 'owl-nav-custom',
-        // navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-        dotsContainer: '#carousel-custom-dots-portfolio'
-    });
-  })();
-
+  //
   // (function() {
-  //     $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-  //         loop: true,
-  //         items: 2,
-  //         nav: true,
-  //         center: true,
-  //         dots: true,
-  //         margin:40,
-  //         navContainerClass: 'owl-nav-custom',
-  //         navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-  //         dotsContainer: '#carousel-custom-dots-portfolio'
-  //     });
+  //   $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+  //       loop: true,
+  //       items: 1,
+  //       nav: false,
+  //       center: true,
+  //       dots: true,
+  //       margin:40,
+  //       // navContainerClass: 'owl-nav-custom',
+  //       // navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+  //       dotsContainer: '#carousel-custom-dots-portfolio'
+  //   });
   // })();
 
   (function() {
-      // init Masonry
-      var $grid = $('.grid').masonry({
-          itemSelector: '.grid-item',
-          percentPosition: true,
-          columnWidth: '.grid-sizer',
-          fitWidth: true
+      $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+          loop: true,
+          items: 4,
+          nav: true,
+          center: true,
+          dots: true,
+          margin:40,
+          navContainerClass: 'owl-nav-custom',
+          navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+          dotsContainer: '#carousel-custom-dots-portfolio'
       });
-// layout Masonry after each image loads
-      $grid.imagesLoaded().progress( function() {
-          $grid.masonry();
-      });
-
   })();
 </script>
-
 
 <script type="application/ld+json">
 {

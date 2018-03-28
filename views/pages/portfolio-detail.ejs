@@ -1,110 +1,52 @@
 <% include ../partials/head.ejs %>
-<style>
+<script src="/scripts/pages/portfolio-detail.js"></script>
 
-
-
-</style>
+<input type="hidden" id="portfolio_id" name="portfolio_id" value="<%=pid%>">
 <div class="contents portfolio-detail">
     <div class="page-description">
         <div class="main-text center-pos">
-            <p>용산 시티파크 39PY</p>
+            <p id="portfolioMainTitle">용산 시티파크 39PY</p>
             <p></p>
         </div>
     </div>
     <div class="portfolio-detail-wrapper clearing">
         <div class="portfolio-info">
-            <div class="title">용산 시티파크 39PY</div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>구분</th>
-                        <td>구분구분구분</td>
-                    </tr>
-                    <tr>
-                        <th>위치</th>
-                        <td>용산구 중동 가덕미아파트</td>
-                    </tr>
-                    <tr>
-                        <th>면적</th>
-                        <td>19평</td>
-                    </tr>
-                    <tr>
-                        <th>기간</th>
-                        <td>20일</td>
-                    </tr>
-                    <tr>
-                        <th>범위</th>
-                        <td>인테리어</td>
-                    </tr>
-                    <tr>
-                        <th>예산</th>
-                        <td>4,500만원</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="designer-info-wrapper clearing">
-                <div class="designer-image">
-                    <img src="/images/profile-manager.png" />
-                </div>
-                <div class="designer-info">
-                    <table class="designer-table">
-                        <tbody>
-                            <tr>
-                                <th>디자이너</th>
-                                <td>서아영</td>
-                            </tr>
-                            <tr>
-                                <th>스타일</th>
-                                <td>시크, 비비드</td>
-                            </tr>
-                            <tr>
-                                <th>스타일</th>
-                                <td>별별별별별</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <span>디자이너의 포트폴리오 더보기>></span>
-                </div>
-            </div>
-        </div>
-        <div class="portfolio-images">
-            <div class="pos-r">
-                <div class="slider-wrapper">
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-1.jpg" />
-                    </div>
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-2.jpg" />
-                    </div>
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-3.jpg" />
-                    </div>
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-4.jpg" />
-                    </div>
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-5.jpg" />
-                    </div>
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-6.jpg" />
-                    </div>
-                    <div class="image-items">
-                        <img src="/images/portfolio-images-7.jpg" />
-                    </div>
+            <div class="title">
+                <p id="portfolioTitle">용산 시티파크 39PY</p>
 
-                </div>
-                <div class="pos-a dot-container">
-                    <div id='carousel-custom-dots' class='owl-dots'>
-                        <span class='owl-dot'>1</span>
-                        <span class='owl-dot'>2</span>
-                        <span class='owl-dot'>3</span>
-                    </div>
-                </div>
+                <span id="portfolioSizeAndPrice">1</span>
+            </div>
+            <div class="description">
+                <hr />
+                <p id="portfolioDescription"></p>
             </div>
             <div class="request-btn-wrapper">
                 <button class="request-btn">
                     무료방문상담 신청하기
                 </button>
+            </div>
+        </div>
+        <div class="portfolio-images" id="imageList">
+            <div class="image-items">
+                <img src="/images/portfolio-images-1.jpg" />
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-2.jpg" />
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-3.jpg" />
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-4.jpg" />
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-5.jpg" />
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-6.jpg" />
+            </div>
+            <div class="image-items">
+                <img src="/images/portfolio-images-7.jpg" />
             </div>
         </div>
     </div>
@@ -124,37 +66,11 @@
             </div>
         </div>
     </div>
-    <!--<div class="back-button-wrapper text-center">-->
-        <!--<button class="request-btn">-->
-            <!--포트폴리오 목록으로 돌아가기-->
-        <!--</button>-->
-    <!--</div>-->
 </div>
-<script>
-    (function() {
-        $('.slider-wrapper').addClass('owl-carousel').owlCarousel({
-            loop: true,
-            items: 1,
-            nav: true,
-            dots: true,
-            navContainerClass: 'owl-nav-custom',
-            dotsContainer: '#carousel-custom-dots',
-            // Enable thumbnails
-            thumbs: true,
-            thumbImage: true,
-            thumbContainerClass: 'owl-thumbs',
-            thumbItemClass: 'owl-thumb-item',
-            moveThumbsInside: true,
-            navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-        });
-
-        var a = $('.owl-thumbs');
-        a.wrap('<div class="owl-thumbs-wrapper"></div>')
-
-        a.css({
-            width: (110 * a.children().length) + 20
-        })
-    })();
+<script type="text/template" id="imageTemplate">
+    <div class="image-items">
+        <img src="{{PI_AFTER}}" />
+    </div>
 </script>
 
 <% include ../partials/foot.ejs %>

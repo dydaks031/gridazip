@@ -40,24 +40,64 @@
   }
 
   #header {
+    height:65px;
+    &.scrolled {
+      .header-inner a {
+        &.request-button {
+          color: white !important;
+        }
+      }
+    }
+    > div {
+      top: 60%;
+    }
     //padding: 0 21px;
     .header-inner {
+      &.open {
+        .menu-wrapper {
+          left: 0;
+          top: -28%;
+          -webkit-transform: translateY(0);
+          -ms-transform: translateY(0);
+          transform: translateY(0);
+          -webkit-transition-delay: 0s;
+          -o-transition-delay: 0s;
+          transition-delay: 0s;
+        }
+      }
       .logo {
-        padding-left: 21px;
+        margin-left: 21px;
         position: relative;
         z-index: 5;
+        background:url('/images/logo_w.png') 0 0 no-repeat;
+        background-size:100%;
+        transition: background .5s ease,-webkit-transform .5s ease;
+        -o-transition: background .5s ease,transform .5s ease;
+        transition: background .5s ease,transform .5s ease;
+        transition: background .5s ease,transform .5s ease,-webkit-transform .5s ease;
       }
 
       .menu-wrapper {
-        display:none;
+        -webkit-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        transform: translateY(-100%);
+        -webkit-transition-delay: .5s;
+        -o-transition-delay: .5s;
+        transition-delay: .5s;
+        -webkit-transition: background-color .5s ease,-webkit-transform .5s ease;
+        transition: background-color .5s ease,-webkit-transform .5s ease;
+        -o-transition: background-color .5s ease,transform .5s ease;
+        transition: background-color .5s ease,transform .5s ease;
+        transition: background-color .5s ease,transform .5s ease,-webkit-transform .5s ease;
         position: absolute;
         width: 100%;
         height: 100vh;
         background: #FDFDFD;
         float:initial;
         top: -70%;
+
         .menu-list {
-          top: 100px;
+          top: 50px;
           position: relative;
           padding: 30px;
 
@@ -88,7 +128,7 @@
 
       .mobile-menu-icon {
         display: block;
-        padding-right:21px;
+        margin-right: 21px;
         float:right;
         cursor: pointer;
         z-index: 5;
@@ -306,7 +346,6 @@
       padding: 0px 26px 26px 26px;
 
       .row {
-        height: 680px;
         .column {
           flex: 50%;
           max-width: 50%;
@@ -805,6 +844,7 @@
     .portfolio-pictures {
       padding: 0;
       .row {
+        padding-bottom: 30px;
         .column {
           flex: 100%;
           max-width: 100%;
@@ -817,31 +857,6 @@
     .portfolio-detail-wrapper {
       > div.portfolio-info {
         padding: 2.5rem 1.5rem;
-        .designer-info-wrapper {
-          > .designer-image {
-            > img {
-              width: 150px;
-              height: 150px;
-            }
-          }
-
-          >.designer-info {
-            padding: 0 0 0 1rem;
-            .designer-table {
-              margin: 0 0 5px 0
-            }
-          }
-        }
-      }
-      > div.portfolio-images {
-        >.pos-r {
-          height: 100%;
-          .image-items {
-            >img {
-              max-height: 250px;
-            }
-          }
-        }
       }
     }
   }

@@ -3,7 +3,6 @@
 <head>
     <% include ./meta.ejs %>
     <link rel="shortcut icon" type="image/x-icon" href="https://static.gridazip.com/assets/images/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="http://api.typolink.co.kr/css?family=DXgyeongpilmyeongjoB:400|DXgyeongpilmyeongjo+M:400|DXgyeongpilmyeongjo+L:400" />
     <%
         if (env === 'production') {
     %>
@@ -51,6 +50,7 @@
     <script src="/scripts/services/render/main.js"></script>
     <script src="/scripts/services/pagination/main.js"></script>
     <script src="/scripts/services/filter/main.js"></script>
+    <script src="/scripts/services/header/main.js"></script>
     <script src="/scripts/helpers/develop.js"></script>
     <script src="/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/owl.carousel/dist/owl.carousel.min.js"></script>
@@ -79,9 +79,7 @@
             <div>
                 <div class="header-inner">
                     <div class="logo">
-                        <a href="/" itemscope itemtype="http://schema.org/Organization">
-                            <img itemprop="logo" src="/images/logo_w.png" alt="그리다집 로고" />
-                        </a>
+
                     </div>
                     <div class="menu-wrapper">
                         <div class="menu-list">
@@ -106,7 +104,10 @@
                         </div>
                     </div>
                     <div class="mobile-menu-icon">
-                        <img src="/images/menu-more-icon.png" />
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
                 </div>
             </div>
