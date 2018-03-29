@@ -2,7 +2,7 @@ const config = require('./config');
 
 const Helper = {
   toDashedPhone: (phone) => {
-    var value = String(phone).replace(/[^\d]/g, '');
+    let value = String(phone).replace(/[^\d]/g, '');
 
     if (value.length >= 11) {
       return value.replace(/(\d{3})(\d{4})(\d)/, '$1-$2-$3');

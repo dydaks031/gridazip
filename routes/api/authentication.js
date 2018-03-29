@@ -2,14 +2,12 @@ const express = require('express');
 const router = express.Router();
 const knexBuilder = require('../../services/connection/knex');
 const cryptoHelper = require('../../services/crypto/helper');
-const mailHelper = require('../../services/mail/helper');
 const resHelper = require('../../services/response/helper');
-const randomHelper = require('../../services/random/helper');
 const formatHelper = require('../../services/format/helper');
 const smsHelper = require('../../services/sms/helper');
 const moment = require('moment');
 
-router.post('/sms/request', (req, res, next) => {
+router.post('/sms/request', (req, res) => {
   const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
   let inputPhoneNumber = req.body.phone || '';
   let errorMsg = null;
@@ -68,7 +66,7 @@ router.post('/sms/request', (req, res, next) => {
   }
 });
 
-router.post('/sms/validate', (req, res, next) => {
+router.post('/sms/validate', (req, res) => {
   const session = req.session;
   const inputAuthKey = req.body.authKey || '';
   let inputPhoneNumber = req.body.phone || '';
@@ -99,7 +97,6 @@ router.post('/sms/validate', (req, res, next) => {
         .select('*')
         .where({auth_phone: cryptedPhoneNumber})
         .then(response => {
-          console.log(response);
           if (response.length < 1) {
             res.json(
               resHelper.getError('오류가 발생하였습니다. 인증번호를 다시 요청해주세요.')
@@ -115,8 +112,6 @@ router.post('/sms/validate', (req, res, next) => {
             else {
               let limitedDt = moment(smsObj.auth_mod_dt).add(smsObj.auth_limited_minute, 'm');
               let now = moment.utc();
-              //286239000
-              //318486525
               if (limitedDt.unix() < now.unix()) {
                 res.json(
                   resHelper.getError('만료된 인증번호입니다. 인증번호를 다시 요청해주세요.')
@@ -133,12 +128,8 @@ router.post('/sms/validate', (req, res, next) => {
             }
           }
         })
-
     })
   }
-
-
-
 });
 
 module.exports = router;

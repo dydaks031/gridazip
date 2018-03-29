@@ -2,10 +2,10 @@ const Config = {
   sess_key: 'gridazip',
   sess_secure: 'gridazip@sess@key!',
   site: {
-      name: '그리다집',
-      title: '그리다집',
-      description: '고객 맞춤 인테리어 자동화 서비스저렴한 비용으로 최적의 인테리어를 설계합니다.',
-      keywords: '인테리어,시공,모던,화이트,우드,도배,장판,페인트,마루,데코타일,그리다집'
+    name: '그리다집',
+    title: '그리다집',
+    description: '고객 맞춤 인테리어 자동화 서비스저렴한 비용으로 최적의 인테리어를 설계합니다.',
+    keywords: '인테리어,시공,모던,화이트,우드,도배,장판,페인트,마루,데코타일,그리다집'
   },
   domain: {
     development: 'localhost:3001',

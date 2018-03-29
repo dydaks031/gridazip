@@ -1,366 +1,355 @@
 $(function () {
-    var $window = $(window);
-    var $document = $(document);
-    var $profileType = $('#profile_type');
-    var $profileWrapper = $('.profile-wrapper');
-    var $profileSortTab = $('#profile_sort_tab');
-    var profileType = $profileType.val();
+  var $document = $(document)
+  var $profileType = $('#profile_type')
+  var $profileWrapper = $('.profile-wrapper')
+  var $profileSortTab = $('#profile_sort_tab')
+  var profileType = $profileType.val()
 
-    var page = new Pagination();
-    var filter = new Filter();
-    var commentPage = new Pagination();
-    var qnaPage = new Pagination();
-    page.setLimit(9);
+  var page = new Pagination()
+  var filter = new Filter()
+  var commentPage = new Pagination()
+  var qnaPage = new Pagination()
+  page.setLimit(9)
 
-    $profileSortTab.find('.tab-item').bind('click', function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        $this.addClass('active').siblings('.active').removeClass('active');
+  $profileSortTab.find('.tab-item').bind('click', function (event) {
+    event.preventDefault()
+    var $this = $(this)
+    $this.addClass('active').siblings('.active').removeClass('active')
 
-        var value = $this.data('value');
-        filter.setFilter('sort', value === '' ? null : value);
-        page.reset();
-        page.setLimit(9);
-        loadProfile();
-    });
+    var value = $this.data('value')
+    filter.setFilter('sort', value === '' ? null : value)
+    page.reset()
+    page.setLimit(9)
+    loadProfile()
+  })
 
-    var designerGridItemBind = function ($element) {
-        $element.bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var id = $this.data('id');
+  var designerGridItemBind = function ($element) {
+    $element.bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      var id = $this.data('id')
 
-            $('.profile-detail').remove();
+      $('.profile-detail').remove()
 
-            if ($this.hasClass('active')) {
-                $this.removeClass('active');
+      if ($this.hasClass('active')) {
+        $this.removeClass('active')
+      } else {
+        $profileWrapper.find('.profile-detail').addClass('profile-detail-loading')
+        $profileWrapper.find('.profile.active').removeClass('active')
+        $this.addClass('active')
+
+        var $profileDetail = $profileDetailTemplate.clone()
+        $profileDetail.data('id', id)
+        designerDetailBind($profileDetail)
+        $profileDetail.insertAfter($this.closest('.profile-list'))
+        $('html, body').stop().animate({
+          scrollTop: $profileDetail.offset().top
+        }, 600)
+        commentPage.reset()
+        commentPage.setLimit(5)
+        loadComment(id, $profileDetail)
+
+        http.post('/api/profile/designer/' + id)
+          .finally(function () {
+            $profileWrapper.find('.profile-detail').removeClass('profile-detail-loading')
+          })
+          .then(function (data) {
+            var portfolio = data.portfolio
+
+            if (portfolio.length < 1) {
+              $profileDetail.find('.gallery-wrapper').remove()
+            } else {
+              portfolio.forEach(function (element, idx) {
+                var $galleryItem = $galleryItemTemplate.clone()
+                $galleryItem.find('.picture').css('background-image', "url('" + element.pi_after + "')")
+                $galleryItem.find('.btn-document').data('pid', element.pf_pk)
+                $galleryItem.find('.btn-document').data('portfolio', JSON.stringify(element))
+                designerDocumentBind($galleryItem.find('.btn-document'))
+                $galleryItem.appendTo($profileDetail.find('.gallery-list'))
+              })
             }
-            else {
-                $profileWrapper.find('.profile-detail').addClass('profile-detail-loading');
-                $profileWrapper.find('.profile.active').removeClass('active');
-                $this.addClass('active');
-
-                var $profileDetail = $profileDetailTemplate.clone();
-                $profileDetail.data('id', id);
-                designerDetailBind($profileDetail);
-                $profileDetail.insertAfter($this.closest('.profile-list'));
-                $('html, body').stop().animate({
-                    scrollTop: $profileDetail.offset().top
-                }, 600);
-                commentPage.reset();
-                commentPage.setLimit(5);
-                loadComment(id, $profileDetail);
-
-                http.post('/api/profile/designer/' + id)
-                    ['finally'](function () {
-                        $profileWrapper.find('.profile-detail').removeClass('profile-detail-loading');
-                    })
-                    .then(function (data) {
-                        var desinger = data.data;
-                        var portfolio = data.portfolio;
-
-                        if (portfolio.length < 1) {
-                            $profileDetail.find('.gallery-wrapper').remove();
-                        }
-                        else {
-                            portfolio.forEach(function(element, idx) {
-                                var $galleryItem = $galleryItemTemplate.clone();
-                                $galleryItem.find('.picture').css('background-image', "url('" + element.pi_after + "')");
-                                $galleryItem.find('.btn-document').data('pid', element.pf_pk);
-                                $galleryItem.find('.btn-document').data('portfolio', JSON.stringify(element));
-                                designerDocumentBind($galleryItem.find('.btn-document'));
-                                $galleryItem.appendTo($profileDetail.find('.gallery-list'));
-                            });
-                        }
-                    })
-                    ['catch'](function (error) {
-                        swal({
-                            title: error.value,
-                            type: 'error'
-                        })
-                    });
-            }
-        });
-    };
-
-    var designerDetailBind = function ($element) {
-        var $comment = $element.find('.comment');
-        var id = $element.data('id');
-
-        $element.find('.btn-toggle-bar').bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            $this.closest('.profile-detail').remove();
-            $profileWrapper.find('.profile.active').removeClass('active');
-        });
-
-        $element.find('.comment .comment-tab .comment-tab-item').bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var type = $this.data('type');
-            $this.addClass('active').siblings('.active').removeClass('active');
-
-            if (type === 'qna') {
-                qnaPage.reset();
-                qnaPage.setLimit(5);
-                loadQna(id, $comment);
-            }
-            else {
-                commentPage.reset();
-                commentPage.setLimit(5);
-                loadComment(id, $comment);
-            }
-        });
-    };
-
-    var designerDocumentBind = function ($element) {
-        $element.bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var portfolioID = $this.data('pid');
-            var portfolioInfo = JSON.parse($this.data('portfolio'));
-            $this.closest('.gallery-wrapper').siblings('.gallery-wrapper').remove();
-            var $profilePortfolio = $profilePortfolioTemplate.clone();
-            $profilePortfolio.insertAfter($this.closest('.gallery-wrapper'));
-
-            http.post('/api/profile/designer/document/' + portfolioID)
-            ['finally'](function () {
-                $profilePortfolio.removeClass('gallery-wrapper-loading');
+          })
+          .catch(function (error) {
+            swal({
+              title: error.value,
+              type: 'error'
             })
-            .then(function (data) {
-                var documents = data.documents;
-                var images = data.images;
+          })
+      }
+    })
+  }
 
-                $profilePortfolio.find('.gallery-info-price .value').text((portfolioInfo.pf_price || 0).format() + ' 만원');
-                $profilePortfolio.find('.gallery-info-address .value').text(portfolioInfo.pf_address);
-                $profilePortfolio.find('.gallery-info-size .value').text(portfolioInfo.pf_size + ' 평');
+  var designerDetailBind = function ($element) {
+    var $comment = $element.find('.comment')
+    var id = $element.data('id')
 
-                images.forEach(function(element, idx) {
-                    $galleryItemSimple = $galleryItemSimpleTemplate.clone();
-                    $galleryItemSimple.find('.picture').css('background-image', "url('" + element.pi_after + "')");
-                    $galleryItemSimple.appendTo($profilePortfolio.find('.gallery-list'));
-                });
+    $element.find('.btn-toggle-bar').bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      $this.closest('.profile-detail').remove()
+      $profileWrapper.find('.profile.active').removeClass('active')
+    })
 
-                documents.forEach(function(element, idx) {
-                    $documentItem = $('<div class="pdf-viewer-image"></div>');
-                    $documentItem.append('<img src="' + element + '" />');
-                    $documentItem.appendTo($profilePortfolio.find('.pdf-viewer'));
-                });
+    $element.find('.comment .comment-tab .comment-tab-item').bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      var type = $this.data('type')
+      $this.addClass('active').siblings('.active').removeClass('active')
 
-                $profilePortfolio.find('.pdf-viewer').addClass('owl-carousel').owlCarousel({
-                    loop: true,
-                    items: 1,
-                    nav: true,
-                    dots: false,
-                    navText: ['<i class="pe-7s-angle-left"></i>', '<i class="pe-7s-angle-right"></i>']
-                });
+      if (type === 'qna') {
+        qnaPage.reset()
+        qnaPage.setLimit(5)
+        loadQna(id, $comment)
+      } else {
+        commentPage.reset()
+        commentPage.setLimit(5)
+        loadComment(id, $comment)
+      }
+    })
+  }
+
+  var designerDocumentBind = function ($element) {
+    $element.bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      var portfolioID = $this.data('pid')
+      var portfolioInfo = JSON.parse($this.data('portfolio'))
+      $this.closest('.gallery-wrapper').siblings('.gallery-wrapper').remove()
+      var $profilePortfolio = $profilePortfolioTemplate.clone()
+      $profilePortfolio.insertAfter($this.closest('.gallery-wrapper'))
+
+      http.post('/api/profile/designer/document/' + portfolioID)
+        .finally(function () {
+          $profilePortfolio.removeClass('gallery-wrapper-loading')
+        })
+        .then(function (data) {
+          var documents = data.documents
+          var images = data.images
+
+          $profilePortfolio.find('.gallery-info-price .value').text((portfolioInfo.pf_price || 0).format() + ' 만원')
+          $profilePortfolio.find('.gallery-info-address .value').text(portfolioInfo.pf_address)
+          $profilePortfolio.find('.gallery-info-size .value').text(portfolioInfo.pf_size + ' 평')
+
+          images.forEach(function (element, idx) {
+            var $galleryItemSimple = $galleryItemSimpleTemplate.clone()
+            $galleryItemSimple.find('.picture').css('background-image', "url('" + element.pi_after + "')")
+            $galleryItemSimple.appendTo($profilePortfolio.find('.gallery-list'))
+          })
+
+          documents.forEach(function (element, idx) {
+            var $documentItem = $('<div class="pdf-viewer-image"></div>')
+            $documentItem.append('<img src="' + element + '" />')
+            $documentItem.appendTo($profilePortfolio.find('.pdf-viewer'))
+          })
+
+          $profilePortfolio.find('.pdf-viewer').addClass('owl-carousel').owlCarousel({
+            loop: true,
+            items: 1,
+            nav: true,
+            dots: false,
+            navText: ['<i class="pe-7s-angle-left"></i>', '<i class="pe-7s-angle-right"></i>']
+          })
+        })
+        .catch(function (error) {
+          swal({
+            title: error.value,
+            type: 'error'
+          })
+        })
+    })
+  }
+
+  var commentInputBind = function ($element) {
+    var $comment = $element.closest('.comment')
+    var channel = $comment.data('channel')
+    var id = $comment.data('id')
+    $element.find('.comment-submit').bind('click', function (event) {
+      event.preventDefault()
+      var score = $element.find('.comment-input-score .comment-star-rate').data('value')
+      var text = $element.find('#user_comment').val()
+
+      if (text.length < 10) {
+        swal({
+          title: '코맨트는 10자 이상으로 적어주세요.',
+          type: 'warning'
+        }, function () {
+          setTimeout(function () {
+            $element.find('#user_comment').focus()
+          }, 50)
+        })
+      } else {
+        loading(true)
+        http.post('/api/comment/save/' + channel + '/' + id, {
+          score: score,
+          text: text
+        })
+          .finally(function () {
+            loading(false)
+          })
+          .then(function (data) {
+            commentPage.reset()
+            commentPage.setLimit(5)
+            loadComment(id, $comment)
+          })
+          .catch(function (error) {
+            swal({
+              title: error.value,
+              type: 'error'
             })
-            ['catch'](function (error) {
-                swal({
-                    title: error.value,
-                    type: 'error'
-                });
-            });
-        });
-    };
+          })
+      }
+    })
+    commentStarBind($element.find('.comment-input-score .comment-star-rate'))
+  }
 
-    var commentInputBind = function ($element) {
-        var $comment = $element.closest('.comment');
-        var channel = $comment.data('channel');
-        var id = $comment.data('id');
-        $element.find('.comment-submit').bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var score = $element.find('.comment-input-score .comment-star-rate').data('value');
-            var text = $element.find('#user_comment').val();
+  var qnaItemBind = function (id, $element) {
+    $element.bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      var $comment = $this.closest('.comment')
+      var channel = $comment.data('channel')
 
-            if (text.length < 10) {
-                swal({
-                    title: '코맨트는 10자 이상으로 적어주세요.',
-                    type: 'warning'
-                }, function () {
-                    setTimeout(function () {
-                        $element.find('#user_comment').focus();
-                    }, 50);
-                });
-            }
-            else {
-                loading(true);
-                http.post('/api/comment/save/' + channel + '/' + id, {
-                    score: score,
-                    text: text
-                })
-                ['finally'](function () {
-                    loading(false);
-                })
-                .then(function (data) {
-                    commentPage.reset();
-                    commentPage.setLimit(5);
-                    loadComment(id, $comment);
-                })
-                ['catch'](function (error) {
-                    swal({
-                        title: error.value,
-                        type: 'error'
-                    });
-                });
-            }
-        });
-        commentStarBind($element.find('.comment-input-score .comment-star-rate'));
-    };
+      loading(true)
+      http.post('/api/qna/answer/' + channel + '/' + id)
+        .finally(function () {
+          loading(false)
+        })
+        .then(function (data) {
+          if ($element.next().hasClass('comment-qna-answer-type')) {
+            $element.next().remove()
+          }
 
-    var qnaItemBind = function (id, $element) {
+          var $qnaAnswerBox = $qnaAnswerBoxTemplate.clone()
 
-        $element.bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var $comment = $this.closest('.comment');
-            var channel = $comment.data('channel');
+          if (data.data !== null) {
+            var answer = data.data
+            $qnaAnswerBox.find('.label').text('답변')
+            $qnaAnswerBox.find('.date').text(moment(answer.qna_answer_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'))
+            $qnaAnswerBox.find('.comment-description').html(answer.qna_answer_description.replace(/\n/g, '<br />'))
+          } else {
+            $qnaAnswerBox.addClass('comment-box-empty center')
+            $qnaAnswerBox.find('.comment-header').remove()
+            $qnaAnswerBox.find('.comment-description').text('답변 내용이 없습니다.')
+          }
+          $qnaAnswerBox.insertAfter($element)
+        })
+        .catch(function (error) {
+          swal({
+            title: error.value,
+            type: 'error'
+          })
+        })
+    })
+  }
 
-            loading(true);
-            http.post('/api/qna/answer/' + channel + '/' + id)
-            ['finally'](function () {
-                loading(false);
+  var qnaInputBind = function ($element) {
+    var $comment = $element.closest('.comment')
+    var channel = $comment.data('channel')
+    var id = $comment.data('id')
+    $element.find('.comment-submit').bind('click', function (event) {
+      event.preventDefault()
+      var text = $element.find('#user_comment').val()
+
+      if (text.length < 10) {
+        swal({
+          title: '질문을 10자 이상으로 적어주세요.',
+          type: 'warning'
+        }, function () {
+          setTimeout(function () {
+            $element.find('#user_comment').focus()
+          }, 50)
+        })
+      } else {
+        loading(true)
+        http.post('/api/qna/save/' + channel + '/' + id, {
+          text: text
+        })
+          .finally(function () {
+            loading(false)
+          })
+          .then(function (data) {
+            qnaPage.reset()
+            qnaPage.setLimit(5)
+            loadQna(id, $comment)
+          })
+          .catch(function (error) {
+            swal({
+              title: error.value,
+              type: 'error'
             })
-            .then(function (data) {
-                if ($element.next().hasClass('comment-qna-answer-type')) {
-                    $element.next().remove();
-                }
+          })
+      }
+    })
+    commentStarBind($element.find('.comment-input-score .comment-star-rate'))
+  }
 
-                var $qnaAnswerBox = $qnaAnswerBoxTemplate.clone();
+  var commentStarBind = function ($element) {
+    var closeDropdown = function () {
+      $('.dropdown-star').remove()
+      $document.unbind('click.starHandler')
+    }
 
-                if (data.data !== null) {
-                    var answer = data.data;
-                    $qnaAnswerBox.find('.label').text('답변');
-                    $qnaAnswerBox.find('.date').text(moment(answer.qna_answer_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                    $qnaAnswerBox.find('.comment-description').html(answer.qna_answer_description.replace(/\n/g, '<br />'));
-                }
-                else {
-                    $qnaAnswerBox.addClass('comment-box-empty center');
-                    $qnaAnswerBox.find('.comment-header').remove();
-                    $qnaAnswerBox.find('.comment-description').text('답변 내용이 없습니다.');
-                }
-                $qnaAnswerBox.insertAfter($element);
-            })
-            ['catch'](function (error) {
-                swal({
-                    title: error.value,
-                    type: 'error'
-                });
-            });
-        });
-    };
+    $element.bind('click', function (event) {
+      event.preventDefault()
+      event.stopPropagation()
+      var $this = $(this)
+      var offset = $this.offset()
+      var fixedOffset = {
+        top: 4
+      }
 
-    var qnaInputBind = function ($element) {
-        var $comment = $element.closest('.comment');
-        var channel = $comment.data('channel');
-        var id = $comment.data('id');
-        $element.find('.comment-submit').bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var text = $element.find('#user_comment').val();
+      closeDropdown()
 
-            if (text.length < 10) {
-                swal({
-                    title: '질문을 10자 이상으로 적어주세요.',
-                    type: 'warning'
-                }, function () {
-                    setTimeout(function () {
-                        $element.find('#user_comment').focus();
-                    }, 50);
-                });
-            }
-            else {
-                loading(true);
-                http.post('/api/qna/save/' + channel + '/' + id, {
-                    text: text
-                })
-                ['finally'](function () {
-                    loading(false);
-                })
-                .then(function (data) {
-                    qnaPage.reset();
-                    qnaPage.setLimit(5);
-                    loadQna(id, $comment);
-                })
-                ['catch'](function (error) {
-                    swal({
-                        title: error.value,
-                        type: 'error'
-                    });
-                });
-            }
-        });
-        commentStarBind($element.find('.comment-input-score .comment-star-rate'));
-    };
+      var $commentStarDropdown = $commentStarDropdownTemplate.clone()
+      $commentStarDropdown.find('.dropdown-star-item').bind('click', function (event) {
+        event.preventDefault()
+        event.stopPropagation()
+        var $this = $(this)
+        var value = $this.data('value')
+        closeDropdown()
+        $element.find('.star').html(Render.generateStar(value))
+        $element.find('.value').text(value)
+        $element.data('value', value)
+      })
+      $commentStarDropdown.appendTo($('body'))
 
-    var commentStarBind = function ($element) {
-        var closeDropdown = function () {
-            $('.dropdown-star').remove();
-            $document.unbind('click.starHandler');
-        };
+      var pos = {
+        left: offset.left + (($this.outerWidth() - $commentStarDropdown.outerWidth()) / 2),
+        top: offset.top + $this.outerHeight() + fixedOffset.top
+      }
 
-        $element.bind('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var $this = $(this);
-            var offset = $this.offset();
-            var fixedOffset = {
-                top: 4
-            };
+      $commentStarDropdown.css({
+        left: pos.left,
+        top: pos.top
+      })
 
-            closeDropdown();
+      $document.unbind('click.starHandler').bind('click.starHandler', function () {
+        closeDropdown()
+      })
+    })
+  }
 
-            $commentStarDropdown = $commentStarDropdownTemplate.clone();
-            $commentStarDropdown.find('.dropdown-star-item').bind('click', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                var $this = $(this);
-                var value = $this.data('value');
-                closeDropdown();
-                $element.find('.star').html(Render.generateStar(value));
-                $element.find('.value').text(value);
-                $element.data('value', value);
-            });
-            $commentStarDropdown.appendTo($('body'));
+  var commentPaginationBind = function ($element, callback) {
+    $element.find('a').bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      var index = $this.data('index')
+      commentPage.setIndex(index)
+      callback()
+    })
+  }
 
-            var pos = {
-                left: offset.left + (($this.outerWidth() - $commentStarDropdown.outerWidth()) / 2),
-                top: offset.top + $this.outerHeight() + fixedOffset.top
-            };
+  var qnaPaginationBind = function ($element, callback) {
+    $element.find('a').bind('click', function (event) {
+      event.preventDefault()
+      var $this = $(this)
+      var index = $this.data('index')
+      qnaPage.setIndex(index)
+      callback()
+    })
+  }
 
-            $commentStarDropdown.css({
-                left: pos.left,
-                top: pos.top
-            });
-
-            $document.unbind('click.starHandler').bind('click.starHandler', function () {
-                closeDropdown();
-            });
-        });
-    };
-
-    var commentPaginationBind = function ($element, callback) {
-        $element.find('a').bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var index = $this.data('index');
-            commentPage.setIndex(index);
-            callback();
-        });
-    };
-
-    var qnaPaginationBind = function ($element, callback) {
-        $element.find('a').bind('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-            var index = $this.data('index');
-            qnaPage.setIndex(index);
-            callback();
-        });
-    };
-
-    var $designerGridItemTemplate = $('\
+  var $designerGridItemTemplate = $('\
     <div class="profile">\
       <div class="picture">\
         <div class="name">\
@@ -411,8 +400,8 @@ $(function () {
         </div>\
       </div>\
     </div>\
-  ');
-    var $constructorGridItemTemplate = $('\
+  ')
+  var $constructorGridItemTemplate = $('\
     <div class="profile">\
       <div class="picture">\
         <div class="name">\
@@ -436,19 +425,19 @@ $(function () {
         </div>\
       </div>\
     </div>\
-  ');
-    var $galleryItemTemplate = $('\
+  ')
+  var $galleryItemTemplate = $('\
     <div class="gallery-item">\
       <div class="picture"></div>\
       <a href="#" class="btn btn-primary btn-document">제안서 보기</a>\
     </div>\
-  ');
-    var $galleryItemSimpleTemplate = $('\
+  ')
+  var $galleryItemSimpleTemplate = $('\
     <div class="gallery-item">\
       <div class="picture"></div>\
     </div>\
-  ');
-    var $profileDetailTemplate = $('\
+  ')
+  var $profileDetailTemplate = $('\
     <div class="profile-detail profile-detail-loading" style="background-color: #e9e9e9;">\
       <a href="#" class="btn-toggle-bar">\
         <span>디자이너 상세정보 닫기</span>\
@@ -498,8 +487,8 @@ $(function () {
         </div>\
       </div>\
     </div>\
-  ');
-    var $profilePortfolioTemplate = $('\
+  ')
+  var $profilePortfolioTemplate = $('\
     <div class="gallery-wrapper gallery-wrapper-loading margin-top">\
       <h2>디자인 제안서</h2>\
       <div class="loader-section">\
@@ -535,8 +524,8 @@ $(function () {
         </div>\
       </div>\
     </div>\
-  ');
-    var $commentBoxTemplate = $('\
+  ')
+  var $commentBoxTemplate = $('\
     <div class="comment-box">\
       <div class="comment-header">\
         <div class="date"></div>\
@@ -548,8 +537,8 @@ $(function () {
       </div>\
       <p class="comment-description"></p>\
     </div>\
-  ');
-    var $qnaBoxTemplate = $('\
+  ')
+  var $qnaBoxTemplate = $('\
     <div class="comment-box comment-qna-type">\
       <div class="comment-header">\
         <div class="label"></div>\
@@ -557,8 +546,8 @@ $(function () {
       </div>\
       <p class="comment-description"></p>\
     </div>\
-  ');
-    var $qnaAnswerBoxTemplate = $('\
+  ')
+  var $qnaAnswerBoxTemplate = $('\
     <div class="comment-box comment-qna-answer-type">\
       <div class="comment-header">\
         <div class="label label-primary"></div>\
@@ -566,8 +555,8 @@ $(function () {
       </div>\
       <p class="comment-description"></p>\
     </div>\
-  ');
-    var $commentBoxInputTemplate = $('\
+  ')
+  var $commentBoxInputTemplate = $('\
     <div class="comment-box comment-input">\
       <div class="comment-layout">\
         <div class="comment-input-inner">\
@@ -590,8 +579,8 @@ $(function () {
         <a href="#" class="comment-submit">작성</a>\
       </div>\
     </div>\
-  ');
-    var $qnaBoxInputTemplate = $('\
+  ')
+  var $qnaBoxInputTemplate = $('\
     <div class="comment-box comment-input">\
       <div class="comment-layout">\
         <div class="comment-input-inner">\
@@ -603,8 +592,8 @@ $(function () {
         <a href="#" class="comment-submit">작성</a>\
       </div>\
     </div>\
-  ');
-    var $commentStarDropdownTemplate = $('\
+  ')
+  var $commentStarDropdownTemplate = $('\
     <div class="dropdown-star">\
       <a href="#" class="dropdown-star-item" data-value="0">\
         <span class="star">\
@@ -666,194 +655,191 @@ $(function () {
         </span>\
         <span class="value">5</span>\
       </a>\
-  ');
-    var $profileListTemplate = $('<div class="profile-list"></div>');
+  ')
+  var $profileListTemplate = $('<div class="profile-list"></div>')
 
-    loading(true);
+  loading(true)
 
-    var loadProfile = function () {
-        if (profileType === 'designer') {
-            http.post('/api/profile/designer', {
-                page: page.get(),
-                filter: filter.get()
-            })
-            ['finally'](function () {
-                loading(false);
-            })
-            .then(function (data) {
-                page.get(data.page);
-                $profileWrapper.empty();
-
-                var $profileList;
-
-                data.data.forEach(function(element, idx) {
-                    var index = parseInt(idx);
-
-                    if (index % 3 === 0) {
-                        $profileList = $profileListTemplate.clone();
-                        $profileList.appendTo($profileWrapper);
-                    }
-
-                    $designerGridItem = $designerGridItemTemplate.clone();
-                    $designerGridItem.data('id', element.ds_pk);
-                    $designerGridItem.find('.picture').css('background-image', "url('" + element.ds_image + "')");
-                    $designerGridItem.find('.name .value').text(element.ds_name);
-                    $designerGridItem.find('.info-skill-communication').siblings('.info-skill-value').text(element.ds_score_communication.toFixed(1));
-                    $designerGridItem.find('.info-skill-timestrict').siblings('.info-skill-value').text(element.ds_score_timestrict.toFixed(1));
-                    $designerGridItem.find('.info-skill-quality').siblings('.info-skill-value').text(element.ds_score_quality.toFixed(1));
-                    $designerGridItem.find('.info-skill-communication .info-skill-score').html(Render.generateStar(element.ds_score_communication));
-                    $designerGridItem.find('.info-skill-timestrict .info-skill-score').html(Render.generateStar(element.ds_score_timestrict));
-                    $designerGridItem.find('.info-skill-quality .info-skill-score').html(Render.generateStar(element.ds_score_quality));
-                    $designerGridItem.find('.info-ext-address .textarea').text(element.ds_address || '-');
-                    $designerGridItem.find('.info-ext-style .textarea').text(element.ds_style);
-                    $designerGridItem.find('.info-ext-introduce .textarea').text(element.ds_introduce || '-');
-                    $designerGridItem.find('.info-ext-price .textarea').text((element.ds_price_min || 0).format() + ' ~ ' + (element.ds_price_max || element.ds_price_min || 0).format() + ' 만');
-                    $designerGridItem.appendTo($profileList);
-                    designerGridItemBind($designerGridItem);
-                });
-            })
-            ['catch'](function (error) {
-                swal({
-                    title: error.value,
-                    type: 'error'
-                });
-            });
-        }
-        else {
-            http.post('/api/profile/constructor', {
-                page: page.get(),
-                filter: filter.get()
-            })
-            ['finally'](function () {
-                loading(false);
-            })
-            .then(function (data) {
-                page.get(data.page);
-                $profileWrapper.empty();
-
-                var $profileList;
-
-                data.data.forEach(function(element, idx) {
-                    var index = parseInt(idx);
-
-                    if (index % 3 === 0) {
-                        $profileList = $profileListTemplate.clone();
-                        $profileList.appendTo($profileWrapper);
-                    }
-
-                    $constructorGridItem = $constructorGridItemTemplate.clone();
-                    $constructorGridItem.data('id', element.cr_pk);
-                    $constructorGridItem.find('.picture').css('background-image', "url('" + element.cr_image + "')");
-                    $constructorGridItem.find('.name .company').text(element.cr_comp);
-                    $constructorGridItem.find('.name .value').text(element.cr_name);
-                    $constructorGridItem.find('.info-skill-detail .info-skill-score').html(Render.generateStar(element.cr_score));
-                    $constructorGridItem.find('.info-skill-value').text(element.cr_score.toFixed(1));
-                    $constructorGridItem.find('.info-ext-address .textarea').text(element.cr_address || '-');
-                    $constructorGridItem.appendTo($profileList);
-                });
-            })
-            ['catch'](function (error) {
-                swal({
-                    title: error.value,
-                    type: 'error'
-                });
-            });
-        }
-    };
-
-    var loadComment = function (id, $element) {
-        $element.find('.comment').data('channel', 'designer');
-        $element.find('.comment').data('id', id);
-
-        http.post('/api/comment/designer/' + id, {
-            page: commentPage.get()
-        })
-            .then(function (data) {
-                commentPage.set(data.page);
-
-                $element.find('.comment-boxes').empty();
-                if (data.data.length < 1) {
-                    var $commentBox = $commentBoxTemplate.clone();
-                    $commentBox.addClass('comment-box-empty center').text('리뷰가 없습니다.');
-                    $commentBox.appendTo($element.find('.comment-boxes'));
-                }
-                else {
-                    data.data.forEach(function(element, idx) {
-                        var $commentBox = $commentBoxTemplate.clone();
-                        $commentBox.find('.date').text(moment(element.ct_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                        $commentBox.find('.rate .score').text(element.ct_score);
-                        $commentBox.find('.rate .star').html(Render.generateStar(element.ct_score));
-                        $commentBox.find('.comment-description').html(element.ct_description.replace(/\n/g, '<br />'));
-                        $commentBox.appendTo($element.find('.comment-boxes'));
-                    });
-                }
-
-                if (user !== null) {
-                    var $commentInput = $commentBoxInputTemplate.clone();
-                    $commentInput.appendTo($element.find('.comment-boxes'));
-                    commentInputBind($commentInput);
-                }
-
-                var $commentPagination = $element.find('.pagination.pagination-comment');
-                $commentPagination.html(commentPage.getHtml());
-                commentPaginationBind($commentPagination, function () {
-                    loadComment(id, $element);
-                });
-            })
-        ['catch'](function (error) {
-            swal({
-                title: error.value,
-                type: 'error'
-            });
-        });
-    };
-
-    var loadQna = function (id, $element) {
-        $element.find('.comment').data('channel', 'designer');
-        $element.find('.comment').data('id', id);
-
-        http.post('/api/qna/designer/' + id, {
-            page: qnaPage.get()
+  var loadProfile = function () {
+    if (profileType === 'designer') {
+      http.post('/api/profile/designer', {
+        page: page.get(),
+        filter: filter.get()
+      })
+        .finally(function () {
+          loading(false)
         })
         .then(function (data) {
-            qnaPage.set(data.page);
+          page.get(data.page)
+          $profileWrapper.empty()
 
-            $element.find('.comment-boxes').empty();
-            if (data.data.length < 1) {
-                var $qnaBox = $qnaBoxTemplate.clone();
-                $qnaBox.addClass('comment-box-empty center').text('질문/답변이 없습니다.');
-                $qnaBox.appendTo($element.find('.comment-boxes'));
-            }
-            else {
-                data.data.forEach(function(element, idx) {
-                    var $qnaBox = $qnaBoxTemplate.clone();
-                    $qnaBox.find('.label').text('질문');
-                    $qnaBox.find('.date').text(moment(element.qna_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                    $qnaBox.find('.comment-description').html(element.qna_description.replace(/\n/g, '<br />'));
-                    qnaItemBind(element.qna_pk, $qnaBox);
-                    $qnaBox.appendTo($element.find('.comment-boxes'));
-                });
+          var $profileList
+
+          data.data.forEach(function (element, idx) {
+            var index = parseInt(idx)
+
+            if (index % 3 === 0) {
+              $profileList = $profileListTemplate.clone()
+              $profileList.appendTo($profileWrapper)
             }
 
-            if (user !== null) {
-                var $qnaBoxInput = $qnaBoxInputTemplate.clone();
-                $qnaBoxInput.appendTo($element.find('.comment-boxes'));
-                qnaInputBind($qnaBoxInput);
-            }
-
-            var $commentPagination = $element.find('.pagination.pagination-comment');
-            $commentPagination.html(qnaPage.getHtml());
-            qnaPaginationBind($commentPagination, function () {
-                loadQna(id, $element);
-            });
+            var $designerGridItem = $designerGridItemTemplate.clone()
+            $designerGridItem.data('id', element.ds_pk)
+            $designerGridItem.find('.picture').css('background-image', "url('" + element.ds_image + "')")
+            $designerGridItem.find('.name .value').text(element.ds_name)
+            $designerGridItem.find('.info-skill-communication').siblings('.info-skill-value').text(element.ds_score_communication.toFixed(1))
+            $designerGridItem.find('.info-skill-timestrict').siblings('.info-skill-value').text(element.ds_score_timestrict.toFixed(1))
+            $designerGridItem.find('.info-skill-quality').siblings('.info-skill-value').text(element.ds_score_quality.toFixed(1))
+            $designerGridItem.find('.info-skill-communication .info-skill-score').html(Render.generateStar(element.ds_score_communication))
+            $designerGridItem.find('.info-skill-timestrict .info-skill-score').html(Render.generateStar(element.ds_score_timestrict))
+            $designerGridItem.find('.info-skill-quality .info-skill-score').html(Render.generateStar(element.ds_score_quality))
+            $designerGridItem.find('.info-ext-address .textarea').text(element.ds_address || '-')
+            $designerGridItem.find('.info-ext-style .textarea').text(element.ds_style)
+            $designerGridItem.find('.info-ext-introduce .textarea').text(element.ds_introduce || '-')
+            $designerGridItem.find('.info-ext-price .textarea').text((element.ds_price_min || 0).format() + ' ~ ' + (element.ds_price_max || element.ds_price_min || 0).format() + ' 만')
+            $designerGridItem.appendTo($profileList)
+            designerGridItemBind($designerGridItem)
+          })
         })
-        ['catch'](function (error) {
-            swal({
-                title: error.value,
-                type: 'error'
-            });
-        });
-    };
+        .catch(function (error) {
+          swal({
+            title: error.value,
+            type: 'error'
+          })
+        })
+    } else {
+      http.post('/api/profile/constructor', {
+        page: page.get(),
+        filter: filter.get()
+      })
+        .finally(function () {
+          loading(false)
+        })
+        .then(function (data) {
+          page.get(data.page)
+          $profileWrapper.empty()
 
-    loadProfile();
-});
+          var $profileList
+
+          data.data.forEach(function (element, idx) {
+            var index = parseInt(idx)
+
+            if (index % 3 === 0) {
+              $profileList = $profileListTemplate.clone()
+              $profileList.appendTo($profileWrapper)
+            }
+
+            var $constructorGridItem = $constructorGridItemTemplate.clone()
+            $constructorGridItem.data('id', element.cr_pk)
+            $constructorGridItem.find('.picture').css('background-image', "url('" + element.cr_image + "')")
+            $constructorGridItem.find('.name .company').text(element.cr_comp)
+            $constructorGridItem.find('.name .value').text(element.cr_name)
+            $constructorGridItem.find('.info-skill-detail .info-skill-score').html(Render.generateStar(element.cr_score))
+            $constructorGridItem.find('.info-skill-value').text(element.cr_score.toFixed(1))
+            $constructorGridItem.find('.info-ext-address .textarea').text(element.cr_address || '-')
+            $constructorGridItem.appendTo($profileList)
+          })
+        })
+        .catch(function (error) {
+          swal({
+            title: error.value,
+            type: 'error'
+          })
+        })
+    }
+  }
+
+  var loadComment = function (id, $element) {
+    $element.find('.comment').data('channel', 'designer')
+    $element.find('.comment').data('id', id)
+
+    http.post('/api/comment/designer/' + id, {
+      page: commentPage.get()
+    })
+      .then(function (data) {
+        commentPage.set(data.page)
+
+        $element.find('.comment-boxes').empty()
+        if (data.data.length < 1) {
+          var $commentBox = $commentBoxTemplate.clone()
+          $commentBox.addClass('comment-box-empty center').text('리뷰가 없습니다.')
+          $commentBox.appendTo($element.find('.comment-boxes'))
+        } else {
+          data.data.forEach(function (element, idx) {
+            var $commentBox = $commentBoxTemplate.clone()
+            $commentBox.find('.date').text(moment(element.ct_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'))
+            $commentBox.find('.rate .score').text(element.ct_score)
+            $commentBox.find('.rate .star').html(Render.generateStar(element.ct_score))
+            $commentBox.find('.comment-description').html(element.ct_description.replace(/\n/g, '<br />'))
+            $commentBox.appendTo($element.find('.comment-boxes'))
+          })
+        }
+
+        if (user !== null) {
+          var $commentInput = $commentBoxInputTemplate.clone()
+          $commentInput.appendTo($element.find('.comment-boxes'))
+          commentInputBind($commentInput)
+        }
+
+        var $commentPagination = $element.find('.pagination.pagination-comment')
+        $commentPagination.html(commentPage.getHtml())
+        commentPaginationBind($commentPagination, function () {
+          loadComment(id, $element)
+        })
+      })
+      .catch(function (error) {
+        swal({
+          title: error.value,
+          type: 'error'
+        })
+      })
+  }
+
+  var loadQna = function (id, $element) {
+    $element.find('.comment').data('channel', 'designer')
+    $element.find('.comment').data('id', id)
+
+    http.post('/api/qna/designer/' + id, {
+      page: qnaPage.get()
+    })
+      .then(function (data) {
+        qnaPage.set(data.page)
+
+        $element.find('.comment-boxes').empty()
+        if (data.data.length < 1) {
+          var $qnaBox = $qnaBoxTemplate.clone()
+          $qnaBox.addClass('comment-box-empty center').text('질문/답변이 없습니다.')
+          $qnaBox.appendTo($element.find('.comment-boxes'))
+        } else {
+          data.data.forEach(function (element, idx) {
+            var $qnaBox = $qnaBoxTemplate.clone()
+            $qnaBox.find('.label').text('질문')
+            $qnaBox.find('.date').text(moment(element.qna_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'))
+            $qnaBox.find('.comment-description').html(element.qna_description.replace(/\n/g, '<br />'))
+            qnaItemBind(element.qna_pk, $qnaBox)
+            $qnaBox.appendTo($element.find('.comment-boxes'))
+          })
+        }
+
+        if (user !== null) {
+          var $qnaBoxInput = $qnaBoxInputTemplate.clone()
+          $qnaBoxInput.appendTo($element.find('.comment-boxes'))
+          qnaInputBind($qnaBoxInput)
+        }
+
+        var $commentPagination = $element.find('.pagination.pagination-comment')
+        $commentPagination.html(qnaPage.getHtml())
+        qnaPaginationBind($commentPagination, function () {
+          loadQna(id, $element)
+        })
+      })
+      .catch(function (error) {
+        swal({
+          title: error.value,
+          type: 'error'
+        })
+      })
+  }
+
+  loadProfile()
+})
