@@ -51,7 +51,7 @@ const request_budget_map = {
   'contact': '협의로 결정'
 };
 
-router.get('/*', (req, res, next) => {
+router.get('/*', (req, res) => {
   if (req.user === null || req.user.user_permit !== 'A') {
     res.json(
       resHelper.getError('이 기능을 사용하기 위해서는 관리자 권한이 필요합니다.')
@@ -232,7 +232,7 @@ router.post('/portfolio', (req, res) => {
   });
 });
 
-router.post('/portfolio/designer', (req, res, next) => {
+router.post('/portfolio/designer', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     cur('designer_tbl')
       .orderBy('ds_recency')
@@ -251,7 +251,7 @@ router.post('/portfolio/designer', (req, res, next) => {
   });
 });
 
-router.post('/portfolio/delete/:pid', (req, res, next) => {
+router.post('/portfolio/delete/:pid', (req, res) => {
   let pid = req.params.pid;
 
   knexBuilder.getConnection().then(cur => {
@@ -317,7 +317,7 @@ router.post('/portfolio/delete/:pid', (req, res, next) => {
   });
 });
 
-router.post('/portfolio/save/:pid*?', (req, res, next) => {
+router.post('/portfolio/save/:pid*?', (req, res) => {
   let pid = req.params.pid;
   let wkid = null;
 
@@ -592,7 +592,7 @@ router.post('/portfolio/save/:pid*?', (req, res, next) => {
   }
 });
 
-router.post('/portfolio/:pid', (req, res, next) => {
+router.post('/portfolio/:pid', (req, res) => {
   let pid = req.params.pid;
   let portfolio;
   let images;
@@ -725,7 +725,7 @@ router.post('/portfolio/:pid', (req, res, next) => {
   });
 });
 
-router.post('/company', (req, res, next) => {
+router.post('/company', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     cur('company_tbl')
       .orderBy('cp_recency')
@@ -744,7 +744,7 @@ router.post('/company', (req, res, next) => {
   });
 });
 
-router.post('/company/save/:cpid*?', (req, res, next) => {
+router.post('/company/save/:cpid*?', (req, res) => {
   let cpid = req.params.cpid;
 
   let company_type = req.body.company_type || '';
@@ -829,7 +829,7 @@ router.post('/company/save/:cpid*?', (req, res, next) => {
   }
 });
 
-router.post('/profile/designer', (req, res, next) => {
+router.post('/profile/designer', (req, res) => {
   const page = req.body['page'];
   const filter = req.body['filter'];
   const pageInst = new paginationService(page);
@@ -916,7 +916,7 @@ router.post('/profile/designer', (req, res, next) => {
   });
 });
 
-router.post('/style', (req, res, next) => {
+router.post('/style', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     cur('style_tbl')
       .orderBy('style_recency')
@@ -935,7 +935,7 @@ router.post('/style', (req, res, next) => {
   });
 });
 
-router.post('/profile/designer/:did([0-9]+)', (req, res, next) => {
+router.post('/profile/designer/:did([0-9]+)', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     let ipLong = ip.toLong(req.ip);
     let designerID = req.params.did;
@@ -1016,7 +1016,7 @@ router.post('/profile/designer/:did([0-9]+)', (req, res, next) => {
   });
 });
 
-router.post('/profile/designer/delete/:did', (req, res, next) => {
+router.post('/profile/designer/delete/:did', (req, res) => {
   let designerID = req.params.did;
 
   knexBuilder.getConnection().then(cur => {
@@ -1056,7 +1056,7 @@ router.post('/profile/designer/delete/:did', (req, res, next) => {
   });
 });
 
-router.post('/profile/designer/save/:did*?', (req, res, next) => {
+router.post('/profile/designer/save/:did*?', (req, res) => {
   let did = req.params.did;
 
   let designer_name = req.body.designer_name || '';
@@ -1185,7 +1185,7 @@ router.post('/profile/designer/save/:did*?', (req, res, next) => {
 });
 
 
-router.post('/profile/constructor', (req, res, next) => {
+router.post('/profile/constructor', (req, res) => {
   let page = req.body['page'];
   let filter = req.body['filter'];
   let pageInst = new paginationService(page);
@@ -1269,7 +1269,7 @@ router.post('/profile/constructor', (req, res, next) => {
   });
 });
 
-router.post('/profile/constructor/:cid([0-9]+)', (req, res, next) => {
+router.post('/profile/constructor/:cid([0-9]+)', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     const ipLong = ip.toLong(req.ip);
     const constructorID = req.params.cid;
@@ -1303,7 +1303,7 @@ router.post('/profile/constructor/:cid([0-9]+)', (req, res, next) => {
   });
 });
 
-router.post('/profile/constructor/delete/:cid', (req, res, next) => {
+router.post('/profile/constructor/delete/:cid', (req, res) => {
   let constructorID = req.params.cid;
 
   knexBuilder.getConnection().then(cur => {
@@ -1343,7 +1343,7 @@ router.post('/profile/constructor/delete/:cid', (req, res, next) => {
   });
 });
 
-router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
+router.post('/profile/constructor/save/:cid*?', (req, res) => {
   let cid = req.params.cid;
 
   let constructor_cppk = req.body.constructor_cppk || '';
@@ -1446,7 +1446,7 @@ router.post('/profile/constructor/save/:cid*?', (req, res, next) => {
 });
 
 
-router.post('/request/list', (req, res, next) => {
+router.post('/request/list', (req, res) => {
   let page = req.body['page'];
   let filter = req.body['filter'];
   let pageInst = new paginationService(page);
@@ -1528,7 +1528,7 @@ router.post('/request/list', (req, res, next) => {
           })
         );
       })
-      .catch(reason => {
+      .catch(() => {
         res.json(
           resHelper.getError('상담요청 정보를 가지고 오는 중 알 수 없는 오류가 발생하였습니다.')
         )
@@ -1536,7 +1536,7 @@ router.post('/request/list', (req, res, next) => {
   });
 });
 
-router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
+router.post('/request/save/:rqpk([0-9]+)', (req, res) => {
   const rq_pk = req.params.rqpk;
   const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
   let errorMsg = null;
@@ -1601,30 +1601,30 @@ router.post('/request/save/:rqpk([0-9]+)', (req, res, next) => {
       resHelper.getError(errorMsg)
     );
   }
-
-  knexBuilder.getConnection().then(cur => {
-
-    cur('request_tbl')
-      .where({
-        rq_pk: rq_pk
-      })
-      .update(updateObj)
-      .finally(() => {
-        res.json(
-          resHelper.getJson({
-            msg: 'ok'
-          })
-        );
-      })
-      .catch(reason => {
-        res.json(
-          resHelper.getError(reason)
-        );
-      });
-  });
+  else {
+    knexBuilder.getConnection().then(cur => {
+      cur('request_tbl')
+        .where({
+          rq_pk: rq_pk
+        })
+        .update(updateObj)
+        .finally(() => {
+          res.json(
+            resHelper.getJson({
+              msg: 'ok'
+            })
+          );
+        })
+        .catch(reason => {
+          res.json(
+            resHelper.getError(reason)
+          );
+        });
+    });
+  }
 });
 
-router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
+router.post('/request/:rqpk([0-9]+)', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     let rq_pk = req.params.rqpk;
     let request;
@@ -1651,7 +1651,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
           })
         );
       })
-      .catch(reason => {
+      .catch(() => {
         res.json(
           resHelper.getError('상담 요청 정보를 불러오는 중 알 수 없는 문제가 발생하였습니다.')
         );
@@ -1659,7 +1659,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
   });
 });
 //
-// router.get('/request/cryptAll', (req, res, next) => {
+// router.get('/request/cryptAll', (req, res) => {
 //     knexBuilder.getConnection().then(cur => {
 //             cur('request_tbl')
 //                 .select('rq_pk', 'rq_phone')
@@ -1676,7 +1676,7 @@ router.post('/request/:rqpk([0-9]+)', (req, res, next) => {
 //         }
 //     )
 // });
-// router.get('/request/cryptTest', (req, res, next) => {
+// router.get('/request/cryptTest', (req, res) => {
 //     knexBuilder.getConnection().then(cur => {
 //         cur('request_tbl')
 //             .where('rq_pk', 369)
