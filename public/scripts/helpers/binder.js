@@ -240,4 +240,18 @@ $(function () {
         var $this = $(this);
         $this.bindFile();
     });
+
+    $('[data-modal]').bind('click', function() {
+       var $this = $(this);
+       var modalTarget = $this.data('modal');
+
+       Modal.open(modalTarget);
+    });
+
+    $('[data-close-modal]').bind('click', function() {
+        var $this = $(this);
+        var modalTarget = $this.data('closeModal');
+
+        Modal.close(modalTarget);
+    });
 });

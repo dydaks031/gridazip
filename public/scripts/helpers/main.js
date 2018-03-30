@@ -13,7 +13,14 @@ Promise.config({
 moment.locale('ko');
 
 $(function() {
+    var aTag = $('a'),
+        aTagCount = aTag.length;
 
+    for ( var i = 0; i < aTagCount; i ++ ) {
+        if ( aTag.eq(i).attr('href') === '#' ) {
+            aTag.eq(i).attr('href', 'javascript:void(0);');
+        }
+    }
 });
 
 location.queryString = {};

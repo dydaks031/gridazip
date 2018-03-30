@@ -35,16 +35,20 @@
             &.active {
               border-bottom: 4px solid #818b95;
             }
+            a {
+              color: #818b95;
+
+              &.request-button {
+                border-color: #818b95 !important;
+
+                &:hover {
+                  color: white;
+                }
+              }
+
+            }
           }
         }
-      }
-
-      .request-button {
-        border-color: #818b95 !important;
-      }
-
-      a {
-        color: #818b95 !important;
       }
     }
   }
@@ -237,7 +241,7 @@ footer {
 
         & span {
           font-size:15px;
-          font-family: NanumSquareOTFB;
+          font-family: NanumSquare Bold;
           color:#758594;
           line-height:1.2;
           margin-bottom: 24px;
@@ -270,6 +274,12 @@ footer {
           li {
             float:left;
             margin-right: 12px;
+
+            > a {
+              display:inline-block;
+              width: 100%;
+              height: 100%;
+            }
 
             &:last-child {
               margin-right: 0px;
@@ -345,7 +355,6 @@ footer {
     text-align: center;
     margin-top:44px;
     font-size:14px;
-    color:#758594;
     max-width:@screen-size-width;
     width:100%;
     padding-bottom: 17px;
@@ -355,6 +364,9 @@ footer {
 
     > span {
       padding: 0 48px;
+      > a {
+        color: #758594;
+      }
       &:nth-child(2) {
         border-right: 1px solid #758594;
         border-left: 1px solid #758594;
@@ -395,7 +407,7 @@ footer {
   background: linear-gradient(315deg, @color-main 0%, @color-main 51%, @color-second 100%);
   font-size: 18px;
   line-height: 2.89;
-  font-family: NanumSquareOTFB;
+  font-family: NanumSquare Bold;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -514,7 +526,7 @@ footer {
 
     &:last-child {
       font-size: @size-font-22;
-      font-family: 'NanumSquareOTFR';
+      font-family: 'NanumSquare Light';
       font-weight: lighter;
       letter-spacing: 0.5px;
     }
@@ -528,7 +540,7 @@ footer {
   background: linear-gradient(315deg, @color-main 0%, @color-main 51%, @color-second 100%);
   font-size: 18px;
   line-height: 2.89;
-  font-family: NanumSquareOTFB;
+  font-family: NanumSquare Bold;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -610,6 +622,16 @@ footer {
   position: fixed;
   top: 0;
   z-index: 10;
+  -webkit-transition:opacity 0.5s;
+  transition:opacity 0.5s;
+  display:block;
+  opacity: 1;
+
+  &.hide {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
 
   .background {
     width: 100%;
@@ -710,7 +732,7 @@ footer {
     }
 
     p {
-      font-family: NanumSquareOTFB;
+      font-family: NanumSquare Bold;
       font-size: 19px;
       text-align: center;
       color: #202020;

@@ -1,46 +1,4 @@
 <% include ../partials/head.ejs %>
-<style>
-    * { box-sizing: border-box; }
-
-    /* force scrollbar */
-    html { overflow-y: scroll; }
-
-    body { font-family: sans-serif; }
-
-    /* ---- grid ---- */
-
-    .grid {
-        background: #DDD;
-    }
-
-    /* clear fix */
-    .grid:after {
-        content: '';
-        display: block;
-        clear: both;
-    }
-
-    /* ---- .grid-item ---- */
-
-    /* fluid 5 columns */
-    .grid-sizer,
-    .grid-item { width: 20%; }
-    /* 2 columns */
-    .grid-item-width2 { width: 40%; }
-    .grid-item-width3 { width: 60%; }
-
-    .grid-item {
-        float: left;
-    }
-
-    .grid-item img {
-        display: block;
-        max-width: 100%;
-    }
-
-
-
-</style>
     <div class="contents main">
         <section class="main-visual-slider">
             <div class="pos-r">
@@ -53,14 +11,14 @@
                     </div>
                     <div class="image-items main-bg-02">
                         <div class="main-text">
-                            <p>그리다_꿈</p>
-                            <p>따뜻하고 행복한 당신의 꿈이 이루어지는 곳</p>
+                            <p>그리다_일상</p>
+                            <p>당신이 꿈꾸던 일상을 그리다</p>
                         </div>
                     </div>
                     <div class="image-items main-bg-03">
                         <div class="main-text">
-                            <p>그리다_일상</p>
-                            <p>소중한 당신의 일상이 더해지는 곳</p>
+                            <p>그리다_행복</p>
+                            <p>행복한 당신의 공간을 그리다</p>
                         </div>
                     </div>
                 </div>
@@ -312,38 +270,8 @@
         </div>
     </div>
 
-    <div class="modal modal-medium modal-request hide">
-        <div class="background"></div>
-        <div>
-            <button class="close-btn">
-                x
-            </button>
-            <h3>무료 방문상담 신청하기</h3>
-            <section class="main-request">
-                <div class="request-wrapper">
-                    <div class="request-form">
-                        <div class="request-input-wrapper">
-                            <div class="input-label-wrapper">
-                                <label for="inputRequestName">이름<span class="red-star">*</span></label>
-                                <input type="text" id="inputRequestName" placeholder="이름을 입력해주세요." />
-                            </div>
-
-                            <div class="input-label-wrapper">
-                                <label for="inputRequestPhone">전화번호<span class="red-star">*</span></label>
-                                <input type="text" id="inputRequestPhone" placeholder="전화번호를 입력해주세요."/>
-                            </div>
-
-                            <a href="#">
-                                <button>본인인증 하기</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-
     <% include ../pages/modal/terms-modal.ejs %>
+    <% include ../pages/modal/request-modal.ejs %>
 </div>
 
 <% include ../partials/foot.ejs %>

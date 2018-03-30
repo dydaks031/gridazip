@@ -45,10 +45,14 @@ $(function () {
                     $("#portfolioDescription").html(portfolioData.pf_description.replace(/\n/, '<br />'));
 
                     _.forEach(imageList, function (item, index) {
-                        imageListHtml += imageListTemplate.replace(/{{PI_AFTER}}/, item.pi_after);
+                        imageListHtml += imageListTemplate.replace(/{{PI_AFTER}}/gi, item.pi_after);
                     })
 
+                    imageListHtml = $(imageListHtml);
+
                     $imageListView.html(imageListHtml);
+
+                    imageListHtml.find('img').lazyload({effect : 'fadeIn'});
                 }
             })
             .catch(function (error) {
