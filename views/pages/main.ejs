@@ -317,7 +317,37 @@
           navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
       });
   })();
-  //
+
+  (function() {
+      console.log(browser.mobile);
+      var browserInfo = browser();
+      if (browserInfo.mobile) {
+          $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+              loop: true,
+              items: 1,
+              nav: false,
+              center: true,
+              dots: true,
+              margin:40,
+              // navContainerClass: 'owl-nav-custom',
+              // navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+              dotsContainer: '#carousel-custom-dots-portfolio'
+          });
+      } else {
+          $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
+              loop: true,
+              items: 3,
+              nav: true,
+              center: true,
+              dots: true,
+              margin:40,
+              navContainerClass: 'owl-nav-custom',
+              navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+              dotsContainer: '#carousel-custom-dots-portfolio'
+          });
+      }
+  })();
+
   // (function() {
   //   $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
   //       loop: true,
@@ -333,17 +363,7 @@
   // })();
 
   (function() {
-      $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-          loop: true,
-          items: 4,
-          nav: true,
-          center: true,
-          dots: true,
-          margin:40,
-          navContainerClass: 'owl-nav-custom',
-          navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-          dotsContainer: '#carousel-custom-dots-portfolio'
-      });
+
   })();
 </script>
 

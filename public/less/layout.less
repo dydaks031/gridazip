@@ -504,6 +504,18 @@ section.main-request {
             background-color: @color-button-active;
           }
         }
+        &:first-child {
+          a {
+            vertical-align: bottom;
+          }
+        }
+        &:last-child {
+          a {
+            vertical-align: top;
+            margin-top: 25px;
+            display: inline-block;
+          }
+        }
       }
     }
 
@@ -1642,8 +1654,14 @@ section.main-request {
           input {
             width:454px;
           }
-          button {
-            width:170px;
+          a {
+            vertical-align: top;
+            display: inline-block;
+            margin-top:25px;
+
+            button {
+              width:170px;
+            }
           }
         }
 

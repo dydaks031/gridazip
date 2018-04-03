@@ -32,8 +32,10 @@
       .menu-wrapper {
         .menu-list {
           .menu-item {
-            &.active {
-              border-bottom: 4px solid #818b95;
+            &:not(:last-child) {
+              &:hover, &.active {
+                border-bottom: 4px solid #818b95;
+              }
             }
             a {
               color: #818b95;
@@ -53,7 +55,7 @@
     }
   }
 
-  >div {
+  > div {
     position: relative;
     transform: translate(-50%, -50%);
     top: 60%;
@@ -127,10 +129,13 @@
 
         .menu-item {
           float:left;
-          padding:0 22.5px 21px;
+          padding: 0 12.5px 21px;
+          margin: 0 10px;
 
-          &.active {
-            border-bottom: 4px solid white;
+          &:not(:last-child) {
+            &:hover, &.active {
+              border-bottom: 4px solid white;
+            }
           }
 
           a {

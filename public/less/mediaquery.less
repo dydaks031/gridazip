@@ -100,11 +100,14 @@
           top: 50px;
           position: relative;
           padding: 30px;
-
           .menu-item {
             padding: 15px 0;
             float:none;
-
+            &:not(:last-child) {
+              &:hover, &.active {
+                border-bottom: 0 !important;
+              }
+            }
             > a {
               font-size: 17px;
               color: #757576;
@@ -728,9 +731,39 @@
       }
     }
 
+    &.modal-medium {
+      > div:not(.background) {
+        width: 350px;
+        height: 500px;
+        padding: 73px 20px;
+      }
+    }
+
     &.modal-term {
       .tab-item {
         margin: 0 20px;
+      }
+    }
+    &.modal-request {
+      section.main-request {
+        .request-wrapper {
+          padding-top: 0;
+          .request-form {
+            padding: 30px;
+            .request-input-wrapper:last-child a {
+              vertical-align: top;
+              margin-top: 25px;
+              display: block;
+              text-align: center;
+              button {
+                width: 140px !important;
+              }
+            }
+          }
+        }
+      }
+      h3 {
+        text-align: center;
       }
     }
   }

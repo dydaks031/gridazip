@@ -85,19 +85,20 @@
                     </div>
                     <div class="menu-wrapper">
                         <div class="menu-list">
-                            <div class="menu-item">
+                            <%= console.log(id) %>
+                            <div class="menu-item <%= activeLink(id, 'main', 'active') %>">
                                 <a href="/" class="button">홈</a>
                             </div>
-                            <div class="menu-item">
+                            <div class="menu-item <%= activeLink(id, 'portfolio', 'active') %>">
                                 <a href="/portfolio" class="button">포트폴리오</a>
                             </div>
-                            <div class="menu-item">
+                            <div class="menu-item <%= activeLink(id, 'about', 'active') %>">
                                 <a href="/about" class="button">왜 그리다집인가</a>
                             </div>
-                            <div class="menu-item">
+                            <div class="menu-item <%= activeLink(id, 'profile', 'active') %>">
                                 <a href="/profiles-member" class="button">시공인/디자이너</a>
                             </div>
-                            <div class="menu-item">
+                            <div class="menu-item <%= activeLink(id, 'cooperation', 'active') %>">
                                 <a href="/cooperation-request" class="button">협력업체</a>
                             </div>
                             <div class="menu-item">
