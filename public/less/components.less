@@ -25,7 +25,7 @@
 
       .mobile-menu-icon {
         span {
-          background: #757576;
+          background: @color-header-font;
         }
       }
 
@@ -34,14 +34,14 @@
           .menu-item {
             &:not(:last-child) {
               &:hover, &.active {
-                border-bottom: 4px solid #818b95;
+                border-bottom: 4px solid @color-header-font;
               }
             }
             a {
-              color: #818b95;
+              color: @color-header-font;
 
               &.request-button {
-                border-color: #818b95 !important;
+                border-color: @color-header-font !important;
 
                 &:hover {
                   color: white;
@@ -76,7 +76,7 @@
 
       .mobile-menu-icon {
         span {
-          background: #757576;
+          background: @color-header-font;
           &:nth-child(1) {
             top: 18px;
             width: 0%;
@@ -215,11 +215,11 @@
 footer {
   width:100%;
 
-  background-color:#f6f8f9;
+  background-color:@color-background-grey;
 
   .footer-stripe {
     height: 3px;
-    background: linear-gradient(315deg, #a6b0fe, #80bffe);
+    background: linear-gradient(315deg, #a6b0fe, @color-second);
   }
 
   .footer-wrapper {
@@ -230,7 +230,7 @@ footer {
 
     .footer-title {
       font-size:16px;
-      color:#758594;
+      color:@color-font-footer;
       margin-bottom:23px;
       font-weight: bold;
     }
@@ -247,7 +247,7 @@ footer {
         & span {
           font-size:15px;
           font-family: NanumSquare Bold;
-          color:#758594;
+          color:@color-font-footer;
           line-height:1.2;
           margin-bottom: 24px;
           font-weight:bold;
@@ -260,7 +260,7 @@ footer {
 
       &.contact-info {
         > div {
-          color:#758594;
+          color:@color-font-footer;
           margin-bottom:17px;
           > div {
             display:inline-block;
@@ -370,11 +370,11 @@ footer {
     > span {
       padding: 0 48px;
       > a {
-        color: #758594;
+        color: @color-font-footer;
       }
       &:nth-child(2) {
-        border-right: 1px solid #758594;
-        border-left: 1px solid #758594;
+        border-right: 1px solid @color-font-footer;
+        border-left: 1px solid @color-font-footer;
       }
     }
   }
@@ -399,7 +399,7 @@ footer {
   font-stretch: normal;
   letter-spacing: normal;
   text-align: center;
-  color: @color-grey;
+  color: @color-background-grey;
   position:relative;
   margin: 0 auto;
   display: block;
@@ -463,18 +463,10 @@ footer {
       letter-spacing: 1.6px;
       cursor: pointer;
 
-      &.active {
+      &.active, &:hover {
         > span {
-          border-bottom: 2px solid #a6b4f9;
-          color: #2a2d32;
-          font-weight: bold;
-        }
-      }
-
-      &:hover {
-        > span {
-          border-bottom: 2px solid #a6b4f9;
-          color: #2a2d32;
+          border-bottom: 2px solid @color-button-hover;
+          color: @color-font-black;
           font-weight: bold;
         }
       }
@@ -656,6 +648,12 @@ footer {
     font-size: 15px;
   }
 
+  > div:not(.background) {
+    background: @color-white;
+
+    text-align: initial;
+  }
+
   &.modal-large {
     > div:not(.background) {
       width: 769px;
@@ -671,81 +669,6 @@ footer {
       padding: 73px 140px;
     }
   }
-
-  &.modal-small {
-    > div:not(.background) {
-      width: 570px;
-      height: 417px;
-      border-radius: 7px;
-      padding: 40px 118px 50px;
-    }
-  }
-
-  > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff;
-    box-shadow: 0px 30px 70px 0 rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
-  }
-
-  .success-contents {
-    position: relative;
-    text-align: center;
-
-    .success-icon {
-      display: inline-block;
-      border: solid 2px #a6b4f9;
-      border-radius: 50%;
-      width: 112px;
-      height: 112px;
-      text-align: center;
-      vertical-align: middle;
-      line-height: 112px;
-      > img {
-        width: 42px;
-        height: 32px;
-      }
-    }
-
-    .success-title {
-      position: relative;
-      margin: 18px 0;
-
-      h3 {
-        position: absolute;
-        z-index: 1;
-        font-family: NanumSquareOTFEB;
-        font-size: 23px;
-        color: #2b2b2b;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        font-weight: bold;
-      }
-
-      .background-word {
-        font-size: 69px;
-        color: #f6f6f6;
-        line-height:0.9;
-        height:inherit;
-        font-family: Montserrat;
-        font-weight: 900;
-      }
-    }
-
-    p {
-      font-family: NanumSquare Bold;
-      font-size: 19px;
-      text-align: center;
-      color: #202020;
-      font-weight: 500;
-      margin-bottom: 53px;
-    }
-  }
-
 
   &.modal-portfolio {
     .slider-wrapper {
@@ -771,15 +694,22 @@ footer {
 
       padding-top: 69px;
 
-      .input-label-wrapper {
-        &:nth-child(1) {
-          margin-bottom: 50px
+      .request-form {
+        margin-right: 0 !important;
+        .request-input-wrapper {
+          .input-label-wrapper {
+            margin-right: 0 !important;
+            &:nth-child(1) {
+              margin-bottom: 25px
+            }
+          }
+
+          a {
+            display: block !important;
+            text-align: center;
+            margin-top: 20px;
+          }
         }
-      }
-      a {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
       }
     }
   }
@@ -793,7 +723,7 @@ footer {
     .tab-item {
       margin: 0 40px 0 40px;
       padding: 0 0 30px 0;
-      //border-bottom: 1px solid #a6b4f9;
+      //border-bottom: 1px solid @color-button-hover;
 
       span {
         padding: 0 0 30px 0;

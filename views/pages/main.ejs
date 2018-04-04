@@ -39,7 +39,7 @@
         <section class="main-portfolio">
             <span class="background-word">Recent Works</span>
             <div class="pos-r top-30">
-                <div class="slider-wrapper">
+                <div class="slider-wrapper" id="portfolioListView">
                     <div class="image-items">
                         <img src="/images/portfolio-images-1.jpg" alt="포트폴리오 이미지 1"/>
                         <div class="clearing">
@@ -207,50 +207,49 @@
             </div>
         </section>
         <section class="main-request">
-            <div class="request-wrapper">
-                <p>무료 방문상담 신청하기</p>
-                <div class="clearing">
-                    <div class="request-form">
-                        <div class="request-input-wrapper">
-                            <div class="input-label-wrapper">
-                                <label for="inputRequestName">이름<span class="red-star">*</span></label>
-                                <input type="text" id="inputRequestName" placeholder="이름을 입력해주세요." />
-                            </div>
-
-                            <div class="input-label-wrapper">
-                                <label for="inputRequestPhone">전화번호<span class="red-star">*</span></label>
-                                <input type="text" id="inputRequestPhone" placeholder="전화번호를 입력해주세요."/>
-                            </div>
-
-                            <a href="#">
-                                <button>본인인증 하기</button>
-                            </a>
-                        </div>
-                        <div class="request-input-wrapper">
-                            <div class="input-label-wrapper">
-                                <div class="clearing">
-                                    <label for="inputRequestName">인증번호 입력<span class="red-star">*</span></label>
-                                    <span class="timer">03:00</span>
+            <form id="mainRequestForm">
+                <div class="request-wrapper">
+                    <p>무료 방문상담 신청하기</p>
+                    <div class="clearing">
+                        <div class="request-form">
+                            <div class="request-input-wrapper">
+                                <div class="input-label-wrapper">
+                                    <label for="inputRequestName">이름<span class="red-star">*</span></label>
+                                    <input type="text" id="inputRequestName" placeholder="이름을 입력해주세요." name="user_name"/>
                                 </div>
-                                <input type="text" id="inputRequestAuthCode" placeholder="인증번호를 입력해주세요." />
-                            </div>
 
-                            <a href="#">
-                                <button>인증하기</button>
-                            </a>
-                            <a href="#" class="ml-30">
-                                <button>재전송</button>
-                            </a>
+                                <div class="input-label-wrapper">
+                                    <label for="inputRequestPhone">전화번호<span class="red-star">*</span></label>
+                                    <input type="text" id="inputRequestPhone" placeholder="전화번호를 입력해주세요." name="user_phone"/>
+                                </div>
+
+                                <a href="#" id="authRequestBtn">
+                                    <button>본인인증 하기</button>
+                                </a>
+                            </div>
+                            <div class="request-input-wrapper">
+                                <div class="input-label-wrapper">
+                                    <div class="clearing">
+                                        <label for="inputRequestName">인증번호 입력<span class="red-star">*</span></label>
+                                        <span class="timer">03:00</span>
+                                    </div>
+                                    <input type="text" id="inputRequestAuthCode" placeholder="인증번호를 입력해주세요." name="auth_key" />
+                                </div>
+
+                                <a href="#" id="confirmBtn">
+                                    <button>인증하기</button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="info-download-wrapper">
-                        <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
-                        <img src="/images/logo_g.png" alt="그리다집 로고" />
-                        <p>그리다집의 전문 매니저가 입력하신 번호로 <br />연락을 드린 후, 무료로 방문 상담을 해드립니다.</p>
-                        <span class="info-download">그리다_집 소개자료 다운받기<i class="fa fa-download"></i></span>
+                        <div class="info-download-wrapper">
+                            <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
+                            <img src="/images/logo_g.png" alt="그리다집 로고" />
+                            <p>그리다집의 전문 매니저가 입력하신 번호로 <br />연락을 드린 후, 무료로 방문 상담을 해드립니다.</p>
+                            <span class="info-download">그리다_집 소개자료 다운받기<i class="fa fa-download"></i></span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </section>
     </div>
 
@@ -270,6 +269,16 @@
         </div>
     </div>
 
+    <script type="text/template" id="portfolioImageTemplate">
+        <div class="image-items" data-value="{{PF_PK}}">
+            <img src="{{PI_AFTER}}" alt="포트폴리오 이미지 {{PF_PK}}"/>
+            <div class="clearing">
+                <span>{{PF_ADDRESS}}</span>
+                <span>{{PF_SIZE}}평 | {{PF_PRICE}} 만원</span>
+            </div>
+        </div>
+    </script>
+
     <% include ../pages/modal/terms-modal.ejs %>
     <% include ../pages/modal/request-modal.ejs %>
 </div>
@@ -277,94 +286,7 @@
 <% include ../partials/foot.ejs %>
 
 <script>
-  (function() {
-    $('.main-visual-slider .slider-wrapper').addClass('owl-carousel').owlCarousel({
-      loop: true,
-      items: 1,
-      nav: true,
-      dots: true,
-      navContainerClass: 'owl-nav-custom',
-      navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-      dotsContainer: '#carousel-custom-dots',
-        autoplay:true,
-        autoplayTimeout:5000,
-        autoplayHoverPause:true
-    });
-  })();
 
-  // Web
-  // (function() {
-  //     $('.modal-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-  //         loop: true,
-  //         items: 1,
-  //         nav: true,
-  //         // center: true,
-  //         dots: false,
-  //         margin:40,
-  //         navContainerClass: 'owl-nav-custom',
-  //         navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-  //     });
-  // })();
-
-  (function() {
-      $('.modal-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-          loop: true,
-          items: 1,
-          nav: false,
-          // center: true,
-          dots: false,
-          navContainerClass: 'owl-nav-custom',
-          navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-      });
-  })();
-
-  (function() {
-      console.log(browser.mobile);
-      var browserInfo = browser();
-      if (browserInfo.mobile) {
-          $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-              loop: true,
-              items: 1,
-              nav: false,
-              center: true,
-              dots: true,
-              margin:40,
-              // navContainerClass: 'owl-nav-custom',
-              // navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-              dotsContainer: '#carousel-custom-dots-portfolio'
-          });
-      } else {
-          $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-              loop: true,
-              items: 3,
-              nav: true,
-              center: true,
-              dots: true,
-              margin:40,
-              navContainerClass: 'owl-nav-custom',
-              navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-              dotsContainer: '#carousel-custom-dots-portfolio'
-          });
-      }
-  })();
-
-  // (function() {
-  //   $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-  //       loop: true,
-  //       items: 1,
-  //       nav: false,
-  //       center: true,
-  //       dots: true,
-  //       margin:40,
-  //       // navContainerClass: 'owl-nav-custom',
-  //       // navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-  //       dotsContainer: '#carousel-custom-dots-portfolio'
-  //   });
-  // })();
-
-  (function() {
-
-  })();
 </script>
 
 <script type="application/ld+json">
@@ -382,7 +304,9 @@
 }
 </script>
 
+<script src="/scripts/pages/request.js"></script>
 <script src="/scripts/pages/main.js"></script>
+
 <%
 if(fullscreen === false) {
 %>

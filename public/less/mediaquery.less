@@ -15,6 +15,18 @@
 //}
 
 @media screen and (min-width: 980px) {
+  section.main-portfolio .slider-wrapper .owl-nav-custom {
+    width: 33%;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  section.main-portfolio .slider-wrapper .owl-nav-custom {
+    width: 25%;
+  }
+}
+
+@media screen and (min-width: 980px) {
   .contents.profiles-member {
     .profile-wrapper {
       .profile-member-list {
@@ -78,9 +90,9 @@
       }
 
       .menu-wrapper {
-        -webkit-transform: translateY(-100%);
-        -ms-transform: translateY(-100%);
-        transform: translateY(-100%);
+        -webkit-transform: translateY(-120%);
+        -ms-transform: translateY(-120%);
+        transform: translateY(-120%);
         -webkit-transition-delay: .5s;
         -o-transition-delay: .5s;
         transition-delay: .5s;
@@ -110,7 +122,14 @@
             }
             > a {
               font-size: 17px;
-              color: #757576;
+              color: @color-header-font;
+              &.request-button {
+                &:hover {
+                  background: @color-header-font;
+                  border: 1px solid @color-header-font;
+                  padding: 10px 0;
+                }
+              }
             }
 
             &:last-child {
@@ -119,10 +138,12 @@
 
               > a {
                 color: white;
-                background: #757576;
-                border: 1px solid #757576;
-                padding: 20px 10px;
+                background: @color-header-font;
+                border: 1px solid @color-header-font;
+                padding: 10px 0;
                 border-radius: 5px;
+                display:inline-block;
+                width:180px;
               }
             }
           }
@@ -487,8 +508,8 @@
               margin: 10px 0;
 
               &:nth-child(2) {
-                border-right: 1px solid #aeaeae;
-                border-left: 1px solid #aeaeae;
+                border-right: 1px solid @color-light-grey;
+                border-left: 1px solid @color-light-grey;
               }
               span:not(.count) {
                 font-size:14px;

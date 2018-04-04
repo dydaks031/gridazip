@@ -15,9 +15,12 @@ Header.setScroll = function($) {
 };
 
 Header.setMenuEvent = function($) {
+    var mainView = $('html');
+
     $(document).on('click', '#header .mobile-menu-icon', function() {
         var $this = $(this);
         $this.parents('.header-inner').toggleClass('open');
+        mainView.toggleClass('scroll-block');
     })
 };
 
