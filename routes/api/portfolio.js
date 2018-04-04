@@ -181,7 +181,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.post('/:pid', (req, res, next) => {
+router.post('/:pid[0-9]', (req, res, next) => {
     var pid = req.params.pid;
     var portfolio;
     var images;
@@ -313,4 +313,25 @@ router.post('/:pid', (req, res, next) => {
     });
 });
 
+
+router.post('/review', (req, res) => {
+  const nameArray = ['김**', '최**', '박**', '박**', '조**', '강**', '오**', '한**', '전**', '서**', '장**', '이**', '배**', '정**'];
+  let reviewList = [];
+  knexBuilder.getConnection().then(cur => {
+    cur('portfolio_tbl')
+      .select('pf_pk', 'pf_title', 'pf_review')
+      .where('pf_review', '!=', '')
+      .orderBy('pf_pk', 'desc')
+      .then(response => {
+        reviewList = response.map(obj => {
+          obj.pf_user = nameArray[obj.pf_pk % nameArray.length];
+          return obj
+        });
+
+        res.json(
+          resHelper.getJson({reviewList: reviewList})
+        )
+      })
+  })
+});
 module.exports = router;
