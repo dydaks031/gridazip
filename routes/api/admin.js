@@ -599,8 +599,6 @@ router.post('/portfolio/:pid', (req, res) => {
   let positions;
   let documents;
   let designer_images;
-  let receipt_employee;
-  let receipt_resource;
   let ipLong = ip.toLong(req.ip);
 
   knexBuilder.getConnection().then(cur => {
@@ -631,12 +629,12 @@ router.post('/portfolio/:pid', (req, res) => {
                 })
                   .then(response => {
                   })
-                  .catch(reason => {
+                  .catch(() => {
                     ;
                   });
               }
             })
-            .catch(reason => {
+            .catch(() => {
               ;
             });
         }
@@ -678,30 +676,6 @@ router.post('/portfolio/:pid', (req, res) => {
       })
       .then(response => {
         designer_images = response;
-
-        return cur('portfolio_tbl')
-          .innerJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
-          .innerJoin('receipt_employee_hst', 'work_tbl.wk_pk', 'receipt_employee_hst.re_wkpk')
-          .innerJoin('construction_tbl', 'receipt_employee_hst.re_ctpk', 'construction_tbl.ct_pk')
-          .innerJoin('construction_type_hst', 'construction_tbl.ct_type', 'construction_type_hst.ct_type_pk')
-          .where('pf_pk', pid);
-      })
-      .then(response => {
-        receipt_employee = response;
-
-        return cur('portfolio_tbl')
-          .innerJoin('work_tbl', 'portfolio_tbl.pf_wkpk', 'work_tbl.wk_pk')
-          .innerJoin('receipt_resource_hst', 'work_tbl.wk_pk', 'receipt_resource_hst.rr_wkpk')
-          .innerJoin('construction_type_hst', 'receipt_resource_hst.rr_type', 'construction_type_hst.ct_type_pk')
-          .innerJoin('resource_tbl', 'receipt_resource_hst.rr_rspk', 'resource_tbl.rs_pk')
-          .innerJoin('resource_price_hst', 'resource_tbl.rs_pk', 'resource_price_hst.rp_rspk')
-          .innerJoin('company_tbl', 'resource_tbl.rs_cppk', 'company_tbl.cp_pk')
-          .innerJoin('resource_category_hst', 'resource_tbl.rs_rcpk', 'resource_category_hst.rc_pk')
-          .innerJoin('resource_type_hst', 'resource_category_hst.rc_rtpk', 'resource_type_hst.rt_pk')
-          .where('pf_pk', pid);
-      })
-      .then(response => {
-        receipt_resource = response;
         res.json(
           resHelper.getJson({
             data: portfolio,
@@ -710,8 +684,8 @@ router.post('/portfolio/:pid', (req, res) => {
             documents: documents,
             designer_images,
             receipt: {
-              employee: receipt_employee,
-              resource: receipt_resource
+              employee: [],
+              resource: []
             }
           })
         );
