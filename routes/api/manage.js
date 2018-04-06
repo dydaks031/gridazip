@@ -131,9 +131,6 @@ router.post('/partner', (req, res) => {
   else if(pn_tel_no === '') {
     errorMsg = '연락처는 반드시 입력해야 합니다.';
   }
-  else if(pn_price_list === '') {
-    errorMsg = '자재목록/단가표는 반드시 업로드해야 합니다.';
-  }
 
   if (errorMsg !== null) {
     res.json(

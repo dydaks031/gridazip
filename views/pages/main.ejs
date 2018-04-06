@@ -189,21 +189,21 @@
         <section class="main-customer-review">
             <div class="review-wrapper">
                 <p>고객 리뷰</p>
-                <div class="review-slider">
-                    <div class="pos-r">
-                        <div class="review">
-                            <p>
-                                확장방은 단열도 다시 시공하고 샤시를 바꾸니..오 놀랍습니다.
-                                알미늄샤시랑은 차원이 틀리네요... 오늘 아침에 감동먹고 그리다집에 문자보냈어요... 고맙다고.. :)
-                                문고리 하나하나까지 제가 고를 수 있고, 좋아요~
-                            </p>
-                        </div>
-                    </div>
-                    <div class="review-customer-info">
-                        <p class="reviewer-name">세곡동 수지엄마</p>
-                        <p class="reviewer-place">30평 아파트 인테리어</p>
-                    </div>
-                </div>
+                <!--<div class="review-slider">-->
+                    <!--<div class="pos-r">-->
+                        <!--<div class="review">-->
+                            <!--<p>-->
+                                <!--확장방은 단열도 다시 시공하고 샤시를 바꾸니..오 놀랍습니다.-->
+                                <!--알미늄샤시랑은 차원이 틀리네요... 오늘 아침에 감동먹고 그리다집에 문자보냈어요... 고맙다고.. :)-->
+                                <!--문고리 하나하나까지 제가 고를 수 있고, 좋아요~-->
+                            <!--</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="review-customer-info">-->
+                        <!--<p class="reviewer-name">세곡동 수지엄마</p>-->
+                        <!--<p class="reviewer-place">30평 아파트 인테리어</p>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </section>
         <section class="main-request">
@@ -278,9 +278,21 @@
             </div>
         </div>
     </script>
-
-    <% include ../pages/modal/terms-modal.ejs %>
-    <% include ../pages/modal/request-modal.ejs %>
+    <script type="text/template" id="reviewTemplate">
+        <div class="review-slider">
+            <div class="pos-r">
+                <div class="review">
+                    <p>
+                        {{PF_REVIEW}}
+                    </p>
+                </div>
+            </div>
+            <div class="review-customer-info">
+                <p class="reviewer-name">{{PF_USER}} 님</p>
+                <p class="reviewer-place">{{PF_TITLE}}</p>
+            </div>
+        </div>
+    </script>
 </div>
 
 <% include ../partials/foot.ejs %>
@@ -304,7 +316,6 @@
 }
 </script>
 
-<script src="/scripts/pages/request.js"></script>
 <script src="/scripts/pages/main.js"></script>
 
 <%

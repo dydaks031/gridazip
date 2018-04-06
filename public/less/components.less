@@ -665,7 +665,6 @@ footer {
   &.modal-medium {
     > div:not(.background) {
       width: 570px;
-      height: 553px;
       padding: 73px 140px;
     }
   }
@@ -689,18 +688,24 @@ footer {
     h3 {
       font-size:30px;
     }
-
     .request-wrapper {
-
-      padding-top: 69px;
-
+      padding: 69px 10px 0;
       .request-form {
         margin-right: 0 !important;
         .request-input-wrapper {
+          &:last-child {
+            margin-bottom:0;
+          }
+          &.hide {
+            display:none;
+          }
           .input-label-wrapper {
             margin-right: 0 !important;
-            &:nth-child(1) {
+            &:first-child {
               margin-bottom: 25px
+            }
+            &:last-child {
+              margin-top: 25px;
             }
           }
 
@@ -708,6 +713,10 @@ footer {
             display: block !important;
             text-align: center;
             margin-top: 20px;
+          }
+
+          .modal-request-btn {
+            margin-top:0;
           }
         }
       }

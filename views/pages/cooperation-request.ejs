@@ -10,7 +10,7 @@
 
     <div class="cooperation-wrapper">
         <div class="cooperation-form">
-            <form>
+            <form id="cooperationRequestForm">
                 <section class="main-request">
                     <div class="request-wrapper">
                         <div class="clearing">
@@ -19,30 +19,31 @@
                                 <div class="request-input-wrapper">
                                     <div class="input-label-wrapper">
                                         <label for="inputRequestName">업체명<span class="red-star">*</span></label>
-                                        <input type="text" id="inputRequestName" placeholder="업체명을 입력해주세요." />
+                                        <input type="text" placeholder="업체명을 입력해주세요." name="pn_name"/>
                                     </div>
 
                                     <div class="input-label-wrapper">
                                         <label for="inputRequestPhone">담당자 전화번호<span class="red-star">*</span></label>
-                                        <input type="text" id="inputRequestPhone" placeholder="담당자 전화번호를 입력해주세요."/>
+                                        <input type="text" placeholder="담당자 전화번호를 입력해주세요." name="pn_tel_no"/>
                                     </div>
                                 </div>
                                 <div class="request-input-wrapper">
-                                    <div class="input-label-wrapper">
+                                    <div class="input-label-wrapper" id="fileInputWrapper" style="width:100%;">
                                         <div class="clearing">
-                                            <label for="inputRequestName">자재목록 & 단가표 업로드<span class="red-star">*</span></label>
+                                            <label for="inputRequestName">자재목록 & 단가표 업로드</label>
                                         </div>
-                                        <input type="text" id="inputRequestAuthCode" placeholder="자재목록 & 단가표를 업로드 해 주세요." />
+                                        <input type="file" id="fileData" placeholder="자재목록 & 단가표를 업로드 해 주세요."  style="width:100%;"/>
+                                        <input type="hidden" id="file-upload-path" name="file_upload_path" value="partner/">
                                     </div>
 
-                                    <a href="#">
-                                        <button>파일 올리기</button>
-                                    </a>
+                                    <!--<a href="#">-->
+                                        <!--<button>파일 올리기</button>-->
+                                    <!--</a>-->
                                 </div>
                                 <div class="request-input-wrapper">
                                     <div class="input-label-wrapper">
                                         <label for="inputRequestName">기타 문의 사항</label>
-                                        <textarea placeholder="기타 문의사항이 있으시면, 문의사항을 남겨주세요."></textarea>
+                                        <textarea placeholder="기타 문의사항이 있으시면, 문의사항을 남겨주세요." name="pn_qna"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +81,7 @@
 
                                 <span class="info-download">그리다_집 소개자료 다운받기<i class="fa fa-download"></i></span>
 
-                                <button class="request-btn">협력업체 신청하기</button>
+                                <button class="request-btn" id="requestBtn">협력업체 신청하기</button>
                             </div>
                         </div>
                     </div>
@@ -89,5 +90,5 @@
         </div>
     </div>
 </div>
-
+<script src="/scripts/pages/cooperation-request.js"></script>
 <% include ../partials/foot.ejs %>

@@ -112,114 +112,15 @@ $(function () {
     });
 
     $.fn.bindFile = function() {
+        // var fileManager = new FileManager();
+
         this.each(function() {
-            var $this = $(this);
-            var $btn = $('<span class="btn btn-yellow btn-sm btn-block">' + $this.attr('placeholder') + '</span>');
-            $this.wrap('<span class="btn-file"></span>');
-            $this.fileupload({
-                paramName: 'filedata',
-                dataType: 'json',
-                singleFileUploads: true,
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-                maxFileSize: 1024 * 1024 * 50,
-                limitMultiFileUploadSize: 1024 * 1024 * 50,
-                limitConcurrentUploads: 5,
-                url: '/api/file/upload',
-                change: function() {
-                    var $this = $(this);
-                    $this.siblings().hide();
-                    $this.after('<span class="loading"></span>');
-                },
-                done: function (e, data) {
-                    var $this = $(this);
-                    $this.siblings('.loading').remove();
-                    $this.siblings().show();
-                    if (data.result.code === 200) {
-                        var result = data.result.data;
-                        var mimetype = result.mimetype;
-                        var type = $this.data('type') || 'image';
-                        var mimeTypesSplited = mimetype.split('/');
-
-                        if (type === 'image') {
-                            if (mimeTypesSplited[0] !== 'image') {
-                                swal({
-                                    title: '이미지 타입만 업로드 하실 수 있습니다.',
-                                    type: 'warning'
-                                });
-                                return;
-                            }
-                        }
-                        else if (type === 'pdf') {
-                            if (mimetype !== 'application/pdf') {
-                                swal({
-                                    title: 'PDF 타입만 업로드 하실 수 있습니다.',
-                                    type: 'warning'
-                                });
-                                return;
-                            }
-                        }
-
-                        $this.closest('.btn-file').addClass('uploaded').addClass('btn-file-' + type);
-                        
-                        var $input = $('<input type="hidden">');
-                        var name = $this.attr('name') || '';
-                        var nameMatch = name.match(/\[\d*\]$/);
-
-                        name = name.replace(/\[\d*\]$/g, '') + '_data';
-                        
-                        if (nameMatch !== null && nameMatch.length > 0) {
-                            name += nameMatch[0];
-                        }
-
-                        $input.attr('name', name);
-
-                        if (mimeTypesSplited[0] === 'image') {
-                            $this.siblings().remove();
-                            var $image = $('<img src="' + result.value + '">');
-                            $image.insertAfter($this);
-                            $input.val(result.value);
-                        }
-                        else if (mimetype === 'application/pdf') {
-                            $this.siblings().hide();
-                            var $btnClose = $('<a href="#" class="btn-close"></a>');
-                            var $pdfViewer = $('<div class="owl-carousel pdf-viewer"></div>');
-                            result.values.forEach(function(element, index) {
-                                $pdfViewer.append('<div class="item pdf-viewer-image"><img src="' + element + '"></div>');
-                            });
-                            $btnClose.bind('click', function(event) {
-                                event.preventDefault();
-                                var $this = $(this);
-                                $this.closest('.btn-file').removeClass('uploaded').removeClass('btn-file-' + type);
-                                $this.siblings().show();
-                                $this.remove();
-                                $pdfViewer.remove();
-                            });
-                            $btnClose.insertAfter($this);
-                            $pdfViewer.insertAfter($this);
-                            $pdfViewer.owlCarousel({
-                                loop: true,
-                                items: 1,
-                                nav: true,
-                                dots: false,
-                                navText: ['<i class="pe-7s-angle-left"></i>', '<i class="pe-7s-angle-right"></i>']
-                            });
-                            $input.val(result.values.join(','));
-                        }
-
-                        $input.insertAfter($this);
-                    }
-                    else {
-                        console.log(data.result, (typeof data.result.data.msg === 'object'? data.result.data.msg.error:data.result.data.msg));
-                        swal({
-                            title: (typeof data.result.data.msg === 'object'? data.result.data.msg.error:data.result.data.msg),
-                            type: 'warning'
-                        });
-                    }
-                }
-            });
-            $btn.insertAfter($this);
+            if ($(this).data('initBind') !== false) {
+                // fileManager.bindFileProcess($(this));
+            }
         });
     };
+
 
     $('.btn-fold').bind('click', function(event) {
         event.preventDefault();
@@ -254,4 +155,14 @@ $(function () {
 
         Modal.close(modalTarget);
     });
+
+    var modalRequestForm = $('#modalRequestForm');
+
+    var requestViewInstance = requestView({
+        authRequestBtn: modalRequestForm.find('#modalAuthRequestBtn'),
+        confirmBtn: modalRequestForm.find('#modalConfirmBtn'),
+        form: modalRequestForm
+    });
+
+    requestViewInstance.bindEvent();
 });

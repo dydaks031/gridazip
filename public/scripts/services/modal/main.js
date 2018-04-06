@@ -26,6 +26,7 @@ Modal.open = function(target) {
     }
 
     $target.removeClass('hide');
+    $('html').addClass('scroll-block');
 };
 
 Modal.close = function(target) {
@@ -38,6 +39,7 @@ Modal.close = function(target) {
     }
 
     $target.addClass('hide');
+    $('html').removeClass('scroll-block');
 };
 
 // (function($) {

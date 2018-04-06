@@ -117,5 +117,54 @@ $(function () {
         });
     };
 
+    var loadReviewPromise;
+    var loadReview = function() {
+
+        try {
+            if (typeof loadReviewPromise !== 'undefined') {
+                loadReviewPromise.cancel();
+            }
+        }
+        catch (e) {
+            ;
+        }
+
+        loadReviewPromise = http.post('/api/portfolio/review');
+
+        loadReviewPromise
+            .finally(function () {
+
+            })
+            .then(function (data) {
+                console.log(data);
+                var reviewTemplate = $('#reviewTemplate').html(),
+                    reviewContainer = $('.review-wrapper');
+
+                var reviewData = data.reviewList;
+
+                if ( reviewData.length === 0 ) {
+                    return;
+                }
+
+                var curReviewData = reviewData[0],
+                    reviewElement;
+
+                reviewElement = reviewTemplate
+                    .replace(/{{PF_REVIEW}}/, curReviewData.pf_review)
+                    .replace(/{{PF_USER}}/, curReviewData.pf_user)
+                    .replace(/{{PF_TITLE}}/, curReviewData.pf_title);
+
+                reviewContainer.append(reviewElement);
+            })
+            ['catch'](function (error) {
+                console.log(error);
+            swal({
+                title: error.value,
+                type: 'error'
+            });
+        });
+    }
+
     loadPortfolio();
+    loadReview();
 });
