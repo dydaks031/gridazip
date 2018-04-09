@@ -181,7 +181,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.post('/:pid[0-9]', (req, res, next) => {
+router.post('/:pid([0-9]+)', (req, res, next) => {
     var pid = req.params.pid;
     var portfolio;
     var images;
@@ -191,6 +191,7 @@ router.post('/:pid[0-9]', (req, res, next) => {
     var receipt_employee;
     var receipt_resource;
     var ipLong = ip.toLong(req.ip);
+    console.log('pid : ' + pid);
 
     knexBuilder.getConnection().then(cur => {
         cur('portfolio_tbl')

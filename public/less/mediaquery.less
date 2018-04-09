@@ -107,6 +107,7 @@
         background: #FDFDFD;
         float:initial;
         top: -70%;
+        overflow-y: auto;
 
         .menu-list {
           top: 50px;
@@ -303,7 +304,7 @@
 
         &:last-child {
           .input-label-wrapper {
-            width:43%;
+            //width:43%;
           }
 
           a {
@@ -381,6 +382,16 @@
     }
   }
   .contents.portfolio-detail {
+
+    .page-description {
+      p {
+        font-size: 24px;
+        padding: 0 20px;
+        word-break: keep-all;
+        line-height:48px;
+      }
+    }
+
     .portfolio-info {
       padding:0 0 45px 72px;
       .table {
@@ -688,7 +699,7 @@
           width:100%;
 
           .history-dates {
-            width: 120%;
+            width: 750px;
             height: 38px;
           }
 
@@ -746,8 +757,8 @@
     &.modal-large {
       >div {
         &:not(.background) {
-          width: 100%;
-          height: 100%;
+          width: 95%;
+          height: 95%;
         }
       }
     }
@@ -755,8 +766,13 @@
     &.modal-medium {
       > div:not(.background) {
         width: 350px;
-        height: 500px;
+        height: 80%;
         padding: 73px 20px;
+
+        .main-request {
+          height: 100%;
+          overflow-y: auto;
+        }
       }
     }
 

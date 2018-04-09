@@ -31,6 +31,8 @@ $(function () {
                     var $imageListView = $('#imageList');
                     var imageListHtml = '';
 
+                    $('#reviewArea').html(portfolioData.pf_review);
+
                     $('.page-description').css({
                         "background-image": 'url("' + mainImage.pi_after + '")',
                         "background-size": 'cover'

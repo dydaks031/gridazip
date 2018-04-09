@@ -2,6 +2,12 @@ function Modal() {
 }
 
 Modal.getTarget = function(target) {
+    if (!target) {
+        return {
+            target: target
+        };
+    }
+
     if ( target.indexOf('#') > -1 ) {
         var _target = target.split('#');
 
@@ -27,6 +33,11 @@ Modal.open = function(target) {
 
     $target.removeClass('hide');
     $('html').addClass('scroll-block');
+
+    if (targetElement.hasOwnProperty('willOpenTab')) {
+        $target.find('.tab-contents').addClass('hide');
+        $target.find('#' + targetElement.willOpenTab).removeClass('hide');
+    }
 };
 
 Modal.close = function(target) {

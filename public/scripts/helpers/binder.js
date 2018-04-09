@@ -156,6 +156,15 @@ $(function () {
         Modal.close(modalTarget);
     });
 
+    $('.modal div.background').bind('click', function() {
+        var $this = $(this);
+        var closeBtn = $this.parents('.modal').find('[data-close-modal]');
+
+        var modalTarget = closeBtn.data('closeModal');
+
+        Modal.close(modalTarget);
+    });
+
     var modalRequestForm = $('#modalRequestForm');
 
     var requestViewInstance = requestView({

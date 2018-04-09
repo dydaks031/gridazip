@@ -44,6 +44,35 @@ $(function () {
     var loadPromise;
     var loadPortfolio = function () {
 
+        var carousel = $('.main-portfolio .slider-wrapper');
+        var carouselOptions = {
+            loop: true,
+            center: true,
+            dots: true,
+            margin:40,
+            navContainerClass: 'owl-nav-custom',
+            navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+            dotsContainer: '#carousel-custom-dots-portfolio',
+            responsiveClass:true,
+            lazyLoad: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false,
+                },
+                980: {
+                    items: 3,
+                    nav: true,
+                },
+                1600: {
+                    items: 4,
+                    nav: true,
+                },
+            }
+        }
+
+        carousel.addClass('owl-carousel').owlCarousel(carouselOptions);
+
         try {
             if (typeof loadPromise !== 'undefined') {
                 loadPromise.cancel();
@@ -71,6 +100,10 @@ $(function () {
 
                 var portfolioData = data.data;
 
+                carousel.trigger('destroy.owl.carousel');
+                carousel.find('.owl-stage-outer').children().unwrap();
+                carousel.removeClass("owl-center owl-loaded owl-text-select-on");
+
                 _.forEach(portfolioData, function(portfolio, index) {
                     portfolioImageHtml += portfolioImageTemplate
                         .replace(/{{PF_PK}}/, portfolio.pf_pk)
@@ -81,33 +114,19 @@ $(function () {
                         .replace(/{{PF_PRICE}}/, portfolio.pf_price);
                 });
 
-                $('#portfolioListView').html(portfolioImageHtml);
+                var $portfolioImageHtml = $(portfolioImageHtml);
+                carousel.html($portfolioImageHtml);
 
+                $portfolioImageHtml.click(function() {
+                    var $this = $(this);
+                    var portfolioKey = $this.data('value');
 
-                $('.main-portfolio .slider-wrapper').addClass('owl-carousel').owlCarousel({
-                    loop: true,
-                    center: true,
-                    dots: true,
-                    margin:40,
-                    navContainerClass: 'owl-nav-custom',
-                    navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-                    dotsContainer: '#carousel-custom-dots-portfolio',
-                    responsiveClass:true,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            nav: false,
-                        },
-                        980: {
-                            items: 3,
-                            nav: true,
-                        },
-                        1600: {
-                            items: 4,
-                            nav: true,
-                        },
-                    }
+                    location.href = '/portfolio/' + portfolioKey;
                 });
+
+                //reinitialize the carousel (call here your method in which you've set specific carousel properties)
+                carousel.owlCarousel(carouselOptions);
+
             })
             ['catch'](function (error) {
             swal({

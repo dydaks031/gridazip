@@ -43,6 +43,13 @@ var requestView = function(options) {
     };
 
     var authRequest = function() {
+
+        var hiddenInput = $form.find('.request-input-wrapper.hide');
+
+        hiddenInput.show();
+
+        return;
+
         event.preventDefault();
         if (authValidateTime > 150) {
             swal({
@@ -85,7 +92,7 @@ var requestView = function(options) {
         var formData = $form.serializeJson();
 
         var data = {
-            phone: formData.user_phone,
+            phone: formData.user_phone.toString(),
             authKey: formData.auth_key,
         };
 

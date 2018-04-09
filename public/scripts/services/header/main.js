@@ -3,9 +3,12 @@ function Header() {
 
 Header.setScroll = function($) {
 
-    $(window).scroll(function() {
-        var scrollTop = $(window).scrollTop();
-        if (scrollTop >= 100) {
+    var scrollPosition = browser().mobile ? 65 : 100;
+    var $window = $(window)
+    $window.scroll(function() {
+        var scrollTop = $window.scrollTop();
+
+        if (scrollTop >= scrollPosition) {
             $('#header').addClass("scrolled");
         }
         else {

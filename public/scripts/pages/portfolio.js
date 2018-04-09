@@ -14,6 +14,8 @@ $(function () {
         price: null
     });
 
+    var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="/images/loading.gif" /> </div>');
+
     var portfolioTabItemBind = function($element) {
         $element.bind('click', function (event) {
             event.preventDefault();
@@ -63,9 +65,12 @@ $(function () {
             filter: filter.get()
         });
 
+        $portfolio.html(loadingView);
+
         loadPromise
         .finally(function () {
             $portfolio.removeClass('loader-section');
+            $portfolio.find('.loading-view').remove();
         })
         .then(function (data) {
             page.set(data.page);
