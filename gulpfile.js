@@ -40,12 +40,16 @@ const paths = {
         bundles: [
             'public/scripts/polyfills/event-listener.js',
             'public/scripts/lib/jquery.selectric.min.js',
+            'public/scripts/lib/lazyload.js',
             'node_modules/tingle.js/dist/tingle.js',
             'node_modules/magnific-popup/dist/jquery.magnific-popup.min.js',
             'public/scripts/services/http/main.js',
             'public/scripts/services/render/main.js',
             'public/scripts/services/pagination/main.js',
             'public/scripts/services/filter/main.js',
+            'public/scripts/services/header/main.js',
+            'public/scripts/services/modal/main.js',
+            'public/scripts/services/file/main.js',
             'public/scripts/helpers/develop.js',
             'node_modules/sweetalert/dist/sweetalert.min.js',
             'node_modules/owl.carousel/dist/owl.carousel.min.js',
@@ -56,7 +60,10 @@ const paths = {
             'public/scripts/lib/picker.time.js',
             'public/scripts/helpers/binder.js',
             'public/scripts/helpers/main.js',
-            'public/scripts/helpers/polyfills.js'
+            'public/scripts/helpers/polyfills.js',
+            'public/scripts/pages/request.js',
+            'node_modules/jquery-ui-dist/jquery-ui.min.js',
+            'node_modules/blueimp-file-upload/js/jquery.fileupload.js',
         ]
     },
     styles: {
