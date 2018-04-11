@@ -1,138 +1,150 @@
+function initMap() {
+    var uluru = {lat: 37.5592720, lng: 126.8609550};
+    var map = new google.maps.Map(document.querySelector('.google-maps'), {
+        zoom: 18,
+        center: uluru,
+        zoomControl: false,
+        scaleControl: false,
+        scrollwheel: false,
+        disableDoubleClickZoom: true,
+        gestureHandling: 'none'
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
+}
+
 $(function () {
-  var $supportList = $('.support-list')
-  var $supportNotice = $supportList.filter('.support-notice')
-  var $supportFaq = $supportList.filter('.support-faq')
+    var $supportList = $('.support-list');
+    var $supportNotice = $supportList.filter('.support-notice');
+    var $supportFaq = $supportList.filter('.support-faq');
 
-  var noticePage = new Pagination()
-  var faqPage = new Pagination()
+    var noticePage = new Pagination();
+    var faqPage = new Pagination();
 
-  noticePage.setLimit(5)
-  faqPage.setLimit(5)
+    noticePage.setLimit(5);
+    faqPage.setLimit(5);
 
-  var $supportItemTemplate = $('\
-    <div class="support-group">\
-      <div class="support-item">\
-        <span class="title"></span>\
-        <span class="date"></span>\
-        <span class="arrow">\
-          <i class="pe-7s-angle-down"></i>\
-        </span>\
-      </div>\
-      <div class="support-content">\
-      </div>\
-    </div>')
+    var $supportItemTemplate = $('#supportListTemplate').html();
 
-  var $supportItemMoreTemplate = $('\
-    <a href="#" class="btn-more">\
-      <i class="fa fa-chevron-down"></i>\
-      <span>더보기</span>\
-    </a>\
-  ')
+    var supportItemBind = function ($element) {
+        $element.find('.folding-btn').bind('click', function (event) {
+            event.preventDefault();
+            var $this = $(this);
+            var $target = $this.parents('li');
 
-  var supportItemBind = function ($element) {
-    $element.bind('click', function (event) {
-      event.preventDefault()
-      var $this = $(this)
-      var $target = $this.closest('.support-group')
+            if ($target.hasClass('fold')) {
+                $target.removeClass('fold');
+                $this.find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+            }
+            else {
+                $target.addClass('fold');
+                $this.find('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+            }
+        });
+    };
 
-      if ($target.hasClass('active')) {
-        $target.removeClass('active')
-      } else {
-        $target.addClass('active')
-      }
-    })
-  }
+    var supportMoreBind = function ($element, loaderFunc) {
+        $element.bind('click', function (event) {
+            event.preventDefault();
+            $element.find('span').text('불러오는 중입니다.');
+            loaderFunc($element);
+        });
+    };
 
-  var supportMoreBind = function ($element, loaderFunc) {
-    $element.bind('click', function (event) {
-      event.preventDefault()
-      $element.find('span').text('불러오는 중입니다.')
-      loaderFunc($element)
-    })
-  }
-
-  var loadNotice = function ($element) {
-    if (typeof $element !== 'undefined') {
-      $element.remove()
-    }
-
-    http.post('/api/board/notice', {
-      page: noticePage.get()
-    })
-      .finally(function () {
-        $supportNotice.removeClass('loading')
-      })
-      .then(function (data) {
-        if (noticePage.getPage() === 0) {
-          $supportNotice.empty()
+    var loadNotice = function ($element) {
+        if (typeof $element !== 'undefined') {
+            $element.remove();
         }
 
-        noticePage.set(data.page)
-
-        data.data.forEach(function (element, idx) {
-          var $supportItem = $supportItemTemplate.clone()
-          supportItemBind($supportItem)
-          $supportItem.find('.title').text(element.nt_title)
-          $supportItem.find('.date').text(moment(element.nt_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'))
-          $supportItem.find('.support-content').html(element.nt_content.replace(/\n/g, '<br />'))
-          $supportItem.appendTo($supportNotice)
+        http.post('/api/board/notice', {
+            page: noticePage.get()
         })
+        .finally(function () {
+            $supportNotice.removeClass('loading');
+        })
+        .then(function (data) {
+            if (noticePage.getPage() === 0) {
+                $supportNotice.empty();
+            }
 
-        if (noticePage.isEnd() === false) {
-          var $supportMore = $supportItemMoreTemplate.clone()
-          supportMoreBind($supportMore, loadNotice)
-          $supportMore.appendTo($supportNotice)
+            noticePage.set(data.page);
+
+            var supportListHtml = '';
+
+            data.data.forEach(function(element, idx) {
+                supportListHtml += $supportItemTemplate
+                    .replace(/{{TITLE}}/, element.nt_title)
+                    .replace(/{{CONTENT}}/, element.nt_content.replace(/\n/gi, '<br />'));
+            });
+
+            console.log(supportListHtml);
+            supportListHtml = $(supportListHtml);
+            $('#noticeListView').html(supportListHtml);
+            supportItemBind(supportListHtml);
+
+            //
+            // if (noticePage.isEnd() === false) {
+            //     var $supportMore = $supportItemMoreTemplate.clone();
+            //     supportMoreBind($supportMore, loadNotice);
+            //     $supportMore.appendTo($supportNotice);
+            // }
+        })
+        ['catch'](function (error) {
+            swal({
+                title: error.value,
+                type: 'error'
+            });
+        });
+    };
+
+    var loadFaq = function ($element) {
+        if (typeof $element !== 'undefined') {
+            $element.remove();
         }
-      })
-      .catch(function (error) {
-        swal({
-          title: error.value,
-          type: 'error'
+
+        http.post('/api/board/faq', {
+            page: faqPage.get()
         })
-      })
-  }
-
-  var loadFaq = function ($element) {
-    if (typeof $element !== 'undefined') {
-      $element.remove()
-    }
-
-    http.post('/api/board/faq', {
-      page: faqPage.get()
-    })
-      .finally(function () {
-        $supportFaq.removeClass('loading')
-      })
-      .then(function (data) {
-        if (faqPage.getPage() === 0) {
-          $supportFaq.empty()
-        }
-
-        faqPage.set(data.page)
-
-        data.data.forEach(function (element, idx) {
-          var $supportItem = $supportItemTemplate.clone()
-          supportItemBind($supportItem)
-          $supportItem.find('.title').text(element.faq_question)
-          $supportItem.find('.date').text(moment(element.faq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'))
-          $supportItem.find('.support-content').html(element.faq_answer.replace(/\n/g, '<br />'))
-          $supportItem.appendTo($supportFaq)
+        ['finally'](function () {
+            $supportFaq.removeClass('loading');
         })
+        .then(function (data) {
+            if (faqPage.getPage() === 0) {
+                $supportFaq.empty();
+            }
 
-        if (faqPage.isEnd() === false) {
-          var $supportMore = $supportItemMoreTemplate.clone()
-          supportMoreBind($supportMore, loadFaq)
-          $supportMore.appendTo($supportFaq)
-        }
-      })
-      .catch(function (error) {
-        swal({
-          title: error.value,
-          type: 'error'
+            faqPage.set(data.page);
+
+            var supportListHtml = '';
+
+            data.data.forEach(function(element, idx) {
+                supportListHtml += $supportItemTemplate
+                    .replace(/{{TITLE}}/, element.faq_question)
+                    .replace(/{{CONTENT}}/, element.faq_answer.replace(/\n/gi, '<br />'));
+            });
+
+            supportListHtml = $(supportListHtml);
+            $('#faqListView').html(supportListHtml);
+
+            supportItemBind(supportListHtml);
+
+            if (faqPage.isEnd() === false) {
+                var $supportMore = $supportItemMoreTemplate.clone();
+                supportMoreBind($supportMore, loadFaq);
+                $supportMore.appendTo($supportFaq);
+            }
         })
-      })
-  }
+        ['catch'](function (error) {
+            swal({
+                title: error.value,
+                type: 'error'
+            });
+        });
+    };
 
-  loadNotice()
-  loadFaq()
-})
+    loadNotice();
+    loadFaq();
+});
+

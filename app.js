@@ -94,8 +94,8 @@ app.use(coreMiddleware());
 app.use(userMiddleware());
 
 app.use('/', index);
-app.use('/admin/', admin);
-app.use('/api/admin', apiAdmin);
+// app.use('/admin/', admin);
+// app.use('/api/admin', apiAdmin);
 app.use('/api/test/', apiTest);
 app.use('/api/comment/', apiComment);
 app.use('/api/qna', apiQna);

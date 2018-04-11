@@ -1,62 +1,55 @@
 <% include ../partials/head.ejs %>
 
+<div class="contents portfolio">
+    <div class="page-description">
+        <div class="main-text center-pos">
+            <p>포트폴리오</p>
+            <p>그리다집에서 디자이너의 인테리어를 만나보세요.</p>
+        </div>
+    </div>
+
+    <div class="substance">
+        <div class="tab clearing">
+            <div class="inner" id="portfoliTab">
+                <!--<div class="tab-item">-->
+                    <!--<span>모던</span>-->
+                <!--</div>-->
+                <!--<div class="tab-item">-->
+                    <!--<span>내추럴</span>-->
+                <!--</div>-->
+                <!--<div class="tab-item">-->
+                    <!--<span>비비드</span>-->
+                <!--</div>-->
+                <!--<div class="tab-item">-->
+                    <!--<span>클래식</span>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-pictures text-center">
+        <div class="row">
+        </div>
+    </div>
+
+    <script type="text/template" id="portfolioListTemplate">
+        <a href="/portfolio/{{PF_PK}}">
+            <div class="image-items">
+                <img src="{{PI_AFTER}}">
+                <span>{{PF_TITLE}}</span>
+            </div>
+        </a>
+    </script>
+    <script type="text/template" id="tabTemplate">
+        <div class="tab-item" data-value="{{TAB_VALUE}}">
+            <span>{{TAB_NAME}}</span>
+        </div>
+    </script>
+
+
+    <!--<div class="request-btn-wrapper text-center">-->
+    <!--<button class="request-btn">무료 방문 상담 신청</button>-->
+    <!--</div>-->
+</div>
 <script src="/scripts/pages/portfolio.js"></script>
-
-<div class="section margin-vertical">
-  <div id="portfolio_sort_tab" class="tab">
-    <a href="#" class="tab-item active" data-value="newest">최신순</a>
-    <a href="#" class="tab-item" data-value="popular">인기순</a>
-    <a href="#" class="tab-item" data-value="price">가격순</a>
-  </div>
-</div>
-
-<div class="section">
-  <div class="article no-padding center">
-    <div class="col-group no-margin">
-        <div class="col-4 no-padding">
-          <select name="portfolio_style" id="portfolio_style" class="selectric">
-            <option value="">스타일 선택</option>
-            <option value="모던">모던</option>
-            <option value="쉐비시크">쉐비시크</option>
-            <option value="스칸디나비아">스칸디나비아</option>
-          </select>
-        </div>
-        <div class="col-4 no-padding">
-          <select name="portfolio_size" id="portfolio_size" class="selectric">
-            <option value="">평수 선택</option>
-            <option value="lt20">20평대 미만</option>
-            <option value="eq20">20평대</option>
-            <option value="eq30">30평대</option>
-            <option value="eq40">40평대</option>
-            <option value="eq50">50평대</option>
-            <option value="gte60">60평대 이상</option>
-          </select>
-        </div>
-        <div class="col-4 no-padding">
-          <select name="portfolio_price" id="portfolio_price" class="selectric">
-            <option class="default" value="">비용 선택</option>
-          </select>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="article article-small">
-    <div class="portfolio loader-section">
-      <div class="loader-inner">
-        <div class="loader">
-          <div class="bounce1"></div>
-          <div class="bounce2"></div>
-        </div>
-        <div class="message">
-          요청을 처리하고있습니다.<br />
-          잠시만 기다려주세요.
-        </div>
-      </div>
-    </div>
-    <div class="pagination"></div>
-  </div>
-</div>
-
 <% include ../partials/foot.ejs %>
