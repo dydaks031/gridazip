@@ -26,63 +26,63 @@ router.get('/rss', (req, res, next) => {
             });
     });
 });
-
-router.get('/user/login', (req, res, next) => {
-    var showMessage = !!req.query.redirect_url;
-
-    res.render('pages/user/login', {
-        id: 'login',
-        sub: 'index',
-        title: '로그인',
-        fullscreen: false,
-        showMessage: showMessage
-    });
-});
-
-router.get('/user/logout', (req, res, next) => {
-    var redirectUrl = req.query.redirect_url;
-    var session = req.session;
-
-    session.user = null;
-
-    res.redirect(redirectUrl);
-});
-
-router.get('/user/signup', (req, res, next) => {
-    res.render('pages/user/signup', {
-        id: 'signup',
-        sub: 'index',
-        title: '회원가입',
-        fullscreen: false
-    });
-});
-
-router.get('/user/find', (req, res, next) => {
-    res.render('pages/user/find', {
-        id: 'find',
-        sub: 'index',
-        title: '아이디 & 비밀번호 찾기',
-        fullscreen: false
-    });
-});
-
-router.get('/user/find/id', (req, res, next) => {
-    res.render('pages/user/find/id', {
-        id: 'find',
-        sub: 'id',
-        title: '아이디 찾기',
-        fullscreen: false
-    });
-});
-
-router.get('/user/find/pw', (req, res, next) => {
-    res.render('pages/user/find/pw', {
-        id: 'find',
-        sub: 'pw',
-        title: '비밀번호 찾기',
-        fullscreen: false
-    });
-});
+//
+// router.get('/user/login', (req, res, next) => {
+//     var showMessage = !!req.query.redirect_url;
+//
+//     res.render('pages/user/login', {
+//         id: 'login',
+//         sub: 'index',
+//         title: '로그인',
+//         fullscreen: false,
+//         showMessage: showMessage
+//     });
+// });
+//
+// router.get('/user/logout', (req, res, next) => {
+//     var redirectUrl = req.query.redirect_url;
+//     var session = req.session;
+//
+//     session.user = null;
+//
+//     res.redirect(redirectUrl);
+// });
+//
+// router.get('/user/signup', (req, res, next) => {
+//     res.render('pages/user/signup', {
+//         id: 'signup',
+//         sub: 'index',
+//         title: '회원가입',
+//         fullscreen: false
+//     });
+// });
+//
+// router.get('/user/find', (req, res, next) => {
+//     res.render('pages/user/find', {
+//         id: 'find',
+//         sub: 'index',
+//         title: '아이디 & 비밀번호 찾기',
+//         fullscreen: false
+//     });
+// });
+//
+// router.get('/user/find/id', (req, res, next) => {
+//     res.render('pages/user/find/id', {
+//         id: 'find',
+//         sub: 'id',
+//         title: '아이디 찾기',
+//         fullscreen: false
+//     });
+// });
+//
+// router.get('/user/find/pw', (req, res, next) => {
+//     res.render('pages/user/find/pw', {
+//         id: 'find',
+//         sub: 'pw',
+//         title: '비밀번호 찾기',
+//         fullscreen: false
+//     });
+// });
 
 router.get('/support', (req, res, next) => {
     res.render('pages/support', {
@@ -92,15 +92,15 @@ router.get('/support', (req, res, next) => {
         fullscreen: false
     });
 });
-
-router.get('/intro', (req, res, next) => {
-    res.render('pages/intro', {
-        id: 'intro',
-        sub: 'index',
-        title: '그리다집이란',
-        fullscreen: false
-    });
-});
+//
+// router.get('/intro', (req, res, next) => {
+//     res.render('pages/intro', {
+//         id: 'intro',
+//         sub: 'index',
+//         title: '그리다집이란',
+//         fullscreen: false
+//     });
+// });
 
 
 router.get('/about', (req, res, next) => {
@@ -158,66 +158,66 @@ router.get('/portfolio/:pid', (req, res, next) => {
     });
 });
 
-router.get('/request', (req, res, next) => {
-    res.render('pages/request', {
-        id: 'request',
-        sub: 'index',
-        title: '무료견적받기',
-        fullscreen: false
-    });
-});
-
-router.get('/profile/:type?', (req, res, next) => {
-    var type = req.params.type || 'designer';
-
-    if (type === 'constructor') {
-        res.render('pages/profile-constructor', {
-            id: 'profile',
-            sub: 'constructor',
-            title: '시공자 소개',
-            fullscreen: false
-        });
-    } else {
-        res.render('pages/profile-designer', {
-            id: 'profile',
-            sub: 'designer',
-            title: '디자이너 소개',
-            fullscreen: false
-        });
-    }
-});
-
-router.get('/manage', (req, res, next) => {
-    if (req.user === null) {
-        res.redirect('/user/login?redirect_url=' + req.originalUrl);
-    }
-    else {
-        res.render('pages/manage', {
-            id: 'manage',
-            sub: 'index',
-            title: '내 공사관리',
-            fullscreen: false
-        });
-    }
-});
-
-router.get('/profiles-member', (req, res, next) => {
-    res.render('pages/profiles-member', {
-        id: 'profile',
-        sub: 'index',
-        title: '인테리어 팀',
-        fullscreen: false
-    });
-});
-
-router.get('/profiles-member/detail', (req, res, next) => {
-    res.render('pages/profiles-member-detail', {
-        id: 'profile',
-        sub: 'detail',
-        title: '인테리어 팀',
-        fullscreen: false
-    });
-});
+// router.get('/request', (req, res, next) => {
+//     res.render('pages/request', {
+//         id: 'request',
+//         sub: 'index',
+//         title: '무료견적받기',
+//         fullscreen: false
+//     });
+// });
+//
+// router.get('/profile/:type?', (req, res, next) => {
+//     var type = req.params.type || 'designer';
+//
+//     if (type === 'constructor') {
+//         res.render('pages/profile-constructor', {
+//             id: 'profile',
+//             sub: 'constructor',
+//             title: '시공자 소개',
+//             fullscreen: false
+//         });
+//     } else {
+//         res.render('pages/profile-designer', {
+//             id: 'profile',
+//             sub: 'designer',
+//             title: '디자이너 소개',
+//             fullscreen: false
+//         });
+//     }
+// });
+//
+// router.get('/manage', (req, res, next) => {
+//     if (req.user === null) {
+//         res.redirect('/user/login?redirect_url=' + req.originalUrl);
+//     }
+//     else {
+//         res.render('pages/manage', {
+//             id: 'manage',
+//             sub: 'index',
+//             title: '내 공사관리',
+//             fullscreen: false
+//         });
+//     }
+// });
+//
+// router.get('/profiles-member', (req, res, next) => {
+//     res.render('pages/profiles-member', {
+//         id: 'profile',
+//         sub: 'index',
+//         title: '인테리어 팀',
+//         fullscreen: false
+//     });
+// });
+//
+// router.get('/profiles-member/detail', (req, res, next) => {
+//     res.render('pages/profiles-member-detail', {
+//         id: 'profile',
+//         sub: 'detail',
+//         title: '인테리어 팀',
+//         fullscreen: false
+//     });
+// });
 
 router.get('/cooperation-request', (req, res, next) => {
     res.render('pages/cooperation-request', {

@@ -14,7 +14,7 @@ $(function () {
         price: null
     });
 
-    var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="/images/loading.gif" /> </div>');
+    var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="https://static.gridazip.com/assets/images_renewal/loading.gif" /> </div>');
 
     var portfolioTabItemBind = function($element) {
         $element.bind('click', function (event) {
