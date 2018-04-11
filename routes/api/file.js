@@ -20,6 +20,7 @@ const MAX_IMAGE_WIDTH = 1600;
 const MAX_IMAGE_HEIGHT = 1000;
 
 router.post('/upload', upload, (req, res, next) => {
+    console.log(upload);
     const fileUploadPath = req.body.file_upload_path;
     if (!fileUploadPath || fileUploadPath === 'null') {
         return res.json(
@@ -142,6 +143,7 @@ router.post('/upload', upload, (req, res, next) => {
                     );
                 })
                 .catch(error => {
+                    console.log(error);
                     if (typeof error === 'object') {
                         error = '파일 업로드 중 알 수 없는 오류가 발생하였습니다';
                     }
