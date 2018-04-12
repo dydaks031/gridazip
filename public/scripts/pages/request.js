@@ -79,7 +79,7 @@ var requestView = function(options) {
                 })
                 .then(function (data) {
                     if (!data.isError) {
-                        $form.find('.request-input-wrapper.hide').show();
+                        $form.find('.request-input-wrapper.hide').removeClass('hide');
                         startTimer();
                         swal({
                             title: data.msg,

@@ -63,7 +63,6 @@ Modal.open = function(target) {
 
 Modal.close = function(target) {
     var targetElement = Modal.getTarget(target);
-
     var $target = $('.' + targetElement.target);
 
     if ( !$target.get(0) ) {
@@ -72,7 +71,7 @@ Modal.close = function(target) {
 
     $target.addClass('hide');
     $('html').removeClass('scroll-block');
-    console.log(target);
+
     if ( target === 'modal-request' ) {
         $target.find('.auth-input').addClass('hide');
         $target.find(':input')
