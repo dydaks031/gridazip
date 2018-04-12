@@ -7,7 +7,6 @@ $(function () {
                 loading(false);
             })
             .then(function (data) {
-                console.log(data);
                 if (data.data === null) {
                     swal({
                         title: '포트폴리오가 존재하지 않습니다.',
@@ -58,7 +57,6 @@ $(function () {
                 }
             })
             .catch(function (error) {
-            console.error(error);
             swal({
                 title: error.value,
                 type: 'error'

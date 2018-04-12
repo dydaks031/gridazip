@@ -51,6 +51,15 @@ Modal.close = function(target) {
 
     $target.addClass('hide');
     $('html').removeClass('scroll-block');
+    console.log(target);
+    if ( target === 'modal-request' ) {
+        $target.find('.auth-input').addClass('hide');
+        $target.find(':input')
+            .not(':button, :submit, :reset, :hidden')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');
+    }
 };
 
 // (function($) {

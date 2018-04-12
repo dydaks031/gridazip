@@ -92,7 +92,6 @@ $(function () {
 
             })
             .then(function (data) {
-                console.log(data);
                 page.set(data.page);
 
                 var portfolioImageTemplate = $('#portfolioImageTemplate').html();
@@ -155,7 +154,6 @@ $(function () {
 
             })
             .then(function (data) {
-                console.log(data);
                 var reviewTemplate = $('#reviewTemplate').html(),
                     reviewContainer = $('.review-wrapper');
 
@@ -176,7 +174,6 @@ $(function () {
                 reviewContainer.append(reviewElement);
             })
             ['catch'](function (error) {
-                console.log(error);
             swal({
                 title: error.value,
                 type: 'error'

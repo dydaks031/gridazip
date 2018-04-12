@@ -110,7 +110,6 @@ app.use('/api/worker', apiWorker);
 app.use('/api/authentication', apiAuthentication);
 app.use(subdomain('worker', apiWorker));
 app.use('/oauth/naver/', oauthNaver);
-console.log('env :: ' + env);
 if (env === 'production') {
     let expires = 3600;
     app.use(express.static(path.join(__dirname, 'public'), { maxAge: expires }));

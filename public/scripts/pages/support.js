@@ -79,7 +79,6 @@ $(function () {
                     .replace(/{{CONTENT}}/, element.nt_content.replace(/\n/gi, '<br />'));
             });
 
-            console.log(supportListHtml);
             supportListHtml = $(supportListHtml);
             $('#noticeListView').html(supportListHtml);
             supportItemBind(supportListHtml);

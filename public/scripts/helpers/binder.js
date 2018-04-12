@@ -64,7 +64,6 @@ $(function () {
 
   $('.calendar').each(function (i, e) {
     var $this = $(this)
-    console.log($this.data('min'))
     $(e).pignoseCalendar({
       lang: 'ko',
       date: ($this.data('today') ? moment($this.data('today')) : undefined),

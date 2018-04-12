@@ -19,7 +19,7 @@ var requestView = function(options) {
     };
 
     var decrementTime = function () {
-        $('.auth-timer').text(toMinSec(authValidateTime));
+        $form.find('.timer').text(toMinSec(authValidateTime));
         if(authValidateTime > 0) authValidateTime--;
         else {
             clearInterval(authTimer);
@@ -79,7 +79,7 @@ var requestView = function(options) {
                 })
                 .then(function (data) {
                     if (!data.isError) {
-                        $form.find('.request-input-wrapper.hide').show();
+                        $form.find('.request-input-wrapper.hide').removeClass('hide');
                         startTimer();
                         swal({
                             title: data.msg,
@@ -99,7 +99,6 @@ var requestView = function(options) {
 
     var authValidate = function (event) {
         event.preventDefault();
-        console.log('auth-validate');
         var formData = $form.serializeJson();
 
         var data = {

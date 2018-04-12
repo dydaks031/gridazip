@@ -9,7 +9,6 @@ $(function () {
     //         }
     //     },
     //     function(data) {
-    //         console.log(data);
     //
     //         $('#fileData').remove();
     //         var fileResultView = $('<input type="text" value="' + data.files[0].name + '" readonly="readonly" />');
@@ -61,7 +60,6 @@ $(function () {
 
                     })
                     .then(function (data) {
-                        console.log(data);
                         if (data.isError !== false ) {
                             swal({
                                 title: data.msg,
