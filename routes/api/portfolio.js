@@ -233,14 +233,6 @@ router.post('/:pid', (req, res) => {
       .then(response => {
         images = response;
 
-        return cur('portfolio_image_position_hst')
-          .innerJoin('resource_tbl', 'portfolio_image_position_hst.pi_pos_rspk', 'resource_tbl.rs_pk')
-          .innerJoin('company_tbl', 'resource_tbl.rs_cppk', 'company_tbl.cp_pk')
-          .where('pi_pos_pfpk', pid);
-      })
-      .then(response => {
-        positions = response;
-
         return cur('portfolio_tbl')
           .select([
             'rd_url'

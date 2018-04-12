@@ -130,15 +130,19 @@ router.post('/calc', (req, res) => {
 });
 
 router.post('/edin', (req, res) => {
-  const pc_pk = req.body.pc_pk;
-  const place_pk = req.body.place_pk;
-  const ct_pk = req.body.ct_pk;
-  const cp_pk = req.body.cp_pk;
+  // const pc_pk = req.body.pc_pk;
+  // const place_pk = req.body.place_pk;
+  // const ct_pk = req.body.ct_pk;
+  // const cp_pk = req.body.cp_pk;
   // const cpd_pk = req.body.cpd_pk;
   // const rt_pk = req.body.rt_pk;
   // const rs_pk = req.body.rs_pk;
   // const ru_pk = req.body.ru_pk;
   // const input_value = req.body.input_value;
+  const pc_pk = 1;
+  const place_pk = 3;
+  const ct_pk = 3;
+  const cp_pk = 1;
   const cpd_pk = 1;
   const rt_pk = 1;
   const rs_pk = 1;
@@ -148,9 +152,7 @@ router.post('/edin', (req, res) => {
 
   let laborCosts;
   let resourcePrice;
-  let resourceUnit;
   let calcExpression;
-  let ceilFlag;
 
   // 계약번호 공사위치 공사 공정 공정상세 자재군 자재 자재단위 인풋값
   // select cpd_labor_costs from construction_process_detail_tbl
@@ -182,36 +184,56 @@ router.post('/edin', (req, res) => {
         resourcePrice = row.rs_price;
 
         return cur('resource_unit_tbl')
-          .first('ru_name', 'ru_calc_expression', 'ru_ceil_flag')
+          .first('ru_name', 'ru_calc_expression')
           .where({
             ru_pk: ru_pk
           })
       })
       .then(row => {
-        resourceUnit = row.ru_name;
         calcExpression = row.ru_calc_expression;
-        ceilFlag = row.ru_ceil_flag;
 
         const fn = calc.func(`f(x) = ${calcExpression}`);
         let resourceAmount = fn(input_value);
-        if (ceilFlag === 1) {
-          resourceAmount = Math.ceil(resourceAmount);
-        } else {
-          resourceAmount = parseFloat(resourceAmount.toFixed(2));
-        }
+        resourceAmount = parseFloat(resourceAmount.toFixed(2));
 
-        console.log(resourceAmount);
-        console.log('total labor costs :: ' + laborCosts * resourceAmount);
-        console.log('total resource costs :: ' + resourcePrice * resourceAmount);
+        return cur('estimate_detail_hst')
+          .insert({
+            ed_pcpk: pc_pk,
+            ed_place_pk: place_pk,
+            ed_detail_place: '테스트 위치',
+            ed_ctpk: ct_pk,
+            ed_cppk: cp_pk,
+            ed_cpdpk: cpd_pk,
+            ed_rtpk: rt_pk,
+            ed_rspk: rs_pk,
+            ed_rupk: ru_pk,
+            ed_input_value: input_value,
+            ed_resource_amount: resourceAmount,
+            ed_calculated_amount: resourceAmount,
+            ed_recency: cur.raw('UNIX_TIMESTAMP() * -1')
+          })
+      })
+      .then(() => {
         res.json(
           resHelper.getJson({
-            totalLaborCosts: laborCosts * resourceAmount,
-            totalResourceCosts: resourcePrice * resourceAmount
+            msg: 'ok'
           })
         );
       })
-
+      .catch(reason => {
+        res.json(
+          resHelper.getError('상세 견적을 추가하는 중 문제가 발생했습니다.')
+        );
+        console.log(reason);
+        throw reason;
+      })
   });
 });
 
+router.post('/place/list', (req, res) => {
+
+  knexBuilder.getConnection().then(cur => {
+    cur('construction_process_detail_tbl')
+  })
+});
 module.exports = router;

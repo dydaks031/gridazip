@@ -142,6 +142,7 @@ router.post('/upload', upload, (req, res, next) => {
             );
           })
           .catch(error => {
+            console.log(error);
             if (typeof error === 'object') {
               error = '파일 업로드 중 알 수 없는 오류가 발생하였습니다';
             }
