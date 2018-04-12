@@ -13,7 +13,6 @@ var requestView = function(options) {
     var bindEvent = function() {
         $authRequestBtn.bind('click', authRequest);
         $confirmBtn.bind('click', authValidate);
-        // $confirmBtn.bind('click', requestConsultation);
         $form.bind('submit', function (event) {
             event.preventDefault();
         });
@@ -43,14 +42,7 @@ var requestView = function(options) {
     };
 
     var authRequest = function() {
-
-        // var hiddenInput = $form.find('.request-input-wrapper.hide');
-        //
-        // hiddenInput.show();
-        //
-        // return;
         var formData = $form.serializeJson();
-
         event.preventDefault();
         if (authValidateTime > 150) {
             swal({
@@ -79,8 +71,12 @@ var requestView = function(options) {
             var data = {
                 phone: formData.user_phone
             };
+            loading(true);
 
             http.post('/api/authentication/sms/request', data)
+                .finally(function() {
+                    loading(false);
+                })
                 .then(function (data) {
                     if (!data.isError) {
                         $('.form-item.auth').show();
@@ -139,7 +135,10 @@ var requestView = function(options) {
                 }, 50);
             });
         } else {
+            loading(true);
             http.post('/api/authentication/sms/validate', data)
+                .finally(function() {
+                })
                 .then(function (data) {
                     if (!data.isError) {
                         // swal({
@@ -168,9 +167,6 @@ var requestView = function(options) {
 
 
     var requestConsultation = function () {
-        console.log(authValidated);
-        console.log(typeof authValidated);
-
         var data = $form.serializeJson();
 
         /**
@@ -179,6 +175,7 @@ var requestView = function(options) {
         ga('send', 'event', 'request', 'start', location.pathname);
 
         if (data.user_name === '') {
+            loading(false);
             swal({
                 title: '이름은 반드시 입력해야 합니다.',
                 type: 'warning'
@@ -188,6 +185,7 @@ var requestView = function(options) {
                 }, 50);
             });
         } else if (data.user_phone === '') {
+            loading(false);
             swal({
                 title: '휴대폰 번호는 반드시 입력해야 합니다.',
                 type: 'warning'
@@ -197,6 +195,7 @@ var requestView = function(options) {
                 }, 50);
             });
         } else if (authValidateTime === null || authValidateTime === 0) {
+            loading(false);
             swal({
                 title: '핸드폰번호 인증이 필요합니다.\n인증번호요청 버튼을 눌러주시기 바랍니다.',
                 type: 'warning'
@@ -206,6 +205,7 @@ var requestView = function(options) {
                 }, 50);
             });
         } else if (data.auth_key === '') {
+            loading(false);
             swal({
                 title: '인증번호를 입력해야 합니다.',
                 type: 'warning'
@@ -215,6 +215,7 @@ var requestView = function(options) {
                 }, 50);
             });
         } else if (authValidated === false) {
+            loading(false);
             swal({
                 title: '인증번호 확인이 필요합니다.',
                 type: 'warning'
@@ -225,6 +226,7 @@ var requestView = function(options) {
             });
         }
         else if (regexPhone.test(data.user_phone) === false) {
+            loading(false);
             swal({
                 title: '휴대폰 번호 형식이 올바르지 않습니다.',
                 type: 'warning'
@@ -235,11 +237,10 @@ var requestView = function(options) {
             });
         }
         else {
-            loading(true);
             http.post('/api/request/save', data)
                 ['finally'](function () {
-                loading(false);
-            })
+                    loading(false);
+                })
                 .then(function (data) {
                     /**
                      * GA Request complete event tracking.
@@ -249,9 +250,15 @@ var requestView = function(options) {
                     window.onbeforeunload = null;
                     swal({
                         title: '견적 상담 요청이 완료되었습니다.',
-                        text: '',
+                        text: '자세한 사항은 유선으로 연락 드리겠습니다.\n추가적인 문의사항이 있으시다면\n우측 하단 채팅 기능을 이용해 주시기 바랍니다.\n감사합니다.',
                         type: 'success',
                         confirmButtonText: '확인'
+                    }, function() {
+                        $form.find(':input')
+                            .not(':button, :submit, :reset, :hidden')
+                            .val('')
+                            .removeAttr('checked')
+                            .removeAttr('selected');
                     });
                 })
                 ['catch'](function (error) {
@@ -267,11 +274,3 @@ var requestView = function(options) {
         bindEvent: bindEvent,
     }
 };
-
-requestView.prototype.bindEvent = function(options) {
-
-}
-
-$(function () {
-
-});
