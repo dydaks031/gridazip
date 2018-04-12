@@ -242,7 +242,6 @@ $(function () {
             }
         })
         ['catch'](function (error) {
-            console.error(error);
             swal({
                 title: error.value,
                 type: 'error'
