@@ -12,8 +12,8 @@ var requestView = function(options) {
 
     var bindEvent = function() {
         $authRequestBtn.bind('click', authRequest);
-        // $confirmBtn.bind('click', authValidate);
-        $confirmBtn.bind('click', requestConsultation);
+        $confirmBtn.bind('click', authValidate);
+        // $confirmBtn.bind('click', requestConsultation);
         $form.bind('submit', function (event) {
             event.preventDefault();
         });
@@ -44,11 +44,12 @@ var requestView = function(options) {
 
     var authRequest = function() {
 
-        var hiddenInput = $form.find('.request-input-wrapper.hide');
-
-        hiddenInput.show();
-
-        return;
+        // var hiddenInput = $form.find('.request-input-wrapper.hide');
+        //
+        // hiddenInput.show();
+        //
+        // return;
+        var formData = $form.serializeJson();
 
         event.preventDefault();
         if (authValidateTime > 150) {
@@ -56,11 +57,25 @@ var requestView = function(options) {
                 title: (authValidateTime - 150) + '초 뒤에 다시 시도해주세요.',
                 type: 'warning'
             });
-        }
-        else {
-
-            var formData = $form.serializeJson();
-
+        } else if (formData.user_phone === '') {
+            swal({
+                title: '휴대폰 번호는 반드시 입력해야 합니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=user_phone]').focus();
+                }, 50);
+            });
+        } else if (regexPhone.test(formData.user_phone) === false) {
+            swal({
+                title: '휴대폰 번호 형식이 올바르지 않습니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=user_phone]').focus();
+                }, 50);
+            });
+        } else {
             var data = {
                 phone: formData.user_phone
             };
@@ -96,29 +111,59 @@ var requestView = function(options) {
             authKey: formData.auth_key,
         };
 
-        http.post('/api/authentication/sms/validate', data)
-            .then(function (data) {
-                if (!data.isError) {
-                    swal({
-                        title: data.msg,
-                        type: 'success'
-                    });
-                    authValidated = true;
-                }
-                else {
-                    swal({
-                        title: data.value,
-                        type: 'warning'
-                    });
-                }
-            })
-            ['catch'](function (error) {
-            console.log(error);
+        if (formData.user_phone === '') {
             swal({
-                title: error.value,
+                title: '휴대폰 번호는 반드시 입력해야 합니다.',
                 type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=user_phone]').focus();
+                }, 50);
             });
-        });
+        } else if (regexPhone.test(formData.user_phone) === false) {
+            swal({
+                title: '휴대폰 번호 형식이 올바르지 않습니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=user_phone]').focus();
+                }, 50);
+            });
+        } else if (authValidateTime === 0) {
+            swal({
+                title: '인증 유효 시간이 초과되었습니다. 다시 인증하여 주시기 바랍니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=user_phone]').focus();
+                }, 50);
+            });
+        } else {
+            http.post('/api/authentication/sms/validate', data)
+                .then(function (data) {
+                    if (!data.isError) {
+                        // swal({
+                        //     title: data.msg,
+                        //     type: 'success'
+                        // });
+                        authValidated = true;
+                        requestConsultation();
+                    }
+                    else {
+                        swal({
+                            title: data.value,
+                            type: 'warning'
+                        });
+                    }
+                })
+                ['catch'](function (error) {
+                console.log(error);
+                swal({
+                    title: error.value,
+                    type: 'warning'
+                });
+            });
+        }
     };
 
 
@@ -151,36 +196,34 @@ var requestView = function(options) {
                     $form.find('[name=user_phone]').focus();
                 }, 50);
             });
+        } else if (authValidateTime === null || authValidateTime === 0) {
+            swal({
+                title: '핸드폰번호 인증이 필요합니다.\n인증번호요청 버튼을 눌러주시기 바랍니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=user_phone]').focus();
+                }, 50);
+            });
+        } else if (data.auth_key === '') {
+            swal({
+                title: '인증번호를 입력해야 합니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=auth_key]').focus();
+                }, 50);
+            });
+        } else if (authValidated === false) {
+            swal({
+                title: '인증번호 확인이 필요합니다.',
+                type: 'warning'
+            }, function () {
+                setTimeout(function () {
+                    $form.find('[name=auth_key]').focus();
+                }, 50);
+            });
         }
-
-        // else if (authValidateTime === null) {
-        //     swal({
-        //         title: '핸드폰번호 인증이 필요합니다.\n인증번호요청 버튼을 눌러주시기 바랍니다.',
-        //         type: 'warning'
-        //     }, function () {
-        //         setTimeout(function () {
-        //             $form.find('[name=user_phone]').focus();
-        //         }, 50);
-        //     });
-        // } else if (data.auth_key === '') {
-        //     swal({
-        //         title: '인증번호를 입력해야 합니다.',
-        //         type: 'warning'
-        //     }, function () {
-        //         setTimeout(function () {
-        //             $form.find('[name=auth_key]').focus();
-        //         }, 50);
-        //     });
-        // } else if (authValidated === false) {
-        //     swal({
-        //         title: '인증번호 확인이 필요합니다.',
-        //         type: 'warning'
-        //     }, function () {
-        //         setTimeout(function () {
-        //             $form.find('[name=auth_key]').focus();
-        //         }, 50);
-        //     });
-        // }
         else if (regexPhone.test(data.user_phone) === false) {
             swal({
                 title: '휴대폰 번호 형식이 올바르지 않습니다.',
