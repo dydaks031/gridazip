@@ -165,6 +165,7 @@ $(function () {
     var requestViewInstance = requestView({
         authRequestBtn: modalRequestForm.find('#modalAuthRequestBtn'),
         confirmBtn: modalRequestForm.find('#modalConfirmBtn'),
+        backBtn: modalRequestForm.find('#backBtn'),
         form: modalRequestForm
     });
 

@@ -9,7 +9,7 @@
             <div class="request-wrapper clearing">
                 <div class="request-form">
                     <form id="modalRequestForm">
-                        <div class="request-input-wrapper">
+                        <div class="request-input-wrapper info-input">
                             <div class="input-label-wrapper">
                                 <label for="inputRequestName">이름<span class="red-star">*</span></label>
                                 <input type="text" id="inputRequestName" placeholder="이름을 입력해주세요." name="user_name"/>
@@ -32,10 +32,14 @@
                                 </div>
                                 <input type="text" id="inputRequestAuthCode" placeholder="인증번호를 입력해주세요." name="auth_key" />
                             </div>
-
-                            <a href="#" class="modal-request-btn" id="modalConfirmBtn">
-                                <button>인증하기</button>
-                            </a>
+                            <div class="input-label-wrapper auth-btn-wrapper">
+                                <a href="#" class="" id="backBtn" style="float:left">
+                                    <button>뒤로가기</button>
+                                </a>
+                                <a href="#" class="modal-request-btn" id="modalConfirmBtn">
+                                    <button>인증하기</button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </form>
