@@ -6,7 +6,6 @@ var requestView = function(options) {
 
     var $authRequestBtn = options.authRequestBtn,
         $confirmBtn = options.confirmBtn,
-        $backBtn = options.backBtn,
         $form = options.form;
 
     var regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -14,11 +13,6 @@ var requestView = function(options) {
     var bindEvent = function() {
         $authRequestBtn.bind('click', authRequest);
         $confirmBtn.bind('click', authValidate);
-
-        if ($backBtn) {
-            $backBtn.bind('click', backRequest);
-        }
-
         $form.bind('submit', function (event) {
             event.preventDefault();
         });
@@ -45,11 +39,6 @@ var requestView = function(options) {
         authValidateTime = 180;
         clearInterval(authTimer);
         authTimer = setInterval(function(){decrementTime()}, 1000);
-    };
-
-    var backRequest= function() {
-        $form.find('.auth-input').addClass('hide');
-        $form.find('.info-input').removeClass('hide');
     };
 
     var authRequest = function() {
@@ -90,9 +79,7 @@ var requestView = function(options) {
                 })
                 .then(function (data) {
                     if (!data.isError) {
-                        $form.find('.info-input').addClass('hide');
-                        $form.find('.auth-input').removeClass('hide');
-
+                        $form.find('.request-input-wrapper.hide').show();
                         startTimer();
                         swal({
                             title: data.msg,
@@ -112,6 +99,7 @@ var requestView = function(options) {
 
     var authValidate = function (event) {
         event.preventDefault();
+        console.log('auth-validate');
         var formData = $form.serializeJson();
 
         var data = {
