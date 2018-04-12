@@ -79,7 +79,7 @@ var requestView = function(options) {
                 })
                 .then(function (data) {
                     if (!data.isError) {
-                        $('.form-item.auth').show();
+                        $form.find('.request-input-wrapper.hide').show();
                         startTimer();
                         swal({
                             title: data.msg,
@@ -107,7 +107,7 @@ var requestView = function(options) {
             authKey: formData.auth_key,
         };
 
-        if (formData.user_phone === '') {
+        if (data.phone === '') {
             swal({
                 title: '휴대폰 번호는 반드시 입력해야 합니다.',
                 type: 'warning'
@@ -116,7 +116,7 @@ var requestView = function(options) {
                     $form.find('[name=user_phone]').focus();
                 }, 50);
             });
-        } else if (regexPhone.test(formData.user_phone) === false) {
+        } else if (regexPhone.test(data.phone) === false) {
             swal({
                 title: '휴대폰 번호 형식이 올바르지 않습니다.',
                 type: 'warning'
@@ -149,6 +149,7 @@ var requestView = function(options) {
                         requestConsultation();
                     }
                     else {
+                        loading(false);
                         swal({
                             title: data.value,
                             type: 'warning'
@@ -156,18 +157,20 @@ var requestView = function(options) {
                     }
                 })
                 ['catch'](function (error) {
-                console.log(error);
-                swal({
-                    title: error.value,
-                    type: 'warning'
+                    loading(false);
+                    swal({
+                        title: error.value,
+                        type: 'warning'
+                    });
                 });
-            });
-        }
+       }
     };
 
 
     var requestConsultation = function () {
         var data = $form.serializeJson();
+
+        data.user_phone = data.user_phone.toString();
 
         /**
          * GA Request start event tracking.
@@ -259,6 +262,8 @@ var requestView = function(options) {
                             .val('')
                             .removeAttr('checked')
                             .removeAttr('selected');
+                        
+                        Modal.close('modal-request');
                     });
                 })
                 ['catch'](function (error) {
