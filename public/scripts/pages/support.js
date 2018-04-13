@@ -16,6 +16,7 @@ function initMap() {
 }
 
 $(function () {
+    loading(true);
     var $supportList = $('.support-list');
     var $supportNotice = $supportList.filter('.support-notice');
     var $supportFaq = $supportList.filter('.support-faq');
@@ -24,7 +25,7 @@ $(function () {
     var faqPage = new Pagination();
 
     noticePage.setLimit(5);
-    faqPage.setLimit(5);
+    // faqPage.setLimit(5);
 
     var $supportItemTemplate = $('#supportListTemplate').html();
 
@@ -74,7 +75,13 @@ $(function () {
             var supportListHtml = '';
 
             data.data.forEach(function(element, idx) {
+                var isFold = true;
+                if ( idx === 0 ) {
+                    isFold = false;
+                }
+
                 supportListHtml += $supportItemTemplate
+                    .replace(/{{FOLD_CLASS}}/, isFold ? 'fold' : '')
                     .replace(/{{TITLE}}/, element.nt_title)
                     .replace(/{{CONTENT}}/, element.nt_content.replace(/\n/gi, '<br />'));
             });
@@ -119,7 +126,13 @@ $(function () {
             var supportListHtml = '';
 
             data.data.forEach(function(element, idx) {
+                var isFold = true;
+                if ( idx === 0 ) {
+                    isFold = false;
+                }
+
                 supportListHtml += $supportItemTemplate
+                    .replace(/{{FOLD_CLASS}}/, isFold ? 'fold' : '')
                     .replace(/{{TITLE}}/, element.faq_question)
                     .replace(/{{CONTENT}}/, element.faq_answer.replace(/\n/gi, '<br />'));
             });
@@ -128,6 +141,7 @@ $(function () {
             $('#faqListView').html(supportListHtml);
 
             supportItemBind(supportListHtml);
+            loading(false);
 
             if (faqPage.isEnd() === false) {
                 var $supportMore = $supportItemMoreTemplate.clone();
