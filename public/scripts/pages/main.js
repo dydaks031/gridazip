@@ -1,4 +1,5 @@
 $(function () {
+
     $('.main-visual-slider .slider-wrapper').addClass('owl-carousel').owlCarousel({
         loop: true,
         items: 1,
@@ -115,16 +116,15 @@ $(function () {
 
                 var $portfolioImageHtml = $(portfolioImageHtml);
                 carousel.html($portfolioImageHtml);
+                //reinitialize the carousel (call here your method in which you've set specific carousel properties)
+                carousel.owlCarousel(carouselOptions);
 
-                $portfolioImageHtml.click(function() {
+                $(document).on('click', '.slider-wrapper .image-items', function() {
                     var $this = $(this);
                     var portfolioKey = $this.data('value');
 
                     location.href = '/portfolio/' + portfolioKey;
                 });
-
-                //reinitialize the carousel (call here your method in which you've set specific carousel properties)
-                carousel.owlCarousel(carouselOptions);
 
             })
             ['catch'](function (error) {
