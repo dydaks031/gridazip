@@ -1,77 +1,102 @@
+
+    <%
+        if(fullscreen === false) {
+    %>
+
+    <!-- Channel Plugin Scripts -->
+    <script>
+      window.channelPluginSettings = {
+        "pluginKey": "50362d2e-ba2b-447d-9780-eca5da560176"
+      };
+      (function() {
+        var node = document.createElement('div');
+        node.id = 'ch-plugin';
+        document.body.appendChild(node);
+        var async_load = function() {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = '//cdn.channel.io/plugin/ch-plugin-web.js';
+          s.charset = 'UTF-8';
+          var x = document.getElementsByTagName('script')[0];
+          x.parentNode.insertBefore(s, x);
+        };
+        if (window.attachEvent) {
+          window.attachEvent('onload', async_load);
+        } else {
+          window.addEventListener('DOMContentLoaded', async_load, false);
+        }
+      })();
+    </script>
+    <!-- End Channel Plugin -->
+    <% include ../pages/modal/terms-modal.ejs %>
+    <% include ../pages/modal/request-modal.ejs %>
+    </div>
+    <footer id="footer">
+        <hr class="footer-stripe" />
+        <div class="footer-wrapper clearing">
+            <div class="logo-info">
+                <span class="logo-description">당신의 삶에 인테리어를 그리다</span>
+                <img src="https://static.gridazip.com/assets/images_renewal/logo_g.png" alt="그리다집 로고" />
             </div>
-            <%
-                if(fullscreen === false) {
-            %>
 
-            <!-- Channel Plugin Scripts -->
-            <script>
-              window.channelPluginSettings = {
-                "pluginKey": "50362d2e-ba2b-447d-9780-eca5da560176"
-              };
-              (function() {
-                var node = document.createElement('div');
-                node.id = 'ch-plugin';
-                document.body.appendChild(node);
-                var async_load = function() {
-                  var s = document.createElement('script');
-                  s.type = 'text/javascript';
-                  s.async = true;
-                  s.src = '//cdn.channel.io/plugin/ch-plugin-web.js';
-                  s.charset = 'UTF-8';
-                  var x = document.getElementsByTagName('script')[0];
-                  x.parentNode.insertBefore(s, x);
-                };
-                if (window.attachEvent) {
-                  window.attachEvent('onload', async_load);
-                } else {
-                  window.addEventListener('DOMContentLoaded', async_load, false);
-                }
-              })();
-            </script>
-            <!-- End Channel Plugin -->
-
-            <div id="footer">
-                <div class="footer-inner">
-                    <div class="footer-descrition">
-                        <p>(주)그리다집</p>
-                        <p>
-                            <span class="footer-item">대표: 이종혁 | </span>
-                            <span class="footer-item">사업자등록번호: 863-87-00815</span>
-                        </p>
-                        <p>개인정보관리책임자: 황경찬</p>
-                        <p>주소: 서울특별시 강서구 양천로 551-17, 1010호(가양동, 한화비즈메트로 1차)</p>
-                        <p>전화번호: 0507-1416-0665</p>
-                        <p>이메일: <a href="mailto://info@gridazip.com">info@gridazip.com</a></p>
-                        <p>Copyright © 2018 Gridazip Inc. All rights reserved.</p>
+            <div class="contact-info">
+                <p class="footer-title">Contact info: </p>
+                <div class="contact-item">
+                    <div>
+                        <i class="fa fa-location-arrow"></i>
                     </div>
-                    <div class="footer-contact">
-                        <a href="<%= browser.mobile? 'fb://page/942842962510009' : 'https://www.facebook.com/gridazip' %>" target="_blank" class="contact-item">
-                            <i class="icon-sns facebook"></i>
-                            <span>페이스북 페이지</span>
-                        </a>
-                        <a href="<%= browser.mobile? 'instagram://user?username=gridazip' : 'https://www.instagram.com/gridazip' %>" target="_blank" class="contact-item">
-                            <i class="icon-sns instagram"></i>
-                            <span>인스타그램 페이지</span>
-                        </a>
-                        <a href="https://plus.kakao.com/home/@%EA%B7%B8%EB%A6%AC%EB%8B%A4%EC%A7%91" target="_blank" class="contact-item">
-                            <i class="icon-sns kakaotalk"></i>
-                            <span>카카오 옐로우아이디</span>
-                        </a>
-                        <a href="https://story.kakao.com/ch/gridazib" target="_blank" class="contact-item">
-                            <i class="icon-sns kakaostory"></i>
-                            <span>카카오스토리 홈</span>
-                        </a>
-                        <a href="http://blog.naver.com/gridazip" target="_blank" class="contact-item">
-                            <i class="icon-sns naverblog"></i>
-                            <span>네이버블로그</span>
-                        </a>
+                    <div>
+                        <span>서울특별시 강서구 양천로 551-17,<br /> 한화비즈메트로 1차 1010호</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div>
+                        <span>info@gridazip.com</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <i class="fa fa-headphones"></i>
+                    </div>
+                    <div>
+                        <span>0507-1312-2412</span>
                     </div>
                 </div>
             </div>
-            <%
-                }
-            %>
+
+            <div class="social-info">
+                <p class="footer-title">We're social: </p>
+                <ul class="social-list clearing">
+                    <li class="social-icon facebook-icon"><a href="https://www.facebook.com/gridazip" target="_blank" ></a></li>
+                    <li class="social-icon instagram-icon"><a href="https://www.instagram.com/gridazip" target="_blank" ></a></li>
+                    <li class="social-icon kakao-icon"><a href="https://plus.kakao.com/home/@%EA%B7%B8%EB%A6%AC%EB%8B%A4%EC%A7%91" target="_blank" ></a></li>
+                    <li class="social-icon kakaostory-icon"><a href="https://story.kakao.com/ch/gridazib" target="_blank" ></a></li>
+                    <li class="social-icon naver-icon"><a href="http://blog.naver.com/gridazip" target="_blank" ></a></li>
+                </ul>
+            </div>
         </div>
-        <% include ./snippets/foot-snippet.ejs %>
-    </body>
+
+        <div class="footer-provision">
+            <span data-modal="modal-term#tab1">
+                <a href="#">이용약관</a>
+            </span>
+            <span data-modal="modal-term#tab2">
+                <a href="#">개인정보처리방침</a>
+            </span>
+            <span><a href="/support">고객문의</a></span>
+        </div>
+        <div class="footer-compay-info">
+            <span>대표: 이종혁<br/>사업자등록번호: 863-87-00815<br />개인정보관리책임자: 황경찬<br/></span>
+            <span>2018,(주) 그리다집 All right Reserved</span>
+        </div>
+    </footer>
+    <%
+        }
+    %>
+    <% include ./snippets/foot-snippet.ejs %>
+</body>
 </html>

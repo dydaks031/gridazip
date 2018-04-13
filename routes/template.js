@@ -10,8 +10,8 @@ const resHelper = require('../../services/response/helper');
 const resModel = require('../../services/response/model');
 
 router.post('/', (req, res, next) => {
-    knexBuilder.getConnection().then(cur => {
-    });
+  knexBuilder.getConnection().then(cur => {
+  });
 });
 
 module.exports = router;

@@ -1,4 +1,22 @@
+function initMap() {
+    var uluru = {lat: 37.5592720, lng: 126.8609550};
+    var map = new google.maps.Map(document.querySelector('.google-maps'), {
+        zoom: 18,
+        center: uluru,
+        zoomControl: false,
+        scaleControl: false,
+        scrollwheel: false,
+        disableDoubleClickZoom: true,
+        gestureHandling: 'none'
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
+}
+
 $(function () {
+    loading(true);
     var $supportList = $('.support-list');
     var $supportNotice = $supportList.filter('.support-notice');
     var $supportFaq = $supportList.filter('.support-faq');
@@ -7,39 +25,23 @@ $(function () {
     var faqPage = new Pagination();
 
     noticePage.setLimit(5);
-    faqPage.setLimit(5);
+    // faqPage.setLimit(5);
 
-    var $supportItemTemplate = $('\
-    <div class="support-group">\
-      <div class="support-item">\
-        <span class="title"></span>\
-        <span class="date"></span>\
-        <span class="arrow">\
-          <i class="pe-7s-angle-down"></i>\
-        </span>\
-      </div>\
-      <div class="support-content">\
-      </div>\
-    </div>');
-
-    var $supportItemMoreTemplate = $('\
-    <a href="#" class="btn-more">\
-      <i class="fa fa-chevron-down"></i>\
-      <span>더보기</span>\
-    </a>\
-  ');
+    var $supportItemTemplate = $('#supportListTemplate').html();
 
     var supportItemBind = function ($element) {
-        $element.bind('click', function (event) {
+        $element.find('.folding-btn').bind('click', function (event) {
             event.preventDefault();
             var $this = $(this);
-            var $target = $this.closest('.support-group');
+            var $target = $this.parents('li');
 
-            if ($target.hasClass('active')) {
-                $target.removeClass('active');
+            if ($target.hasClass('fold')) {
+                $target.removeClass('fold');
+                $this.find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
             }
             else {
-                $target.addClass('active');
+                $target.addClass('fold');
+                $this.find('i').removeClass('fa-angle-up').addClass('fa-angle-down');
             }
         });
     };
@@ -60,7 +62,7 @@ $(function () {
         http.post('/api/board/notice', {
             page: noticePage.get()
         })
-        ['finally'](function () {
+        .finally(function () {
             $supportNotice.removeClass('loading');
         })
         .then(function (data) {
@@ -70,20 +72,30 @@ $(function () {
 
             noticePage.set(data.page);
 
-            data.data.forEach(function(element, idx) {
-                var $supportItem = $supportItemTemplate.clone();
-                supportItemBind($supportItem);
-                $supportItem.find('.title').text(element.nt_title);
-                $supportItem.find('.date').text(moment(element.nt_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                $supportItem.find('.support-content').html(element.nt_content.replace(/\n/g, '<br />'));
-                $supportItem.appendTo($supportNotice);
-            })
+            var supportListHtml = '';
 
-            if (noticePage.isEnd() === false) {
-                var $supportMore = $supportItemMoreTemplate.clone();
-                supportMoreBind($supportMore, loadNotice);
-                $supportMore.appendTo($supportNotice);
-            }
+            data.data.forEach(function(element, idx) {
+                var isFold = true;
+                if ( idx === 0 ) {
+                    isFold = false;
+                }
+
+                supportListHtml += $supportItemTemplate
+                    .replace(/{{FOLD_CLASS}}/, isFold ? 'fold' : '')
+                    .replace(/{{TITLE}}/, element.nt_title)
+                    .replace(/{{CONTENT}}/, element.nt_content.replace(/\n/gi, '<br />'));
+            });
+
+            supportListHtml = $(supportListHtml);
+            $('#noticeListView').html(supportListHtml);
+            supportItemBind(supportListHtml);
+
+            //
+            // if (noticePage.isEnd() === false) {
+            //     var $supportMore = $supportItemMoreTemplate.clone();
+            //     supportMoreBind($supportMore, loadNotice);
+            //     $supportMore.appendTo($supportNotice);
+            // }
         })
         ['catch'](function (error) {
             swal({
@@ -111,15 +123,25 @@ $(function () {
 
             faqPage.set(data.page);
 
+            var supportListHtml = '';
+
             data.data.forEach(function(element, idx) {
-                var item = data.data[idx];
-                var $supportItem = $supportItemTemplate.clone();
-                supportItemBind($supportItem);
-                $supportItem.find('.title').text(element.faq_question);
-                $supportItem.find('.date').text(moment(element.faq_reg_dt, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD'));
-                $supportItem.find('.support-content').html(element.faq_answer.replace(/\n/g, '<br />'));
-                $supportItem.appendTo($supportFaq);
+                var isFold = true;
+                if ( idx === 0 ) {
+                    isFold = false;
+                }
+
+                supportListHtml += $supportItemTemplate
+                    .replace(/{{FOLD_CLASS}}/, isFold ? 'fold' : '')
+                    .replace(/{{TITLE}}/, element.faq_question)
+                    .replace(/{{CONTENT}}/, element.faq_answer.replace(/\n/gi, '<br />'));
             });
+
+            supportListHtml = $(supportListHtml);
+            $('#faqListView').html(supportListHtml);
+
+            supportItemBind(supportListHtml);
+            loading(false);
 
             if (faqPage.isEnd() === false) {
                 var $supportMore = $supportItemMoreTemplate.clone();
@@ -138,3 +160,4 @@ $(function () {
     loadNotice();
     loadFaq();
 });
+

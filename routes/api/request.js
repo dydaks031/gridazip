@@ -12,26 +12,26 @@ const moment = require('moment');
 const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 
 router.post('/save', (req, res, next) => {
-  var user_name = req.body['user_name'] || '';
-  var user_family = req.body['user_family'] || '';
-  var user_size = req.body['user_size'] || '';
-  var user_address_brief = req.body['user_address_brief'] || '';
-  var user_address_detail = req.body['user_address_detail'] || '';
-  var user_phone = req.body['user_phone'] || '';
-  var user_move_date = req.body['user_move_date'] || '';
-  var user_style_likes = req.body['user_style_likes'] || '';
-  var user_style_dislikes = req.body['user_style_dislikes'] || '';
-  var user_color_likes = req.body['user_color_likes'] || '';
-  var user_color_dislikes = req.body['user_color_dislikes'] || '';
-  var user_budget = req.body['user_budget'] || '';
-  var user_place = req.body['user_place'] || '';
-  var user_date = req.body['user_date'] || '';
-  var user_time = req.body['user_time'] || '';
-  var user_request = req.body['user_request'] || '';
+  let user_name = req.body['user_name'] || '';
+  let user_family = req.body['user_family'] || '';
+  let user_size = req.body['user_size'] || '';
+  let user_address_brief = req.body['user_address_brief'] || '';
+  let user_address_detail = req.body['user_address_detail'] || '';
+  let user_phone = req.body['user_phone'] || '';
+  let user_move_date = req.body['user_move_date'] || '';
+  let user_style_likes = req.body['user_style_likes'] || '';
+  let user_style_dislikes = req.body['user_style_dislikes'] || '';
+  let user_color_likes = req.body['user_color_likes'] || '';
+  let user_color_dislikes = req.body['user_color_dislikes'] || '';
+  let user_budget = req.body['user_budget'] || '';
+  let user_place = req.body['user_place'] || '';
+  let user_date = req.body['user_date'] || '';
+  let user_time = req.body['user_time'] || '';
+  let user_request = req.body['user_request'] || '';
 
   const session = req.session;
 
-  var request_size_map = {
+  const request_size_map = {
     '': '평수 없음',
     'lt20': '20평대 미만',
     'eq20': '20평대',
@@ -42,7 +42,7 @@ router.post('/save', (req, res, next) => {
     'gte70': '70평대 이상'
   };
 
-  var request_budget_map = {
+  const request_budget_map = {
     '': '예산 선택안함',
     '1500~2000': '1500~2000만원',
     '2000~2500': '2000~2500만원',
@@ -143,8 +143,8 @@ router.post('/save', (req, res, next) => {
   else {
     req.session.smsValidated = null;
 
-    var user_budget_format = request_budget_map[user_budget];
-    var user_size_format = request_size_map[user_size];
+    let user_budget_format = request_budget_map[user_budget];
+    let user_size_format = request_size_map[user_size];
 
     user_phone = user_phone.replace(/[^\d]/g, '');
     knexBuilder.getConnection().then(cur => {
@@ -167,8 +167,8 @@ router.post('/save', (req, res, next) => {
         rq_request: user_request,
         rq_recency: cur.raw('UNIX_TIMESTAMP() * -1')
       })
-        .then(response => {
-          var title = `[상담신청] ${user_name} | ${user_budget_format}`;
+        .then(() => {
+          let title = `[상담신청] ${user_name} | ${user_budget_format}`;
 
           if (user_date !== '') {
             title += ` ${user_date}`;
@@ -178,9 +178,9 @@ router.post('/save', (req, res, next) => {
             title += ` ${user_time}`;
           }
 
-          var today = moment().format('YYYY년 MM월 DD일 HH시 mm분');
+          let today = moment().format('YYYY년 MM월 DD일 HH시 mm분');
 
-          var content = `> ${today}에 신청한 요청입니다.
+          let content = `> ${today}에 신청한 요청입니다.
 
 # 필수정보
 - **신청자**: ${user_name}
@@ -271,8 +271,7 @@ ${user_request}
                 title,
                 result.html
               )
-                .then(data => {
-                    console.log(data);
+                .then(() => {
                   ;
                 })
                 .catch(reason => {

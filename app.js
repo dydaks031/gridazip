@@ -94,8 +94,8 @@ app.use(coreMiddleware());
 app.use(userMiddleware());
 
 app.use('/', index);
-app.use('/admin/', admin);
-app.use('/api/admin', apiAdmin);
+// app.use('/admin/', admin);
+// app.use('/api/admin', apiAdmin);
 app.use('/api/test/', apiTest);
 app.use('/api/comment/', apiComment);
 app.use('/api/qna', apiQna);
@@ -110,7 +110,6 @@ app.use('/api/worker', apiWorker);
 app.use('/api/authentication', apiAuthentication);
 app.use(subdomain('worker', apiWorker));
 app.use('/oauth/naver/', oauthNaver);
-
 if (env === 'production') {
     let expires = 3600;
     app.use(express.static(path.join(__dirname, 'public'), { maxAge: expires }));
