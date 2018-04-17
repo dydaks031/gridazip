@@ -44,7 +44,13 @@ var requestView = function(options) {
     var authRequest = function() {
         var formData = $form.serializeJson();
         event.preventDefault();
-        if (authValidateTime > 150) {
+
+        if ( !($form.find('.agreement-get-user-info input[type=checkbox]').prop('checked')) ) {
+            swal({
+                title: '개인정보 이용동의에 동의해 주시기 바랍니다.',
+                type: 'warning'
+            });
+        } else if (authValidateTime > 150) {
             swal({
                 title: (authValidateTime - 150) + '초 뒤에 다시 시도해주세요.',
                 type: 'warning'
