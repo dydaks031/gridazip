@@ -31,5 +31,7 @@ module.exports = {
     "FB": true,
     "openWindow": true,
     "NaverApiKey": true,
+    "Modal": true,
+    "requestView": true
   }
 };
