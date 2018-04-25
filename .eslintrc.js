@@ -32,6 +32,7 @@ module.exports = {
     "openWindow": true,
     "NaverApiKey": true,
     "Modal": true,
-    "requestView": true
+    "requestView": true,
+    "FormData": true
   }
 };
