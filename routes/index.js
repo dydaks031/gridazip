@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const knexBuilder = require('../services/connection/knex');
+const express = require('express')
+const router = express.Router()
+const knexBuilder = require('../services/connection/knex')
 
 router.get('/', (req, res) => {
   res.render('pages/main', {
@@ -8,24 +8,24 @@ router.get('/', (req, res) => {
     sub: 'index',
     title: '그리다집 | 기술이 측정하고 사람이 완성하다',
     fullscreen: false
-  });
-});
+  })
+})
 
 router.get('/rss', (req, res) => {
   knexBuilder.getConnection().then(cur => {
     cur('portfolio_tbl')
       .orderBy('pf_recency')
       .then(response => {
-        res.contentType('application/rss+xml');
+        res.contentType('application/rss+xml')
         res.render('feeds/rss', {
           list: response
-        });
+        })
       })
       .catch(reason => {
 
-      });
-  });
-});
+      })
+  })
+})
 //
 // router.get('/user/login', (req, res, next) => {
 //     var showMessage = !!req.query.redirect_url;
@@ -90,8 +90,8 @@ router.get('/support', (req, res) => {
     sub: 'index',
     title: '고객센터',
     fullscreen: false
-  });
-});
+  })
+})
 //
 // router.get('/intro', (req, res, next) => {
 //     res.render('pages/intro', {
@@ -102,28 +102,28 @@ router.get('/support', (req, res) => {
 //     });
 // });
 
-
 router.get('/about', (req, res, next) => {
-    res.render('pages/about', {
-        id: 'about',
-        sub: 'index',
-        title: '그리다집이란',
-        fullscreen: false
-    });
-});
-
+  res.render('pages/about', {
+    id: 'about',
+    sub: 'index',
+    title: '그리다집이란',
+    fullscreen: false
+  })
+})
 
 router.get('/portfolio', (req, res, next) => {
-    res.render('pages/portfolio', {
-        id: 'portfolio',
-        sub: 'index',
-        title: '그리다집 포트폴리오',
-        fullscreen: false
-    });
-});
+  res.render('pages/portfolio', {
+    id: 'portfolio',
+    sub: 'index',
+    title: '그리다집 포트폴리오',
+    fullscreen: false
+  })
+})
 
 router.get('/portfolio/:pid', (req, res) => {
-  let pid = req.params.pid;
+  let pid = req.params.pid
+  let portfolio
+  let images
 
   knexBuilder.getConnection().then(cur => {
     cur('portfolio_tbl')
@@ -132,14 +132,13 @@ router.get('/portfolio/:pid', (req, res) => {
       .where('portfolio_tbl.pf_pk', pid)
       .limit(1)
       .then(response => {
-        portfolio = response ? response[0] : null;
+        portfolio = response ? response[0] : null
         return cur('portfolio_image_hst')
           .orderBy('portfolio_image_hst.pi_is_primary', 'desc')
-          .where('pi_pfpk', pid);
+          .where('pi_pfpk', pid)
       })
       .then(response => {
-        images = response;
-
+        images = response
 
         res.render('pages/portfolio-detail', {
           id: 'portfolio',
@@ -150,13 +149,13 @@ router.get('/portfolio/:pid', (req, res) => {
           pid: pid,
           portfolio: portfolio,
           images: images
-        });
+        })
       })
       .catch(reason => {
-        console.error(reason);
-      });
-  });
-});
+        console.error(reason)
+      })
+  })
+})
 
 // router.get('/request', (req, res, next) => {
 //     res.render('pages/request', {
@@ -220,13 +219,12 @@ router.get('/portfolio/:pid', (req, res) => {
 // });
 
 router.get('/cooperation-request', (req, res, next) => {
-    res.render('pages/cooperation-request', {
-        id: 'cooperation',
-        sub: 'index',
-        title: '협력업체 신청',
-        fullscreen: false
-    });
-});
+  res.render('pages/cooperation-request', {
+    id: 'cooperation',
+    sub: 'index',
+    title: '협력업체 신청',
+    fullscreen: false
+  })
+})
 
-
-module.exports = router;
+module.exports = router

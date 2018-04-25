@@ -1,15 +1,14 @@
-$(function() {
+$(function () {
+  var tabBtn = $('.tab .tab-item')
 
-    var tabBtn = $('.tab .tab-item');
+  tabBtn.click(function () {
+    var $this = $(this)
+    var currentTab = $this.data('tab')
 
-    tabBtn.click(function() {
-        var $this = $(this);
-        var currentTab = $this.data('tab');
+    var tab = $('section.tab-contents')
 
-        var tab = $('section.tab-contents');
-
-        tab.addClass('hide');
-        $(currentTab).removeClass('hide');
-        $(currentTab).scrollTop(0);
-    });
-});
+    tab.addClass('hide')
+    $(currentTab).removeClass('hide')
+    $(currentTab).scrollTop(0)
+  })
+})

@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-extend-native
+/* eslint-disable no-extend-native */
 Object.defineProperty(Array.prototype, 'toJson', {
   enumerable: false,
   value: function () {
@@ -18,7 +18,7 @@ function Http () {
   this.options = {
     timeout: 30000
   }
-};
+}
 
 Http.prototype.request = function (url, type, data) {
   var context = this

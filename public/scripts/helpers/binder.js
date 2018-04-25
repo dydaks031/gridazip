@@ -1,46 +1,4 @@
 $(function () {
-  var $window = $(window)
-  var $visual = $('.main-visual .btn')
-  var $footer = $('#footer')
-  var $floating = $('.btn-floating')
-  var floatingTimeout = 500
-  var floatingTimer
-
-  var resetFloating = function () {
-    try {
-      clearTimeout(floatingTimer)
-    } catch (e) {
-      ;
-    }
-
-    floatingTimer = setTimeout(function () {
-      $floating.addClass('active')
-    }, floatingTimeout)
-  }
-
-    // $window.bind('scroll.floating', function (event) {
-    //     var scrollTop = $window.scrollTop();
-    //     var scrollBottom = scrollTop + $window.outerHeight();
-    //
-    //     try {
-    //         clearTimeout(floatingTimer);
-    //     } catch (e) {
-    //         ;
-    //     }
-    //
-    //     $floating.removeClass('active');
-    //
-    //     if (
-    //         (
-    //             window.location.pathname !== '/' ||
-    //             $visual.offset().top + $visual.outerHeight() < scrollTop
-    //         ) &&
-    //         scrollBottom < $footer.offset().top
-    //     ) {
-    //         resetFloating();
-    //     }
-    // }).triggerHandler('scroll.floating');
-
   $('.phone').each(function (i, e) {
     $(e).bind('keydown.phoneHandler keyup.phoneHandler', function (event) {
       var $this = $(this)
@@ -107,16 +65,15 @@ $(function () {
     })
   })
 
-    $.fn.bindFile = function() {
-        // var fileManager = new FileManager();
+  $.fn.bindFile = function () {
+    // var fileManager = new FileManager();
 
-        this.each(function() {
-            if ($(this).data('initBind') !== false) {
-                // fileManager.bindFileProcess($(this));
-            }
-        });
-    };
-
+    this.each(function () {
+      if ($(this).data('initBind') !== false) {
+        // fileManager.bindFileProcess($(this));
+      }
+    })
+  }
 
   $('.btn-fold').bind('click', function (event) {
     event.preventDefault()
@@ -132,42 +89,42 @@ $(function () {
     }
   })
 
-    $('input:file').each(function() {
-        var $this = $(this);
-        $this.bindFile();
-    });
+  $('input:file').each(function () {
+    var $this = $(this)
+    $this.bindFile()
+  })
 
-    $('[data-modal]').bind('click', function() {
-       var $this = $(this);
-       var modalTarget = $this.data('modal');
+  $('[data-modal]').bind('click', function () {
+    var $this = $(this)
+    var modalTarget = $this.data('modal')
 
-       Modal.open(modalTarget);
-    });
+    Modal.open(modalTarget)
+  })
 
-    $('[data-close-modal]').bind('click', function() {
-        var $this = $(this);
-        var modalTarget = $this.data('closeModal');
+  $('[data-close-modal]').bind('click', function () {
+    var $this = $(this)
+    var modalTarget = $this.data('closeModal')
 
-        Modal.close(modalTarget);
-    });
+    Modal.close(modalTarget)
+  })
 
-    $('.modal div.background').bind('click', function() {
-        var $this = $(this);
-        var closeBtn = $this.parents('.modal').find('[data-close-modal]');
+  $('.modal div.background').bind('click', function () {
+    var $this = $(this)
+    var closeBtn = $this.parents('.modal').find('[data-close-modal]')
 
-        var modalTarget = closeBtn.data('closeModal');
+    var modalTarget = closeBtn.data('closeModal')
 
-        Modal.close(modalTarget);
-    });
+    Modal.close(modalTarget)
+  })
 
-    var modalRequestForm = $('#modalRequestForm');
+  var modalRequestForm = $('#modalRequestForm')
 
-    var requestViewInstance = requestView({
-        authRequestBtn: modalRequestForm.find('#modalAuthRequestBtn'),
-        confirmBtn: modalRequestForm.find('#modalConfirmBtn'),
-        backBtn: modalRequestForm.find('#backBtn'),
-        form: modalRequestForm
-    });
+  var requestViewInstance = requestView({
+    authRequestBtn: modalRequestForm.find('#modalAuthRequestBtn'),
+    confirmBtn: modalRequestForm.find('#modalConfirmBtn'),
+    backBtn: modalRequestForm.find('#backBtn'),
+    form: modalRequestForm
+  })
 
-    requestViewInstance.bindEvent();
-});
+  requestViewInstance.bindEvent()
+})
