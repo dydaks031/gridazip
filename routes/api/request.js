@@ -77,9 +77,9 @@ router.post('/save', (req, res, next) => {
   let errorMsg = null;
   let smsValidated = session.smsValidated === 'true';
 
-  if (typeof session !== 'undefined' && smsValidated === true && smsValidated !== null) {
-    errorMsg = '인증번호 확인이 필요합니다.';
-  }
+  // if (typeof session !== 'undefined' && smsValidated === true && smsValidated !== null) {
+  //   errorMsg = '인증번호 확인이 필요합니다.';
+  // }
   if (user_name === '') {
     errorMsg = '이름은 반드시 입력해야 합니다.';
   }

@@ -12,7 +12,7 @@ var requestView = function(options) {
 
     var bindEvent = function() {
         $authRequestBtn.bind('click', authRequest);
-        $confirmBtn.bind('click', authValidate);
+        $confirmBtn.bind('click', requestConsultation);
         $form.bind('submit', function (event) {
             event.preventDefault();
         });
@@ -203,37 +203,48 @@ var requestView = function(options) {
                     $form.find('[name=user_phone]').focus();
                 }, 50);
             });
-        } else if (authValidateTime === null || authValidateTime === 0) {
+        } else if ( !($form.find('.agreement-get-user-info input[type=checkbox]').prop('checked')) ) {
             loading(false);
             swal({
-                title: '핸드폰번호 인증이 필요합니다.\n인증번호요청 버튼을 눌러주시기 바랍니다.',
-                type: 'warning'
+              title: '개인정보 이용동의에 동의해 주시기 바랍니다.',
+              type: 'warning'
             }, function () {
-                setTimeout(function () {
-                    $form.find('[name=user_phone]').focus();
-                }, 50);
-            });
-        } else if (data.auth_key === '') {
-            loading(false);
-            swal({
-                title: '인증번호를 입력해야 합니다.',
-                type: 'warning'
-            }, function () {
-                setTimeout(function () {
-                    $form.find('[name=auth_key]').focus();
-                }, 50);
-            });
-        } else if (authValidated === false) {
-            loading(false);
-            swal({
-                title: '인증번호 확인이 필요합니다.',
-                type: 'warning'
-            }, function () {
-                setTimeout(function () {
-                    $form.find('[name=auth_key]').focus();
-                }, 50);
+              setTimeout(function () {
+                $form.find('[name=user_phone]').focus();
+              }, 50);
             });
         }
+        // } else if (authValidateTime === null || authValidateTime === 0) {
+        //     loading(false);
+        //     swal({
+        //         title: '핸드폰번호 인증이 필요합니다.\n인증번호요청 버튼을 눌러주시기 바랍니다.',
+        //         type: 'warning'
+        //     }, function () {
+        //         setTimeout(function () {
+        //             $form.find('[name=user_phone]').focus();
+        //         }, 50);
+        //     });
+        // } else if (data.auth_key === '') {
+        //     loading(false);
+        //     swal({
+        //         title: '인증번호를 입력해야 합니다.',
+        //         type: 'warning'
+        //     }, function () {
+        //         setTimeout(function () {
+        //             $form.find('[name=auth_key]').focus();
+        //         }, 50);
+        //     });
+        // } else if (authValidated === false) {
+        //     loading(false);
+        //     swal({
+        //         title: '인증번호 확인이 필요합니다.',
+        //         type: 'warning'
+        //     }, function () {
+        //         setTimeout(function () {
+        //             $form.find('[name=auth_key]').focus();
+        //         }, 50);
+        //     });
+        // }
         else if (regexPhone.test(data.user_phone) === false) {
             loading(false);
             swal({
