@@ -14,6 +14,8 @@ $(function () {
         price: null
     });
 
+    page.setLimit(40)
+
     var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="https://static.gridazip.com/assets/images_renewal/loading.gif" /> </div>');
 
     var portfolioTabItemBind = function($element) {
@@ -25,7 +27,7 @@ $(function () {
             var value = $this.data('value');
             filter.setFilter('style', value === '' ? null : value);
             page.reset();
-            page.setLimit(20);
+            page.setLimit(40);
             loadPortfolio();
         });
     }
@@ -34,7 +36,7 @@ $(function () {
         var value = $(this).val();
         filter.setFilter('style', value === '' ? null : value);
         page.reset();
-        page.setLimit(20);
+        page.setLimit(40);
         loadPortfolio();
     });
 
@@ -45,7 +47,7 @@ $(function () {
     };
 
     var $portfolio = $('.portfolio-pictures > .row');
-    page.setLimit(20);
+    page.setLimit(40);
 
     var loadPromise;
     var loadPortfolio = function () {
