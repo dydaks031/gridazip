@@ -76,6 +76,7 @@ $(function () {
             page.set(data.page);
             var $portfolioList;
             var $portfolioListTemplate = $('#portfolioListTemplate').html();
+            var COLUMN_COUNT = 4;
 
             if (data.data.length > 0) {
                 if ( !isSetTabList ) {
@@ -83,12 +84,13 @@ $(function () {
                     setTabList(data.data);
                 }
 
-                data.data.forEach(function (element, index) {
-                    if ( index % 4 === 0 ) {
-                        $portfolio.append($portfolioList);
-                        $portfolioList = $('<div class="column"></div>');
-                    }
+                for ( var i = 0; i < COLUMN_COUNT; i ++ ) {
+                  $portfolio.append($('<div class="column"></div>'));
+                }
+                var columns = $portfolio.find('.column')
 
+                data.data.forEach(function (element, index) {
+                    $portfolioList = columns.eq(index % COLUMN_COUNT)
                     $portfolioList.append($(
                         $portfolioListTemplate
                             .replace(/{{PF_PK}}/, element.pf_pk)
@@ -96,10 +98,6 @@ $(function () {
                             .replace(/{{PF_TITLE}}/, element.pf_title)
                     ));
                 });
-
-                if ( $portfolioList.find('.image-items').length > 0 ) {
-                    $portfolio.append($portfolioList);
-                }
             }
             else {
 
