@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "start-gulp": "gulp",
     "build": "gulp build",
-    "stop":  "node ./node_modules/.bin/pm2 stop gridazip-site"
+    "stop": "node ./node_modules/.bin/pm2 stop gridazip-site"
   },
   "dependencies": {
     "aws-sdk": "^2.46.0",
@@ -28,6 +28,8 @@
     "express-subdomain": "^1.0.5",
     "fb": "^2.0.0",
     "fullcalendar": "^3.3.1",
+    "google-auth-library": "^1.4.0",
+    "googleapis": "^27.0.0",
     "ip": "^1.1.5",
     "ipware": "^1.0.0",
     "jquery-ui-dist": "^1.12.1",
