@@ -4,10 +4,11 @@ const appConfig = require('../../services/app/config');
 const knexBuilder = require('../../services/connection/knex');
 const cryptoHelper = require('../../services/crypto/helper');
 const resHelper = require('../../services/response/helper');
-const resModel = require('../../services/response/model');
 const mailHelper = require('../../services/mail/helper');
+const FormatService = require('../../services/format/helper');
 const marked = require('marked');
 const moment = require('moment');
+const httpClient = require('request');
 
 const regexPhone = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 
@@ -75,7 +76,7 @@ router.post('/save', (req, res, next) => {
   };
 
   let errorMsg = null;
-  let smsValidated = session.smsValidated === 'true';
+  // let smsValidated = session.smsValidated === 'true';
 
   // if (typeof session !== 'undefined' && smsValidated === true && smsValidated !== null) {
   //   errorMsg = '인증번호 확인이 필요합니다.';
@@ -168,6 +169,9 @@ router.post('/save', (req, res, next) => {
         rq_recency: cur.raw('UNIX_TIMESTAMP() * -1')
       })
         .then(() => {
+          const msg = `비상. 비상. 신규 상담건이 쳐들어왔다.\n황경찬 장군은 전화 태세로 돌입하라.\n\n고객명 : ${user_name}\n연락처 : ${FormatService.toDashedPhone(user_phone.split('-').join(''))}`;
+          httpClient.post('https://gridazip.slack.com/services/hooks/slackbot?token=yghQcur4F02uPsV7WeSAGMnX&channel=%23request_info', {form:msg});
+
           let title = `[상담신청] ${user_name} | ${user_budget_format}`;
 
           if (user_date !== '') {
