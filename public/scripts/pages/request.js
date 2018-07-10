@@ -266,6 +266,7 @@ var requestView = function(options) {
                      * GA Request complete event tracking.
                      */
                     ga('send', 'event', 'request', 'complete', location.pathname);
+                    fbq('track', 'Lead');
 
                     window.onbeforeunload = null;
                     swal({
