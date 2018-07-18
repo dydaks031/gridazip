@@ -16,7 +16,7 @@ $(function () {
 
     page.setLimit(40)
 
-    var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="https://static.gridazip.com/assets/images_renewal/loading.gif" /> </div>');
+    var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="https://static.gridazip.co.kr/assets/images_renewal/loading.gif" /> </div>');
 
     var portfolioTabItemBind = function($element) {
         $element.bind('click', function (event) {
