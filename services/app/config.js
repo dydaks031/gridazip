@@ -10,7 +10,7 @@ const Config = {
   domain: {
     development: 'localhost:3001',
     stage: '',
-    production: 'www.gridazip.com'
+    production: 'www.gridazip.co.kr'
   },
   auth: {
     facebook: {
@@ -43,9 +43,9 @@ const Config = {
     }
   },
   mail: {
-      leader: 'leader@gridazip.com',
-      info: 'info@gridazip.com',
-      dev: 'dev@gridazip.com',
+      leader: 'leader@gridazip.co.kr',
+      info: 'info@gridazip.co.kr',
+      dev: 'dev@gridazip.co.kr',
   }
 };
 

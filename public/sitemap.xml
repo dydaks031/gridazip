@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://www.gridazip.com/</loc>
+        <loc>http://www.gridazip.co.kr/</loc>
         <lastmod>2018-04-13T00:00:00+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>http://www.gridazip.com/support</loc>
+        <loc>http://www.gridazip.co.kr/support</loc>
         <lastmod>2018-04-13T00:00:00+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.85</priority>
     </url>
     <url>
-        <loc>http://www.gridazip.com/portfolio</loc>
+        <loc>http://www.gridazip.co.kr/portfolio</loc>
         <lastmod>2018-04-13T00:00:00+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.85</priority>
     </url>
     <url>
-        <loc>http://www.gridazip.com/about</loc>
+        <loc>http://www.gridazip.co.kr/about</loc>
         <lastmod>2018-04-13T00:00:00+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.85</priority>
     </url>
     <url>
-        <loc>http://www.gridazip.com/cooperation-request</loc>
+        <loc>http://www.gridazip.co.kr/cooperation-request</loc>
         <lastmod>2018-04-13T00:00:00+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.85</priority>
