@@ -5,7 +5,7 @@ const ses = new AWS.SES();
 const path = require('path');
 const emailTmpl = require('email-templates').EmailTemplate;
 
-const from = 'no-reply@gridazip.com';
+const from = 'no-reply@gridazip.co.kr';
 
 const Helper = {
   send: (mail, title, body) => {
