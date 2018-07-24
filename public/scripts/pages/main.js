@@ -115,7 +115,7 @@ $(function () {
         // reinitialize the carousel (call here your method in which you've set specific carousel properties)
         carousel.owlCarousel(carouselOptions)
 
-        $(document).on('click', '.slider-wrapper .image-items', function () {
+        $(document).on('click', '#portfolioListView .image-items', function () {
           var $this = $(this)
           var portfolioKey = $this.data('value')
 
