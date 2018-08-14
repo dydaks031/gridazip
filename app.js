@@ -10,6 +10,7 @@ const MysqlSessionStore = require('./services/connection/session')(session)
 const lessMiddleware = require('less-middleware')
 const coreMiddleware = require('./middlewares/core')
 const userMiddleware = require('./middlewares/user')
+const domainChangerMiddleware = require('./middlewares/domainChanger');
 const subdomain = require('express-subdomain')
 const raven = require('raven')
 const moment = require('moment')
@@ -48,6 +49,7 @@ const apiFile = require('./routes/api/file')
 const apiWorker = require('./routes/api/worker')
 const apiAuthentication = require('./routes/api/authentication')
 
+
 raven.config('https://0f22cdb7d6f14189b765414605f7eb36:a76850f0a2e94b97a2dcc95da88af720@sentry.io/159366').install()
 
 let app = express()
@@ -66,6 +68,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 app.use(raven.requestHandler())
+
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(function (req, res, next) {
@@ -86,6 +89,7 @@ app.use(session({
 }))
 app.use(coreMiddleware())
 app.use(userMiddleware())
+app.use(domainChangerMiddleware())
 
 app.use('/', index)
 // app.use('/admin/', admin);
