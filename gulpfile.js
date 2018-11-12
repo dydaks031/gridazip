@@ -38,7 +38,7 @@ const paths = {
       'node_modules/browser-detect/dist/browser-detect.js'
     ],
     bundles: [
-      'public/scripts/polyfills/event-listener.js',
+      'public/scripts/polyfills/events-listener.js',
       'public/scripts/lib/jquery.selectric.min.js',
       'public/scripts/lib/lazyload.js',
       'node_modules/tingle.js/dist/tingle.js',

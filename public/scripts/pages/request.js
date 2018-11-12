@@ -179,7 +179,7 @@ var requestView = function(options) {
         data.user_phone = data.user_phone.toString();
 
         /**
-         * GA Request start event tracking.
+         * GA Request start events tracking.
          */
         ga('send', 'event', 'request', 'start', location.pathname);
 
@@ -263,7 +263,7 @@ var requestView = function(options) {
                 })
                 .then(function (data) {
                     /**
-                     * GA Request complete event tracking.
+                     * GA Request complete events tracking.
                      */
                     ga('send', 'event', 'request', 'complete', location.pathname);
                     fbq('track', 'Lead');

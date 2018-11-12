@@ -267,13 +267,13 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
                         var target = event.target
 
-                        // If the target of the event is not the element, close the picker picker.
+                        // If the target of the events is not the element, close the picker picker.
                         // * Don’t worry about clicks or focusins on the root because those don’t bubble up.
                         //   Also, for Firefox, a click on an `option` element bubbles up directly
                         //   to the doc. So make sure the target wasn't the doc.
                         // * In Firefox stopPropagation() doesn’t prevent right-click events from bubbling,
                         //   which causes the picker to unexpectedly close when right-clicking it. So make
-                        //   sure the event wasn’t a right-click.
+                        //   sure the events wasn’t a right-click.
                         if ( target != ELEMENT && target != document && event.which != 3 ) {
 
                             // If the target was the holder that covers the screen,
@@ -348,7 +348,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
                     else {
                         // ....ah yes! It would’ve been incomplete without a crazy workaround for IE :|
                         // The focus is triggered *after* the close has completed - causing it
-                        // to open again. So unbind and rebind the event at the next tick.
+                        // to open again. So unbind and rebind the events at the next tick.
                         P.$holder.off( 'focus.toOpen' ).focus()
                         setTimeout( function() {
                             P.$holder.on( 'focus.toOpen', handleFocusToOpenEvent )
@@ -638,7 +638,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
                     P.open()
                 }).
 
-                // Handle keyboard event based on the picker being opened or not.
+                // Handle keyboard events based on the picker being opened or not.
                 on( 'keydown.' + STATE.id, handleKeydownEvent )
         }
 
@@ -825,7 +825,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
     function handleFocusToOpenEvent(event) {
 
-        // Stop the event from propagating to the doc.
+        // Stop the events from propagating to the doc.
         event.stopPropagation()
 
         // Add the “target” class.

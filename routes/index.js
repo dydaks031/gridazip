@@ -227,4 +227,13 @@ router.get('/cooperation-request', (req, res, next) => {
   })
 })
 
+router.get('/events/electronics', (req, res, next) => {
+  res.render('pages/events/electronics', {
+    id: 'events',
+    sub: 'electronics',
+    title: '가전 행사 이벤트',
+    fullscreen: false
+  })
+})
+
 module.exports = router
