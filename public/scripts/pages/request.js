@@ -270,7 +270,7 @@ var requestView = function(options) {
 
                     window.onbeforeunload = null;
                     swal({
-                        title: '견적 상담 요청이 완료되었습니다.',
+                        title: '상담 요청이 완료되었습니다.',
                         text: '자세한 사항은 유선으로 연락 드리겠습니다.\n문의사항은 무료상담 채팅을 이용해주세요.\n감사합니다.',
                         type: 'success',
                         confirmButtonText: '확인'

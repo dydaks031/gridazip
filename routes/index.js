@@ -227,11 +227,11 @@ router.get('/cooperation-request', (req, res, next) => {
   })
 })
 
-router.get('/events/electronics', (req, res, next) => {
-  res.render('pages/events/electronics', {
-    id: 'events',
-    sub: 'electronics',
-    title: '가전 행사 이벤트',
+router.get('/electronics', (req, res, next) => {
+  res.render('pages/electronics', {
+    id: 'electronics',
+    sub: 'index',
+    title: '가전/가구 큐레이팅 서비스',
     fullscreen: false
   })
 })

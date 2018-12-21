@@ -177,7 +177,7 @@ $(function () {
   var setBannerEvent = function () {
     var eventInfo = $('.event-info')
     eventInfo.on('click', function () {
-      location.href = '/events/electronics'
+      location.href = '/electronics'
     })
   }
 
