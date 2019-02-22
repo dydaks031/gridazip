@@ -47,6 +47,7 @@ const apiProfile = require('./routes/api/profile')
 const apiManage = require('./routes/api/manage')
 const apiFile = require('./routes/api/file')
 const apiWorker = require('./routes/api/worker')
+const apiMagazine = require('./routes/api/magazine')
 const apiAuthentication = require('./routes/api/authentication')
 
 
@@ -104,6 +105,7 @@ app.use('/api/profile/', apiProfile)
 app.use('/api/manage/', apiManage)
 app.use('/api/file', apiFile)
 app.use('/api/worker', apiWorker)
+app.use('/api/magazine', apiMagazine)
 app.use('/api/authentication', apiAuthentication)
 app.use(subdomain('worker', apiWorker))
 if (env === 'production') {
