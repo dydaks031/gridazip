@@ -1,7 +1,6 @@
 $(function () {
   const magazineID = $('#magazine_id').val();
   const loadMagazine = function () {
-    console.log('loadMagazine');
     loading(true);
     http.post('/api/magazine/' + magazineID)
       .finally(function () {
