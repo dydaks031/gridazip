@@ -6,7 +6,7 @@ $(function () {
       .finally(function () {
         loading(false);
       })
-      .then(response => {
+      .then(function(response) {
         if (response.data === null) {
           swal({
             title: '매거진이 존재하지 않습니다.',
@@ -27,7 +27,7 @@ $(function () {
           });
         }
       })
-      .catch(error => {
+      .catch(function(error) {
         console.error(error);
         swal({
           title: error.value,
