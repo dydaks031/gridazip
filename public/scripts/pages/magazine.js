@@ -30,7 +30,7 @@ $(function () {
       ;
     }
 
-    loadPromise = http.get(`/api/magazine?page=${page.getPage()}`);
+    loadPromise = http.get('/api/magazine?page=' + page.getPage());
 
     $magazine.html(loadingView);
 
