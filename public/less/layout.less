@@ -746,6 +746,332 @@ section.main-request {
   }
 }
 
+// magazine
+.contents.magazine {
+  .magazine-pictures {
+    max-width:@screen-size-width;
+    width:100%;
+    margin: 0 auto;
+    padding-bottom:5rem;
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 10px;
+      flex-direction: row;
+    }
+
+    /* Create four equal columns that sits next to each other */
+    .column {
+
+      flex: 100%;
+      width: 100%;
+      padding: 2rem 1rem;
+      border-bottom: 1px solid #ccc;
+      a {
+        color: @color-black;
+        div.magazine-items {
+          text-align: left;
+
+
+          > img {
+            border-radius: 3px;
+            width: 24%;
+            height: auto;
+            min-width: 250px;
+            vertical-align: middle;
+          }
+
+          > .content-box {
+            display: inline-block;
+            width: 75%;
+            padding-left: 1rem;
+            vertical-align: middle;
+            > .subject {
+              font-size: 2rem;
+              padding-bottom: 1rem;
+            }
+            > .content {
+
+            }
+          }
+        }
+
+      }
+    }
+
+    .column:hover {
+      background-color: #EFEFEF
+    }
+
+    .column:first-child {
+      border-top: 2px solid black;
+
+    }
+    .column:last-child {
+      border-bottom: 2px solid black;
+    }
+  }
+
+  .magazine-count {
+    text-align: left;
+    padding-left: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .magazine-banner {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: auto;
+  }
+
+  .request-btn-wrapper {
+    margin-bottom:200px;
+  }
+}
+
+//magazine-detail
+.contents.magazine-detail {
+  .page-description {
+    p {
+      font-size:50px;
+    }
+
+    &::after {
+      content: "";
+      background: @color-black;
+      opacity: 0.5;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: 1;
+    }
+
+    > .main-text {
+      z-index: 2;
+    }
+  }
+
+  .magazine-detail-wrapper {
+    padding-top:52px;
+    width:100%;
+    max-width:@screen-size-width;
+    margin: 0 auto;
+    min-height: 500px;
+
+    blockquote {
+      display: block;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      margin-left: 40px;
+      margin-right: 40px;
+    }
+
+    h1 {
+      display: block;
+      font-size: 2em;
+      margin-top: 0.67em;
+      margin-bottom: 0.67em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+    }
+
+    h2 {
+      display: block;
+      font-size: 1.5em;
+      margin-top: 0.83em;
+      margin-bottom: 0.83em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+    }
+
+    h3 {
+      display: block;
+      font-size: 1.17em;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+    }
+
+    h4 {
+      display: block;
+      margin-top: 1.33em;
+      margin-bottom: 1.33em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+    }
+
+    h5 {
+      display: block;
+      font-size: .83em;
+      margin-top: 1.67em;
+      margin-bottom: 1.67em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+    }
+
+    h6 {
+      display: block;
+      font-size: .67em;
+      margin-top: 2.33em;
+      margin-bottom: 2.33em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+    }
+
+    hr {
+      display: block;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      margin-left: auto;
+      margin-right: auto;
+      border-style: inset;
+      border-width: 1px;
+    }
+
+    img {
+      display: inline-block;
+    }
+
+    li {
+      display: list-item;
+    }
+
+    mark {
+      background-color: yellow;
+      color: black;
+    }
+
+    ol {
+      display: block;
+      list-style-type: decimal;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 40px;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-top: 1em;
+      margin-bottom: 1 em;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 40px;
+    }
+
+    p {
+      display: block;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space: pre;
+      margin: 1em 0;
+    }
+
+    table {
+      display: table;
+      border-collapse: separate;
+      border-spacing: 1px;
+      border-color: gray;
+    }
+
+    tbody {
+      display: table-row-group;
+      vertical-align: middle;
+      border-color: inherit;
+    }
+
+    td {
+      display: table-cell;
+      vertical-align: inherit;
+    }
+
+    tfoot {
+      display: table-footer-group;
+      vertical-align: middle;
+      border-color: inherit;
+    }
+
+    th {
+      display: table-cell;
+      vertical-align: inherit;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    thead {
+      display: table-header-group;
+      vertical-align: middle;
+      border-color: inherit;
+    }
+
+    tr {
+      display: table-header-group;
+      vertical-align: middle;
+      border-color: inherit;
+    }
+  }
+
+  .customer-review {
+    margin-bottom:96px;
+    margin-top:32px;
+
+    .customer-review-container {
+      .customer-review-items {
+        margin: 0 auto;
+        position: relative;
+        width: 1170px;
+        padding-left: 100px;
+
+        .customer-image {
+          //background: @color-light-grey;
+          width: 70px;
+          height: 70px;
+          float: left;
+          margin-right: 30px;
+          border-radius: 35px;
+        }
+
+        .review {
+          max-width: 945px;
+          float: left;
+          font-family: NanumSquare;
+          font-size: 14px;
+          color: #23272c;
+        }
+      }
+    }
+  }
+
+  .back-button-wrapper {
+    padding-bottom: 200px;
+
+    > button {
+      width:280px;
+      height:56px;
+
+    }
+  }
+}
 // profile-manager
 .contents.profiles-member {
   .profile-wrapper {
@@ -803,7 +1129,6 @@ section.main-request {
       -ms-flex-pack: start;
       justify-content: flex-start;
       margin: 0 auto;
-      padding: 5px 0 45px 22px;
       position: relative;
       width: 100%;
       z-index: 1;

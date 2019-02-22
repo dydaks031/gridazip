@@ -1,0 +1,16 @@
+<% include ../partials/head.ejs %>
+<script src="/scripts/pages/magazine-detail.js"></script>
+
+<input type="hidden" id="magazine_id" name="magazine_id" value="<%=mgpk%>">
+<div class="contents magazine-detail">
+    <div class="page-description">
+        <div class="main-text center-pos">
+            <p id="magazineSubject"></p>
+            <p></p>
+        </div>
+    </div>
+    <div class="magazine-detail-wrapper clearing" id="magazineContent">
+    </div>
+</div>
+
+<% include ../partials/foot.ejs %>

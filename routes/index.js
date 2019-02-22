@@ -157,6 +157,8 @@ router.get('/portfolio/:pid', (req, res) => {
   })
 })
 
+
+
 // router.get('/request', (req, res, next) => {
 //     res.render('pages/request', {
 //         id: 'request',
@@ -233,6 +235,27 @@ router.get('/electronics', (req, res, next) => {
     sub: 'index',
     title: '가전/가구 큐레이팅 서비스',
     fullscreen: false
+  })
+})
+
+router.get('/magazine', (req, res, next) => {
+  res.render('pages/magazine', {
+    id: 'magazine',
+    sub: 'index',
+    title: '매거진',
+    fullscreen: false
+  })
+})
+
+router.get('/magazine/:mgpk', (req, res) => {
+  let mgpk = req.params.mgpk
+
+  res.render('pages/magazine-detail', {
+    id: 'magazine',
+    sub: 'index',
+    title: '매거진',
+    fullscreen: false,
+    mgpk: mgpk
   })
 })
 
