@@ -1,24 +1,13 @@
 $(function () {
 
   var page = new Pagination();
-
-  page.setLimit(40)
+  page.setLimit(4);
 
   var loadingView = $('<div class="loading-view" style="width:100%;"> <img src="https://static.gridazip.co.kr/assets/images_renewal/loading.gif" /> </div>');
 
-
-  var portfolioItemBind = function ($element) {
-    $element.bind('click', function (event) {
-      location.href = $(this).data('link');
-    });
-  };
-
   var $magazine = $('.magazine-pictures > .row');
-  page.setLimit(40);
-
   var loadPromise;
   var loadMagazine = function () {
-    console.log('loadMagazine loadMagazine loadMagazine');
     $magazine.addClass('loader-section').empty();
 
     try {
@@ -30,24 +19,25 @@ $(function () {
       ;
     }
 
-    loadPromise = http.get(`/api/magazine?page=${page.getPage()}`);
+    loadPromise = http.post(`/api/magazine`, {page: page.get()});
 
     $magazine.html(loadingView);
 
     loadPromise
       .finally(function () {
+        console.log('fnly');
         $magazine.removeClass('loader-section');
         $magazine.find('.loading-view').remove();
       })
       .then(function (data) {
         page.set(data.page);
+
         var $magazineList;
         var $magazineListTemplate = $('#magazineListTemplate').html();
         var $magazineCounter = $('.magazine-count');
-        var COLUMN_COUNT = 10;
 
         if (data.data.length > 0) {
-          $magazineCounter.html('전체 ' + data.data.length + '건이 조회되었습니다.');
+          $magazineCounter.html('전체 ' + data.page.count + '건이 조회되었습니다.');
 
           for ( var i = 0; i < data.data.length; i ++ ) {
             $magazine.append($('<div class="column"></div>'));
@@ -81,11 +71,12 @@ $(function () {
         });
 
       })
-      ['catch'](function (error) {
-      swal({
-        title: error.value,
-        type: 'error'
-      });
+      .catch(function (error) {
+        console.log(error);
+        swal({
+          title: error.value,
+          type: 'error'
+        });
     });
   };
 

@@ -4,28 +4,16 @@ const knexBuilder = require('../../services/connection/knex')
 const paginationService = require('../../services/pagination/main')
 const resHelper = require('../../services/response/helper')
 
-router.get('/', (req,res) => {
+router.post('/', (req,res) => {
   let page = req.body['page'];
-  let point= req.query.point;
-  let pageIndex = req.query.page;
   const pageInst = new paginationService(page);
   let pageData = pageInst.get();
 
-  if (pageInst.isEnd() === true) {
-    res.json(
-      resHelper.getJson({
-        data: [],
-        page: pageData.get()
-      })
-    );
-    return;
-  }
+  console.log('post');
+  console.log(page);
+  console.log(pageData);
 
-  if (point !== 'null' && pageIndex !== 'null') {
-    pageInst.setPoint(point);
-    pageInst.setPage(pageIndex);
-    pageData = pageInst.get();
-  }
+
   knexBuilder.getConnection().then(cur => {
     let query = cur('magazine_tbl')
       .select(
@@ -77,13 +65,18 @@ router.get('/', (req,res) => {
         pageInst.setEnd(true);
       }
 
-      res.json(
-        resHelper.getJson({
-          data: list,
-          page: pageInst.get()
-        })
-      );
+      return cur('magazine_tbl').count('* as count').where('mg_delete_yn', false);
     })
+      .then(response => {
+        pageInst.setCount(response[0].count);
+
+        res.json(
+          resHelper.getJson({
+            data: list,
+            page: pageInst.get()
+          })
+        );
+      })
       .catch(err => {
         console.error(err);
         res.json(
