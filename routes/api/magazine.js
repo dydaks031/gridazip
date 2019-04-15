@@ -9,10 +9,6 @@ router.post('/', (req,res) => {
   const pageInst = new paginationService(page);
   let pageData = pageInst.get();
 
-  console.log('post');
-  console.log(page);
-  console.log(pageData);
-
 
   knexBuilder.getConnection().then(cur => {
     let query = cur('magazine_tbl')
