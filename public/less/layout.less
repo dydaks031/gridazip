@@ -1,10 +1,10 @@
 // Main Pages;
 .main section {
-  margin-bottom:86px;
+  margin-bottom:60px;
 }
 
 section.main-visual-slider {
-  height:950px;
+  height:450px;
 
   .visual-background {
     width:100%;
@@ -14,19 +14,15 @@ section.main-visual-slider {
   }
 
   .image-items {
-    height:950px;
+    height:450px;
     position:relative;
 
     &.main-bg-01 {
-      background:url("https://static.gridazip.co.kr/assets/images_renewal/header_01.png") 0 0 no-repeat;
+      background:url("https://static.gridazip.co.kr/assets/images_renewal_v2/main_banner_01.jpg") 0 0 no-repeat;
       background-size: cover;
     }
     &.main-bg-02 {
-      background:url("https://static.gridazip.co.kr/assets/images_renewal/header_02.png") 0 0 no-repeat;
-      background-size: cover;
-    }
-    &.main-bg-03 {
-      background:url("https://static.gridazip.co.kr/assets/images_renewal/header_03.png") 0 0 no-repeat;
+      background:url("https://static.gridazip.co.kr/assets/images_renewal_v2/main_banner_02.jpg") 0 0 no-repeat;
       background-size: cover;
     }
   }
@@ -83,20 +79,24 @@ section.main-visual-slider {
 
   .main-text {
     position:absolute;
-    top: 50%;
-    left: 50%;
+    top: 60%;
+    left: 40%;
     transform: translate(-50%, -50%);
-    text-align: center;
+    text-align: left;
 
-    p:first-child {
-      color:@color-white;
-      font-size: @size-font-80;
-      padding-bottom:51px;
+    p {
+      color:@color-black;
+      font-size: @size-font-40;
+      line-height: 3.5rem;
+      font-weight: bold;
+      font-family: NanumSquare Bold;
     }
 
     p:last-child {
-      color:@color-white;
-      font-size: @size-font-22;
+      font-size: @size-font-17;
+      line-height: @size-font-17;
+      font-family: NanumSquare;
+      margin-top: @size-font-17;
     }
   }
 
@@ -109,7 +109,7 @@ section.main-visual-slider {
     z-index:2;
 
     .request-btn {
-      margin-bottom:80px;
+      margin-bottom:20px;
     }
 
     .owl-dots {
@@ -227,104 +227,136 @@ section.main-portfolio {
     }
   }
 }
-section.main-event {
-  .event-body {
-    background: #656565;
-    text-align: center;
-    background: url("/images/main_banner_pc.jpeg") 50% 50% no-repeat;
-    background-size: contain;
-    height:610px;
-  }
-}
+
 section.main-features {
-  margin-bottom: 0;
-  .background-word {
-    position:absolute;
-    z-index:0;
-    left: 37%;
-    font-family: Montserrat;
-  }
-
+  padding-top: 80px;
+  padding-bottom: 70px;
+  background-color: #f5f5f5;
+  text-align: center;
   .feature-info {
-    &:after {content:""; display:block; clear:both;}
-    height:644px;
+    .info-box {
+      margin-right: 45px;
+      display: inline-block;
+      background-color: @color-white;
+      width: 360px;
+      height: 540px;
+      vertical-align: top;
+      img {
+        width: 360px;
+        height: 220px;
 
-    >div {
-      float:left;
-      width:50%;
-      height:100%;
-    }
-  }
-
-  .feature-images {
-    background: @color-background-grey;
-    text-align: right;
-    z-index: 2;
-    position: relative;
-    padding-right: 115px;
-
-    &.right-align {
-      padding-left: 115px;
-      padding-right: 0;
-      text-align: left;
-      float:right;
-    }
-
-    > .img {
-      width:100%;
-    }
-
-    &.feature-1 > img {
-      max-width:500px;
-    }
-
-    &.feature-2 > img {
-      max-width:500px;
-    }
-
-    &.feature-3 > img {
-      max-width:360px;
-    }
-
-  }
-
-  .feature-text-info {
-    padding-left: 20px;
-    padding-top: 68px;
-
-    &.left-align {
-      text-align: right;
-      padding-right: 20px;
-      padding-left: 0;
-    }
-
-    .feature-description-wrapper {
-      position: relative;
-      top: 50%;
-      transform: translate(0%, -50%);
-
-      .feature-description {
-        margin-bottom: 141px;
-
-        .feature-description-header {
-          font-family: NanumSquare Bold;
-          font-size: @size-font-40;
-          color: #23272c;
-          margin-bottom:42px;
-        }
-
-        .feature-description-body {
+      }
+      .contents {
+        margin-top: 40px;
+        padding-left: 30px;
+        padding-right: 30px;
+        p {
           font-family: NanumSquare;
-          font-size: @size-font-16;
-          line-height: 1.67;
-          color: #818b95;
-          max-width: 550px;
-          word-break: keep-all;
-          display: inline-block;
+          font-size: @size-font-22;
+          margin-bottom: 30px;
+          b {
+            font-family: NanumSquare Bold;
+            font-weight: 700;
+          }
+        }
+        span {
+          display: block;
         }
       }
+
     }
   }
+
+  //margin-bottom: 0;
+  //.background-word {
+  //  position:relative;
+  //  color:@color-black;
+  //  font-size: @size-font-40;
+  //  line-height: 3.5rem;
+  //  font-weight: bold;
+  //  font-family: NanumSquare Bold;
+  //}
+  //
+  //.feature-info {
+  //  &:after {content:""; display:block; clear:both;}
+  //  height:644px;
+  //
+  //  >div {
+  //    float:left;
+  //    width:50%;
+  //    height:100%;
+  //  }
+  //}
+  //
+  //.feature-images {
+  //  background: @color-background-grey;
+  //  text-align: right;
+  //  z-index: 2;
+  //  position: relative;
+  //  padding-right: 115px;
+  //
+  //  &.right-align {
+  //    padding-left: 115px;
+  //    padding-right: 0;
+  //    text-align: left;
+  //    float:right;
+  //  }
+  //
+  //  > .img {
+  //    width:100%;
+  //  }
+  //
+  //  &.feature-1 > img {
+  //    max-width:500px;
+  //  }
+  //
+  //  &.feature-2 > img {
+  //    max-width:500px;
+  //  }
+  //
+  //  &.feature-3 > img {
+  //    max-width:360px;
+  //  }
+  //
+  //}
+  //
+  //.feature-text-info {
+  //  padding-left: 20px;
+  //  padding-top: 68px;
+  //
+  //  &.left-align {
+  //    text-align: right;
+  //    padding-right: 20px;
+  //    padding-left: 0;
+  //  }
+  //
+  //  .feature-description-wrapper {
+  //    position: relative;
+  //    top: 50%;
+  //    transform: translate(0%, -50%);
+  //
+  //    .feature-description {
+  //      margin-bottom: 141px;
+  //
+  //      .feature-description-header {
+  //        font-family: NanumSquare Bold;
+  //        font-size: @size-font-40;
+  //        color: #23272c;
+  //        margin-bottom:42px;
+  //      }
+  //
+  //      .feature-description-body {
+  //        font-family: NanumSquare;
+  //        font-size: @size-font-16;
+  //        line-height: 1.67;
+  //        color: #818b95;
+  //        max-width: 550px;
+  //        word-break: keep-all;
+  //        display: inline-block;
+  //      }
+  //    }
+  //  }
+  //}
 }
 section.main-customer-review {
   background:url("https://static.gridazip.co.kr/assets/images_renewal/review-background.png") 0 0 no-repeat;
@@ -408,7 +440,7 @@ section.main-request {
   max-width:1170px;
   width:100%;
   position: relative;
-  margin: 0 auto;
+  margin: 60px auto;
 
   .request-wrapper {
 
@@ -584,8 +616,249 @@ section.main-request {
   }
 }
 
+// Company
+.contents.company {
+  .page-description {
+    margin-top: 100px;
+    height:180px;
+    position:relative;
+    background: url('https://static.gridazip.co.kr/assets/images_renewal_v2/sub_top_banner_01.jpg') 0 0 no-repeat;
+    background-size: cover;
+
+    color: @color-white;
+    p {
+      font-size: @size-font-30;
+      line-height: @size-font-30;
+    }
+  }
+
+  .company-wrapper {
+    .main-introduce {
+      padding-top: 60px;
+      padding-bottom: 70px;
+      background-color: #F5F5F5;
+      text-align: center;
+      .contents {
+        display: inline-block;
+        width: 60%;
+        text-align: left;
+        p {
+          font-size: @size-font-14;
+          margin-bottom: 5px;
+        }
+        .subject {
+          p {
+            font-size: @size-font-22;
+            line-height: @size-font-22;
+            &:first-child {
+              margin-top: 30px;
+            }
+            &:last-child {
+              margin-bottom: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .culture {
+      padding-top: 60px;
+      padding-bottom: 70px;
+      text-align: center;
+      .contents {
+        display: inline-block;
+        width: 60%;
+        text-align: left;
+
+        .subject {
+          font-size: @size-font-22;
+          line-height: @size-font-22;
+          margin-bottom: 30px;
+        }
+
+        .culture-box {
+          display: inline-block;
+          margin-bottom: 10px;
+          .left {
+            &:last-child {
+              background-color: #A8BAFA;
+            }
+            display: inline-block;
+            min-width: 170px;
+            background: linear-gradient(315deg, @color-main 0%, @color-main 51%, @color-second 100%);
+            padding: 5px 30px 5px 20px;
+            color: @color-white;
+            font-size: @size-font-18;
+            line-height: @size-font-18;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+          }
+          .right {
+            display: inline-block;
+            min-width: 520px;
+            background-color: #F0F0F0;
+            padding: 5px 40px 5px 20px;
+            font-size: @size-font-14;
+            line-height: @size-font-18;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+          }
+        }
+      }
+    }
+
+    .history {
+      padding-top: 60px;
+      text-align: center;
+      background: linear-gradient(315deg, @color-main 0%, @color-main 51%, @color-second 100%);
+
+      .contents {
+        display: inline-block;
+        width: 60%;
+        text-align: left;
+
+        .subject {
+
+          font-size: @size-font-22;
+          line-height: @size-font-22;
+          color: @color-white;
+          display: inline-block;
+          width: 32%;
+          vertical-align: top;
+        }
+
+        .history-box-wrapper {
+          vertical-align: top;
+          color: @color-white;
+          display: inline-block;
+          width: 32%;
+
+          .history-box {
+            margin-bottom: 30px;
+            .year {
+              font-size: @size-font-20;
+              line-height: @size-font-20;
+              margin-bottom: 10px;
+            }
+            .content {
+              font-size: @size-font-16;
+              line-height: @size-font-18;
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+// Services
+.contents.services {
+  .page-description {
+    margin-top: 100px;
+    height:180px;
+    position:relative;
+    background: url('https://static.gridazip.co.kr/assets/images_renewal_v2/sub_top_banner_02.jpg') 0 0 no-repeat;
+    background-size: cover;
+
+    color: @color-white;
+    p {
+      font-size: @size-font-30;
+      line-height: @size-font-30;
+    }
+  }
+
+  .services-wrapper {
+    .main-introduce {
+      padding-top: 60px;
+      padding-bottom: 70px;
+      background-color: #F5F5F5;
+      text-align: center;
+      .contents {
+        display: inline-block;
+        width: 70%;
+        text-align: left;
+        p {
+          font-size: @size-font-15;
+          margin-bottom: 10px;
+        }
+        .subject {
+          p {
+            font-size: @size-font-22;
+            line-height: @size-font-22;
+            &:last-child {
+              font-weight: bold;
+              margin-bottom: 30px;
+            }
+          }
+        }
+      }
+    }
+    .services-introduce {
+      padding-top: 60px;
+      padding-bottom: 70px;
+      background-color: #F5F5F5;
+      text-align: center;
+
+      .services-nav {
+        width: 72%;
+        display: inline-block;
+        margin-bottom: 40px;
+        a {
+          display: inline-block;
+          width: 24%;
+          height: 40px;
+          background-color:#ffffff;
+          font-size: @size-font-17;
+          vertical-align: middle;
+          text-decoration: none;
+          text-align: center;
+          color: #555555;
+          border: 1px solid #9BB4FE;
+          line-height: 40px;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box
+        }
+      }
+
+      .services-list {
+        width: 70%;
+        display: inline-block;
+        text-align: left;
+        .service-box {
+          margin-bottom: 30px;
+          .title {
+            font-size: @size-font-22;
+            margin-bottom: 20px;
+          }
+          .subtitle {
+            font-size: @size-font-14;
+            font-weight: bold;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+}
 // Portfolio
 .contents.portfolio {
+  .page-description {
+    margin-top: 100px;
+    height:180px;
+    position:relative;
+    background: url('https://static.gridazip.co.kr/assets/images_renewal_v2/sub_top_banner_03.jpg') 0 0 no-repeat;
+    background-size: cover;
+
+    color: @color-white;
+    p {
+      font-size: @size-font-30;
+      line-height: @size-font-30;
+    }
+  }
   .portfolio-pictures {
     max-width:@screen-size-width;
     width:100%;
@@ -748,6 +1021,19 @@ section.main-request {
 
 // magazine
 .contents.magazine {
+  .page-description {
+    margin-top: 100px;
+    height:180px;
+    position:relative;
+    background: url('https://static.gridazip.co.kr/assets/images_renewal_v2/sub_top_banner_04.jpg') 0 0 no-repeat;
+    background-size: cover;
+
+    color: @color-white;
+    p {
+      font-size: @size-font-30;
+      line-height: @size-font-30;
+    }
+  }
   .magazine-pictures {
     max-width:@screen-size-width;
     width:100%;
@@ -1956,6 +2242,19 @@ section.main-request {
   }
 }
 .contents.cooperation {
+  .page-description {
+    margin-top: 100px;
+    height:180px;
+    position:relative;
+    background: url('https://static.gridazip.co.kr/assets/images_renewal_v2/sub_top_banner_05.jpg') 0 0 no-repeat;
+    background-size: cover;
+
+    color: @color-white;
+    p {
+      font-size: @size-font-30;
+      line-height: @size-font-30;
+    }
+  }
   .cooperation-form {
     h3 {
       font-size:40px;
