@@ -111,6 +111,24 @@ router.get('/about', (req, res, next) => {
   })
 })
 
+router.get('/company', (req, res) => {
+  res.render('pages/company', {
+    id: 'company',
+    sub: 'index',
+    title: '회사 소개',
+    fullscreen: false
+  })
+})
+
+router.get('/services', (req, res) => {
+  res.render('pages/services', {
+    id: 'services',
+    sub: 'index',
+    title: '서비스 소개',
+    fullscreen: false
+  })
+})
+
 router.get('/portfolio', (req, res, next) => {
   res.render('pages/portfolio', {
     id: 'portfolio',
